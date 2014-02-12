@@ -6,6 +6,7 @@ function AxisArea(options) {
 	this.axisStepCount = options.axisStepCount || 20;
 	this.wScale = 1.0;	// width scale
 	this.hScale = document.getElementById(this.elem).offsetHeight / document.getElementById(this.elem).offsetWidth;	// height scale
+	console.log("sizes of container: " + document.getElementById(this.elem).offsetHeight + ":" + document.getElementById(this.elem).offsetWidth);
 	this.NS = global.NS;
 
 	this.axisArea = null;
@@ -18,6 +19,7 @@ function AxisArea(options) {
 
 	this.dx = document.getElementById(this.elem).offsetLeft;
 	this.dy = document.getElementById(this.elem).offsetTop;
+	this.axisOffset = 0;
 
 	this.init();
 }
@@ -133,8 +135,8 @@ AxisArea.prototype.mapToContext = function(coords) {
 	var canX = this.canvasWidth / document.getElementById(this.elem).offsetWidth;
 	var canY = this.canvasHeight / document.getElementById(this.elem).offsetHeight;
 
-	result.x = absX * canX;
-	result.y = absY * canY;
+	result.x = absX * canX - this.axisOffset;
+	result.y = absY * canY - this.axisOffset;
 
 	return result;
 };
