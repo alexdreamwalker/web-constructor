@@ -1,0 +1,25 @@
+body {
+	background-image: url(../images/bg.png);
+	color: #cdbfe3;
+	background-color: #563d7c;
+}
+
+div.featurette img {
+	border-radius: 100px;
+	box-shadow: 0 0 7px #563d7c;
+}
+
+div.menu-category {
+	padding-bottom: 160px;
+}
+
+div.menu-category img {
+	width: 140px;
+	height: 140px;
+	float: left;
+	padding: 10px;
+}
+
+div.menu-category img:hover {
+	border: 2px solid #cdbfe3;
+}

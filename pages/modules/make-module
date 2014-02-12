@@ -1,0 +1,2 @@
+export MODULE_NAME=$1
+cp -r default $MODULE_NAME
