@@ -1,7 +1,6 @@
 function Lamella(options) {
 	var self = this;
 	this.element = null;
-	this.context = this.layer.element;
 	this.width = options.width;
 	this.height = options.height;
 	this.x = options.x;
@@ -10,10 +9,12 @@ function Lamella(options) {
 }
 
 Lamella.prototype.paint = function(options) {
+	this.context = this.layer.element;
 	this.element = document.createElementNS(this.NS, "rect");
-	this.element.setAttribute("x", this.x);
-	this.element.setAttribute("y", this.y);
-	this.element.setAttribute("width", this.width);
-	this.element.setAttribute("height", this.height);
+	var coords = global.axisArea.contextToMap({x: this.x, y: this.y, width: this.width, height: this.height});
+	this.element.setAttribute("x", coords.x);
+	this.element.setAttribute("y", coords.y);
+	this.element.setAttribute("width", coords.width * 0.9);
+	this.element.setAttribute("height", coords.height * 0.9);
 	this.context.appendChild(this.element);
 };

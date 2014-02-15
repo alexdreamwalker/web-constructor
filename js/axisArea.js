@@ -2,7 +2,8 @@ function AxisArea(options) {
 	this.elem = options.elem || null;
 	this.root = null;
 	this.constructions = [];
-	this.dimensions = { width: 1000, height: 1000, step: 50 }; 
+	this.dimensions = options.dimensions; 
+	this.dimensions.step = this.dimensions.width / 20;
 	this.axisStepCount = options.axisStepCount || 20;
 	this.wScale = 1.0;	// width scale
 	this.hScale = document.getElementById(this.elem).offsetHeight / document.getElementById(this.elem).offsetWidth;	// height scale
@@ -19,7 +20,9 @@ function AxisArea(options) {
 
 	this.dx = document.getElementById(this.elem).offsetLeft;
 	this.dy = document.getElementById(this.elem).offsetTop;
-	this.axisOffset = 0;
+	this.axisXOffset = 0;
+	this.axisYPffset = 0;
+	this.axisOffsetPersentage = 0.05;
 
 	this.init();
 }
@@ -59,8 +62,8 @@ AxisArea.prototype.drawRoot = function() {
 
 AxisArea.prototype.drawAxis = function() {
 	var step = this.dimensions.step;
-	var wStepCount = this.dimensions.width / step;
-	var hStepCount = this.dimensions.height / step;
+	var wStepCount = this.dimensions.width * (1 + this.axisOffsetPersentage) / step;
+	var hStepCount = this.dimensions.height * (1 + this.axisOffsetPersentage) / step;
 	var hStep = this.hScale / hStepCount;
 	var wStep = this.wScale / wStepCount;
 	var uStep = (hStep > wStep) ? wStep : hStep;
@@ -70,6 +73,11 @@ AxisArea.prototype.drawAxis = function() {
 
 	this.canvasWidth = wStepCount * step;
 	this.canvasHeight = hStepCount * step;
+
+	this.axisXOffset = (this.canvasWidth - this.dimensions.width) / 2;
+	if(this.axisXOffset < this.dimensions.width * this.axisOffsetPersentage) this.axisXOffset = this.dimensions.width * this.axisOffsetPersentage;
+	this.axisYOffset = (this.canvasHeight - this.dimensions.height) / 2;
+	if(this.axisYOffset < this.dimensions.height * this.axisOffsetPersentage) this.axisYOffset = this.dimensions.height * this.axisOffsetPersentage;
 
 	console.log("sizes: " + this.canvasWidth + " " + this.canvasHeight);
 
@@ -89,7 +97,7 @@ AxisArea.prototype.drawAxis = function() {
 		text.setAttribute("x", this.wScale * 0.97);
 		text.setAttribute("y", uStep * i);
 		text.setAttribute("font-size", "0.010");
-		text.appendChild(document.createTextNode(step * i - step));
+		text.appendChild(document.createTextNode(step * i - this.axisYOffset));
 		g.appendChild(text);
 	} 		
 
@@ -106,7 +114,7 @@ AxisArea.prototype.drawAxis = function() {
 		text.setAttribute("y", this.hScale * 0.96);
 		text.setAttribute("font-size", "0.010");
 		text.setAttribute("transform", "rotate(90," + (uStep * i) + "," + (this.hScale * 0.96) + ")");
-		text.appendChild(document.createTextNode(step * i - step));
+		text.appendChild(document.createTextNode(step * i - this.axisXOffset));
 		g.appendChild(text);
 	}
 
@@ -135,8 +143,22 @@ AxisArea.prototype.mapToContext = function(coords) {
 	var canX = this.canvasWidth / document.getElementById(this.elem).offsetWidth;
 	var canY = this.canvasHeight / document.getElementById(this.elem).offsetHeight;
 
-	result.x = absX * canX - this.axisOffset;
-	result.y = absY * canY - this.axisOffset;
+	result.x = absX * canX - this.axisXOffset;
+	result.y = absY * canY - this.axisYOffset;
+
+	return result;
+};
+
+AxisArea.prototype.contextToMap = function(coords) {
+	var result = {};
+
+	var pixX = this.wScale / this.canvasWidth;
+	var pixY = this.hScale / this.canvasHeight;
+
+	result.x = (coords.x + this.axisXOffset) * pixX;
+	result.y = (coords.y + this.axisYOffset) * pixY;
+	result.width = coords.width * pixX;
+	result.height = coords.height * pixY;
 
 	return result;
 };
@@ -204,6 +226,7 @@ AxisArea.prototype.drawSizeAdjustments = function() {
 
 AxisArea.prototype.drawContext = function() {
 	var g = document.createElementNS(this.NS, "g");
+	g.id = "axisContext";
 	var self = this;
 	var context = document.createElementNS(this.NS, "rect");
 	context.setAttribute("x", 0.05 * this.wScale);
