@@ -1,14 +1,17 @@
 function Sunblind(options) {
 	var self = this;
-	this.element = null;
-	this.layers = [];
-	this.cornice = null;
-	this.complectation = [];
+	this.element = document.createElementNS(this.NS, "g");
 	this.elem = options.elem;
-	this.NS = global.NS;
+	console.log("elem 1: " + this.elem );
 }
 
 Sunblind.prototype = Object.create(Construction.prototype);
+
+Sunblind.prototype.elem = this.elem;
+Sunblind.prototype.layers = [];
+Sunblind.prototype.cornice = null;
+Sunblind.prototype.complectation = [];
+Sunblind.prototype.NS = global.NS;
 
 Sunblind.prototype.addLayer = function(layer) {
 	layer.sunblind = this;
@@ -26,8 +29,8 @@ Sunblind.prototype.setCornice = function(cornice) {
 };
 
 Sunblind.prototype.paint = function(options) {
+	console.log("elem: " + this.elem);
 	var axisArea = new AxisArea({elem: this.elem});
-	this.element = document.createElementNS(this.NS, "g");
 	this.cornice.paint();
 	for(var i = 0; i < this.layers.length; i++)
 		this.layers[i].paint();

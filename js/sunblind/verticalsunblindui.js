@@ -1,12 +1,10 @@
-function SunblindUI(options) {
-	this.elem = options.elem;
+function VerticalSunblindUI(options) {
 	this.categories = options.categories;
 	this.sunblind = null;
+	this.elem = options.elem;
 
 	this.start = function() {
-		var sunblind = new Sunblind({elem: this.elem});
-		var cornice = new Cornice();
-		sunblind.setCornice(cornice);
+		var sunblind = new VerticalSunblind({elem: this.elem});
 
 		document.getElementById(this.elem).innerHTML = "";
 		var svg = sunblind.paint();

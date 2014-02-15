@@ -88,15 +88,15 @@ function UIOperator(options) {
 			uiOperator.loadWindow("moduleSummary", "pages/modules/" + module + "/summary.html");
 
 			switch(module) {
-				case "sunblinds": self.loadSunblinds(); break;
+				case "verticalsunblind": self.loadVerticalSunblinds(); break;
 				default: break;
 			}
 		});	
 		this.processWindows("mainWindow");
 	};
 
-	this.loadSunblinds = function(options) {
-		global.ui = new SunblindUI({elem: "moduleCanvas", categories: "moduleCategories", table: "moduleTable", summary: "moduleSummary"});
+	this.loadVerticalSunblinds = function(options) {
+		global.ui = new VerticalSunblindUI({elem: "moduleCanvas", categories: "moduleCategories", table: "moduleTable", summary: "moduleSummary"});
 		global.ui.start();
 	};
 
