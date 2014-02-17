@@ -66,8 +66,8 @@ AxisArea.prototype.drawRoot = function() {
 
 AxisArea.prototype.drawAxis = function() {
 	var step = this.dimensions.step;
-	var wStepCount = this.dimensions.width * (1 + this.axisOffsetPersentage) / step;
-	var hStepCount = this.dimensions.height * (1 + this.axisOffsetPersentage) / step;
+	var wStepCount = this.canvasWidth * (1 + this.axisOffsetPersentage) / step;
+	var hStepCount = this.canvasHeight * (1 + this.axisOffsetPersentage) / step;
 	var hStep = this.hScale / hStepCount;
 	var wStep = this.wScale / wStepCount;
 	var uStep = (hStep > wStep) ? wStep : hStep;
@@ -274,9 +274,9 @@ AxisArea.prototype.widthChanged = function(newWidth) {
 	this.root.removeChild(this.axisArea);
 
 	var max = this.dimensions.width > this.dimensions.height ? this.dimensions.width : this.dimensions.height;
+	var min = this.dimensions.width < this.dimensions.height ? this.dimensions.width : this.dimensions.height;
 	var mstep = max / this.axisStepCount;
-	this.dimensions = {width: max, height: max};
-	this.dimensions.step = this.dimensions.width / 20;
+	this.dimensions.step = min / 20;
 	this.canvasWidth = this.dimensions.width;
 	this.canvasHeight = this.dimensions.height;
 
@@ -291,9 +291,9 @@ AxisArea.prototype.heightChanged = function(newHeight) {
 	this.root.removeChild(this.axisArea);
 
 	var max = this.dimensions.width > this.dimensions.height ? this.dimensions.width : this.dimensions.height;
+	var min = this.dimensions.width < this.dimensions.height ? this.dimensions.width : this.dimensions.height;
 	var mstep = max / this.axisStepCount;
-	this.dimensions = {width: max, height: max};
-	this.dimensions.step = this.dimensions.width / 20;
+	this.dimensions.step = min / 20;
 	this.canvasWidth = this.dimensions.width;
 	this.canvasHeight = this.dimensions.height;
 
