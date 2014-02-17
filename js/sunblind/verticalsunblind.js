@@ -3,18 +3,18 @@ function VerticalSunblind(options) {
 	Sunblind.apply(this, arguments);
 
 	this.data = {
-		width: 2000,
-		height: 2000,
+		width: 1000,
+		height: 1000,
 		layers: [
 			{
-				width: 2000,
-				height: 2000,
+				width: 1000,
+				height: 1000,
 				lamellaSize: 16,
 				lamellas: []
 			}
 		],
 		cornice: {
-			width: 2000,
+			width: 1000,
 			size: 16,
 			x: 0,
 			y: 0
@@ -38,4 +38,16 @@ VerticalSunblind.prototype.init = function() {
 		var layer = new VerticalLayer(this.data.layers[i]);
 		this.addLayer(layer);
 	}
+};
+
+VerticalSunblind.prototype.changeWidth = function(newWidth) {
+	for(var i = 0; i < this.layers.length; i++)
+		this.layers[i].lamellas = [];
+	Sunblind.prototype.changeWidth.apply(this, arguments);
+};
+
+VerticalSunblind.prototype.changeHeight = function(newHeight) {
+	for(var i = 0; i < this.layers.length; i++)
+		this.layers[i].lamellas = [];
+	Sunblind.prototype.changeHeight.apply(this, arguments);
 };

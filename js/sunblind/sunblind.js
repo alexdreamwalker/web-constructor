@@ -36,7 +36,17 @@ Sunblind.prototype.paint = function(options) {
 	for(var i = 0; i < this.complectation.length; i++)
 		this.complectation[i].paint();
 	axisArea.context.appendChild(this.element);
+	axisArea.addConstruction(this);
 	return axisArea.root;
+};
+
+Sunblind.prototype.repaint = function(options) {
+	this.element.innerHTML = "";
+	this.cornice.paint();
+	for(var i = 0; i < this.layers.length; i++)
+		this.layers[i].paint();
+	for(var i = 0; i < this.complectation.length; i++)
+		this.complectation[i].paint();
 };
 
 Sunblind.prototype.calculate = function(options) {
@@ -79,6 +89,22 @@ Sunblind.prototype.fromJSON = function(json) {
 		};
 		this.addComplectation(complect);
 	}
+};
+
+Sunblind.prototype.changeWidth = function(newWidth) {
+	console.log("new width : " + newWidth);
+	this.width = newWidth;
+	this.cornice.width = newWidth;
+	for(var i = 0; i < this.layers.length; i++)
+		this.layers[i].width = newWidth;
+	this.repaint();
+};
+
+Sunblind.prototype.changeHeight = function(newHeight) {
+	this.height = newHeight;
+	for(var i = 0; i < this.layers.length; i++)
+		this.layers[i].height = newHeight;
+	this.repaint();
 };
 
 Sunblind.prototype.test = function(options) {

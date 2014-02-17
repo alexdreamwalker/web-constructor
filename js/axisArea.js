@@ -42,6 +42,10 @@ AxisArea.prototype.init = function() {
 	// insert svg
 };
 
+AxisArea.prototype.addConstruction = function(construction) {
+	this.constructions.push(construction);
+};
+
 AxisArea.prototype.drawRoot = function() {
 	var svg = document.createElementNS(this.NS, "svg");
 	svg.setAttribute("width", "100%");
@@ -79,6 +83,7 @@ AxisArea.prototype.drawAxis = function() {
 	this.axisYOffset = (this.canvasHeight - this.dimensions.height) / 2;
 	if(this.axisYOffset < this.dimensions.height * this.axisOffsetPersentage) this.axisYOffset = this.dimensions.height * this.axisOffsetPersentage;
 
+	console.log("offset: " + this.axisXOffset + " " + this.axisYOffset);
 	console.log("sizes: " + this.canvasWidth + " " + this.canvasHeight);
 
 	var g = document.createElementNS(this.NS, "g");
@@ -265,12 +270,15 @@ AxisArea.prototype.drawContext = function() {
 AxisArea.prototype.widthChanged = function(newWidth) {
 	for(var i = 0; i < this.constructions.length; i++)
 		this.constructions[i].changeWidth(newWidth);
-	this.dimensions.width = newWidth * 1.1;
+	this.dimensions.width = newWidth;
 	this.root.removeChild(this.axisArea);
 
 	var max = this.dimensions.width > this.dimensions.height ? this.dimensions.width : this.dimensions.height;
 	var mstep = max / this.axisStepCount;
-	this.dimensions = {width: max, height: max, step: mstep};
+	this.dimensions = {width: max, height: max};
+	this.dimensions.step = this.dimensions.width / 20;
+	this.canvasWidth = this.dimensions.width;
+	this.canvasHeight = this.dimensions.height;
 
 	this.axisArea = this.drawAxis();
 	this.root.insertBefore(this.axisArea, this.sizeAdjs);
@@ -279,12 +287,15 @@ AxisArea.prototype.widthChanged = function(newWidth) {
 AxisArea.prototype.heightChanged = function(newHeight) {
 	for(var i = 0; i < this.constructions.length; i++)
 		this.constructions[i].changeHeight(newHeight);
-	this.dimensions.height = newHeight * 1.1;
+	this.dimensions.height = newHeight;
 	this.root.removeChild(this.axisArea);
 
 	var max = this.dimensions.width > this.dimensions.height ? this.dimensions.width : this.dimensions.height;
 	var mstep = max / this.axisStepCount;
-	this.dimensions = {width: max, height: max, step: mstep};
+	this.dimensions = {width: max, height: max};
+	this.dimensions.step = this.dimensions.width / 20;
+	this.canvasWidth = this.dimensions.width;
+	this.canvasHeight = this.dimensions.height;
 
 	this.axisArea = this.drawAxis();
 	this.root.insertBefore(this.axisArea, this.sizeAdjs);
