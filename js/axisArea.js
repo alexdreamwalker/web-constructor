@@ -162,6 +162,7 @@ AxisArea.prototype.contextToMap = function(coords) {
 
 	result.x = (coords.x + this.axisXOffset) * pixX;
 	result.y = (coords.y + this.axisYOffset) * pixY;
+	console.log(coords.x + " --- " + result.x + " --- " + pixX);
 	result.width = coords.width * pixX;
 	result.height = coords.height * pixY;
 
@@ -268,8 +269,6 @@ AxisArea.prototype.drawContext = function() {
 };
 
 AxisArea.prototype.widthChanged = function(newWidth) {
-	for(var i = 0; i < this.constructions.length; i++)
-		this.constructions[i].changeWidth(newWidth);
 	this.dimensions.width = newWidth;
 	this.root.removeChild(this.axisArea);
 
@@ -282,11 +281,12 @@ AxisArea.prototype.widthChanged = function(newWidth) {
 
 	this.axisArea = this.drawAxis();
 	this.root.insertBefore(this.axisArea, this.sizeAdjs);
+
+	for(var i = 0; i < this.constructions.length; i++)
+		this.constructions[i].changeWidth(newWidth);
 };
 
 AxisArea.prototype.heightChanged = function(newHeight) {
-	for(var i = 0; i < this.constructions.length; i++)
-		this.constructions[i].changeHeight(newHeight);
 	this.dimensions.height = newHeight;
 	this.root.removeChild(this.axisArea);
 
@@ -299,4 +299,7 @@ AxisArea.prototype.heightChanged = function(newHeight) {
 
 	this.axisArea = this.drawAxis();
 	this.root.insertBefore(this.axisArea, this.sizeAdjs);
+
+	for(var i = 0; i < this.constructions.length; i++)
+		this.constructions[i].changeHeight(newHeight);
 };

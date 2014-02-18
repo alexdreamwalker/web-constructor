@@ -101,6 +101,7 @@ Sunblind.prototype.changeWidth = function(newWidth) {
 };
 
 Sunblind.prototype.changeHeight = function(newHeight) {
+	console.log("new height : " + newHeight);
 	this.height = newHeight;
 	for(var i = 0; i < this.layers.length; i++)
 		this.layers[i].height = newHeight;
