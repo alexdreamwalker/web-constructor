@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#17.02.2013 - 20
+#20.02.2014 - 02
 # main file 
 index.html
 # pages
@@ -45,6 +45,7 @@ js/wsOperator.js
 js/cppOperator.js
 js/axisArea.js
 js/construction.js
+js/svg/svgbezier.js
 js/sunblind/cornice.js
 js/sunblind/complectation.js
 js/sunblind/lamella.js
@@ -54,6 +55,9 @@ js/sunblind/sunblind.js
 js/sunblind/verticalsunblind.js
 js/sunblind/verticalsunblindui.js
 js/sunblind/verticallayer.js
+js/sunblind/multisunblind.js
+js/sunblind/multisunblindui.js
+js/sunblind/multilayer.js
 # cpp - NaCl
 cpp/instance/instance.nmf
 cpp/instance/instance.pexe

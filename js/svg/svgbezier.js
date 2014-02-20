@@ -1,5 +1,5 @@
 function SVGBezier(options) {
-	this.context = options.context;
+	this.context = null;
 	this.x0 = options.x0 || 0;
 	this.y0 = options.y0 || 0;
 	this.x1 = options.x1 || 0.3;
@@ -15,7 +15,7 @@ function SVGBezier(options) {
 	this.x2element = null;
 	this.xelement = null;
 
-	this.NS = "http://www.w3.org/2000/svg";
+	this.NS = global.NS;
 	this.isActive = true;
 }
 
@@ -24,6 +24,7 @@ SVGBezier.prototype.init = function() {
 };
 
 SVGBezier.prototype.paint = function() {
+	this.context = this.layer.element;
 	var self = this;
 	var path = document.createElementNS(this.NS, "path");
 	var d = this.init();
@@ -46,8 +47,8 @@ SVGBezier.prototype.paint = function() {
 	x0element.addEventListener("mouseout", function(e) { this.isDragged = false; });
 	x0element.addEventListener("mousemove", function(e) {
 		if(!this.isDragged) return;
-		var coords = axisArea.mapToContext({x: e.pageX, y: e.pageY});
-		coords = axisArea.contextToMap(coords);
+		var coords = global.axisArea.mapToContext({x: e.pageX, y: e.pageY});
+		coords = global.axisArea.contextToMap(coords);
 		self.setX0(coords.x);
 		self.setY0(coords.y);
 	});
@@ -67,8 +68,8 @@ SVGBezier.prototype.paint = function() {
 	x1element.addEventListener("mouseout", function(e) { this.isDragged = false; });
 	x1element.addEventListener("mousemove", function(e) {
 		if(!this.isDragged) return;
-		var coords = axisArea.mapToContext({x: e.pageX, y: e.pageY});
-		coords = axisArea.contextToMap(coords);
+		var coords = global.axisArea.mapToContext({x: e.pageX, y: e.pageY});
+		coords = global.axisArea.contextToMap(coords);
 		self.setX1(coords.x);
 		self.setY1(coords.y);
 	});
@@ -86,8 +87,8 @@ SVGBezier.prototype.paint = function() {
 	x2element.addEventListener("mouseout", function(e) { this.isDragged = false; });
 	x2element.addEventListener("mousemove", function(e) {
 		if(!this.isDragged) return;
-		var coords = axisArea.mapToContext({x: e.pageX, y: e.pageY});
-		coords = axisArea.contextToMap(coords);
+		var coords = global.axisArea.mapToContext({x: e.pageX, y: e.pageY});
+		coords = global.axisArea.contextToMap(coords);
 		self.setX2(coords.x);
 		self.setY2(coords.y);
 	});
@@ -105,8 +106,8 @@ SVGBezier.prototype.paint = function() {
 	xelement.addEventListener("mouseout", function(e) { this.isDragged = false; });
 	xelement.addEventListener("mousemove", function(e) {
 		if(!this.isDragged) return;
-		var coords = axisArea.mapToContext({x: e.pageX, y: e.pageY});
-		coords = axisArea.contextToMap(coords);
+		var coords = global.axisArea.mapToContext({x: e.pageX, y: e.pageY});
+		coords = global.axisArea.contextToMap(coords);
 		self.setX(coords.x);
 		self.setY(coords.y);
 	});

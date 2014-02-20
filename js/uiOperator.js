@@ -89,6 +89,7 @@ function UIOperator(options) {
 
 			switch(module) {
 				case "verticalsunblind": self.loadVerticalSunblinds(); break;
+				case "multisunblind": self.loadMultiSunblinds(); break;
 				default: break;
 			}
 		});	
@@ -97,6 +98,11 @@ function UIOperator(options) {
 
 	this.loadVerticalSunblinds = function(options) {
 		global.ui = new VerticalSunblindUI({elem: "moduleCanvas", categories: "moduleCategories", table: "moduleTable", summary: "moduleSummary"});
+		global.ui.start();
+	};
+
+	this.loadMultiSunblinds = function(options) {
+		global.ui = new MultiSunblindUI({elem: "moduleCanvas", categories: "moduleCategories", table: "moduleTable", summary: "moduleSummary"});
 		global.ui.start();
 	};
 
