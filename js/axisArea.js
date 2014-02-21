@@ -19,7 +19,7 @@ function AxisArea(options) {
 	this.canvasHeight = this.dimensions.height;
 
 	this.dx = document.getElementById(this.elem).offsetLeft;
-	this.dy = document.getElementById(this.elem).offsetTop;
+	this.dy = $("#" + this.elem).offset().top;
 	this.axisXOffset = 0;
 	this.axisYPffset = 0;
 	this.axisOffsetPersentage = 0.05;
@@ -66,8 +66,8 @@ AxisArea.prototype.drawRoot = function() {
 
 AxisArea.prototype.drawAxis = function() {
 	var step = this.dimensions.step;
-	var wStepCount = this.canvasWidth * (1 + this.axisOffsetPersentage) / step;
-	var hStepCount = this.canvasHeight * (1 + this.axisOffsetPersentage) / step;
+	var wStepCount = this.canvasWidth * (1 + this.axisOffsetPersentage * 2) / step;
+	var hStepCount = this.canvasHeight * (1 + this.axisOffsetPersentage * 2) / step;
 	var hStep = this.hScale / hStepCount;
 	var wStep = this.wScale / wStepCount;
 	var uStep = (hStep > wStep) ? wStep : hStep;
@@ -82,9 +82,6 @@ AxisArea.prototype.drawAxis = function() {
 	if(this.axisXOffset < this.dimensions.width * this.axisOffsetPersentage) this.axisXOffset = this.dimensions.width * this.axisOffsetPersentage;
 	this.axisYOffset = (this.canvasHeight - this.dimensions.height) / 2;
 	if(this.axisYOffset < this.dimensions.height * this.axisOffsetPersentage) this.axisYOffset = this.dimensions.height * this.axisOffsetPersentage;
-
-	console.log("offset: " + this.axisXOffset + " " + this.axisYOffset);
-	console.log("sizes: " + this.canvasWidth + " " + this.canvasHeight);
 
 	var g = document.createElementNS(this.NS, "g");
 	g.setAttribute("stroke", "black");
@@ -162,7 +159,6 @@ AxisArea.prototype.contextToMap = function(coords) {
 
 	result.x = (coords.x + this.axisXOffset) * pixX;
 	result.y = (coords.y + this.axisYOffset) * pixY;
-	console.log(coords.x + " --- " + result.x + " --- " + pixX);
 	result.width = coords.width * pixX;
 	result.height = coords.height * pixY;
 

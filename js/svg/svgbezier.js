@@ -15,8 +15,11 @@ function SVGBezier(options) {
 	this.x2element = null;
 	this.xelement = null;
 
+	this.strokeWidth = 0.005;
+
 	this.NS = global.NS;
 	this.isActive = true;
+	this.activeElement = null;
 }
 
 SVGBezier.prototype.init = function() {
@@ -30,23 +33,22 @@ SVGBezier.prototype.paint = function() {
 	var d = this.init();
 	path.setAttribute("d", d);
 	path.setAttribute("stroke", "blue");
-	path.setAttribute("stroke-width", "0.01");
+	path.setAttribute("stroke-width", this.strokeWidth);
 	path.setAttribute("fill", "none");
 	this.element = path;
 	this.context.appendChild(this.element);
 
 	var x0element = document.createElementNS(this.NS, "circle");
 	x0element.setAttribute("stroke", "red");
-	x0element.setAttribute("stroke-width", "0.01");
+	x0element.setAttribute("stroke-width", this.strokeWidth);
 	x0element.setAttribute("fill", "red");
-	x0element.setAttribute("r", "0.01");
+	x0element.setAttribute("r", this.strokeWidth / 2);
 	x0element.setAttribute("cx", this.x0);
 	x0element.setAttribute("cy", this.y0);
-	x0element.addEventListener("mousedown", function(e) { this.isDragged = true; });
-	x0element.addEventListener("mouseup", function(e) { this.isDragged = false; });
-	x0element.addEventListener("mouseout", function(e) { this.isDragged = false; });
+	x0element.addEventListener("mousedown", function(e) { self.activeElement = this; });
+	x0element.addEventListener("mouseup", function(e) { self.activeElement = null; });
 	x0element.addEventListener("mousemove", function(e) {
-		if(!this.isDragged) return;
+		if(self.activeElement == null) return;
 		var coords = global.axisArea.mapToContext({x: e.pageX, y: e.pageY});
 		coords = global.axisArea.contextToMap(coords);
 		self.setX0(coords.x);
@@ -56,18 +58,17 @@ SVGBezier.prototype.paint = function() {
 
 	var x1element = document.createElementNS(this.NS, "circle");
 	x1element.setAttribute("stroke", "red");
-	x1element.setAttribute("stroke-width", "0.01");
+	x1element.setAttribute("stroke-width", this.strokeWidth);
 	x1element.setAttribute("fill", "red");
-	x1element.setAttribute("r", "0.01");
+	x1element.setAttribute("r", this.strokeWidth / 2);
 	x1element.setAttribute("cx", this.x1);
 	x1element.setAttribute("cy", this.y1);
 	x1element.setAttribute("draggable", "true");
 	x1element.isDragged = false;
-	x1element.addEventListener("mousedown", function(e) { this.isDragged = true; });
-	x1element.addEventListener("mouseup", function(e) { this.isDragged = false; });
-	x1element.addEventListener("mouseout", function(e) { this.isDragged = false; });
+	x1element.addEventListener("mousedown", function(e) { self.activeElement = this; });
+	x1element.addEventListener("mouseup", function(e) { self.activeElement = null; });
 	x1element.addEventListener("mousemove", function(e) {
-		if(!this.isDragged) return;
+		if(self.activeElement == null) return;
 		var coords = global.axisArea.mapToContext({x: e.pageX, y: e.pageY});
 		coords = global.axisArea.contextToMap(coords);
 		self.setX1(coords.x);
@@ -77,16 +78,15 @@ SVGBezier.prototype.paint = function() {
 
 	var x2element = document.createElementNS(this.NS, "circle");
 	x2element.setAttribute("stroke", "red");
-	x2element.setAttribute("stroke-width", "0.01");
+	x2element.setAttribute("stroke-width", this.strokeWidth);
 	x2element.setAttribute("fill", "red");
-	x2element.setAttribute("r", "0.01");
+	x2element.setAttribute("r", this.strokeWidth / 2);
 	x2element.setAttribute("cx", this.x2);
 	x2element.setAttribute("cy", this.y2);
-	x2element.addEventListener("mousedown", function(e) { this.isDragged = true; });
-	x2element.addEventListener("mouseup", function(e) { this.isDragged = false; });
-	x2element.addEventListener("mouseout", function(e) { this.isDragged = false; });
+	x2element.addEventListener("mousedown", function(e) { self.activeElement = this; });
+	x2element.addEventListener("mouseup", function(e) { self.activeElement = null; });
 	x2element.addEventListener("mousemove", function(e) {
-		if(!this.isDragged) return;
+		if(self.activeElement == null) return;
 		var coords = global.axisArea.mapToContext({x: e.pageX, y: e.pageY});
 		coords = global.axisArea.contextToMap(coords);
 		self.setX2(coords.x);
@@ -96,22 +96,36 @@ SVGBezier.prototype.paint = function() {
 
 	var xelement = document.createElementNS(this.NS, "circle");
 	xelement.setAttribute("stroke", "red");
-	xelement.setAttribute("stroke-width", "0.01");
+	xelement.setAttribute("stroke-width", this.strokeWidth);
 	xelement.setAttribute("fill", "red");
-	xelement.setAttribute("r", "0.01");
+	xelement.setAttribute("r", this.strokeWidth / 2);
 	xelement.setAttribute("cx", this.x);
 	xelement.setAttribute("cy", this.y);
-	xelement.addEventListener("mousedown", function(e) { this.isDragged = true; });
-	xelement.addEventListener("mouseup", function(e) { this.isDragged = false; });
-	xelement.addEventListener("mouseout", function(e) { this.isDragged = false; });
+	xelement.addEventListener("mousedown", function(e) { self.activeElement = this; });
+	xelement.addEventListener("mouseup", function(e) { self.activeElement = null; });
 	xelement.addEventListener("mousemove", function(e) {
-		if(!this.isDragged) return;
+		if(self.activeElement == null) return;
 		var coords = global.axisArea.mapToContext({x: e.pageX, y: e.pageY});
 		coords = global.axisArea.contextToMap(coords);
 		self.setX(coords.x);
 		self.setY(coords.y);
 	});
 	this.xelement = xelement;
+
+	this.context.addEventListener("mousemove", function(e) {
+		if(self.activeElement == null) return;
+		var coords = global.axisArea.mapToContext({x: e.pageX, y: e.pageY});
+		coords = global.axisArea.contextToMap(coords);
+		switch(self.activeElement) {
+			case self.x0element: self.setX0(coords.x); self.setY0(coords.y); break;
+			case self.x1element: self.setX1(coords.x); self.setY1(coords.y); break;
+			case self.x2element: self.setX2(coords.x); self.setY2(coords.y); break;
+			case self.xelement: self.setX(coords.x); self.setY(coords.y); break;
+		}
+	});
+	this.context.addEventListener("mouseup", function(e) {
+		self.activeElement = null;
+	});
 
 	this.context.appendChild(this.x0element);
 	this.context.appendChild(this.x1element);
