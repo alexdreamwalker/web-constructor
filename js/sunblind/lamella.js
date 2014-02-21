@@ -14,7 +14,7 @@ Lamella.prototype.paint = function(options) {
 	var coords = global.axisArea.contextToMap({x: this.x, y: this.y, width: this.width, height: this.height});
 	this.element.setAttribute("x", coords.x);
 	this.element.setAttribute("y", coords.y);
-	this.element.setAttribute("width", coords.width * 0.9);
-	this.element.setAttribute("height", coords.height * 0.9);
+	this.element.setAttribute("width", coords.width);
+	this.element.setAttribute("height", coords.height);
 	this.context.appendChild(this.element);
 };

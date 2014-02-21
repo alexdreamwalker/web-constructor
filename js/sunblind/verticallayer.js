@@ -17,7 +17,7 @@ VerticalLayer.prototype.paint = function() {
 	if(this.lamellas.length == 0)
 		for(var i = 0; i < lamellaCount; i++) {
 			var lamellaWidth = this.lamellaSize;
-			var lamellaHeight = this.height;
+			var lamellaHeight = this.height - this.sunblind.cornice.height * 2;
 			var pos = {
 				x: i * lamellaWidth,
 				y: 0 + this.sunblind.cornice.height * 2

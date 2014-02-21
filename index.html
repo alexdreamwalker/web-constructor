@@ -3,7 +3,7 @@
 	<head>
 		<title>Bars-constructor WEB</title>
 		<meta charset="utf-8"> 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 		<!-- Mobile offline app mode -->
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="mobile-web-app-capable" content="yes">
@@ -50,7 +50,7 @@
     	</div>
 		<div id="mainChecker" class="window alert alert-danger"></div>
 		<div id="mainMenu" class="window"></div>
-		<div id="mainWindow" class="window"></div>
+		<div id="mainWindow" class="window" ontouchmove="event.preventDefault();"></div>
 		<div id="mainOrder" class="window"></div>
 	</body>
 </html>
