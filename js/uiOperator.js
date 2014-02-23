@@ -82,16 +82,18 @@ function UIOperator(options) {
 		this.loadWindow("mainWindow", "pages/mainWindow.html", function() {
 			document.getElementById("mainWindow").style.height = window.innerHeight + "px";
 			var module = options.module;
-			uiOperator.loadWindow("moduleCanvas", "pages/modules/" + module + "/canvas.html");
+			
 			uiOperator.loadWindow("moduleCategories", "pages/modules/" + module + "/categories.html");
 			uiOperator.loadWindow("moduleTable", "pages/modules/" + module + "/table.html");
 			uiOperator.loadWindow("moduleSummary", "pages/modules/" + module + "/summary.html");
 
-			switch(module) {
-				case "verticalsunblind": self.loadVerticalSunblinds(); break;
-				case "multisunblind": self.loadMultiSunblinds(); break;
-				default: break;
-			}
+			uiOperator.loadWindow("moduleCanvas", "pages/modules/" + module + "/canvas.html", function() {
+				switch(module) {
+					case "verticalsunblind": self.loadVerticalSunblinds(); break;
+					case "multisunblind": self.loadMultiSunblinds(); break;
+					default: break;
+				}
+			});
 		});	
 		this.processWindows("mainWindow");
 	};

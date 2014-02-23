@@ -13,6 +13,11 @@ div.menu-category {
 	padding-bottom: 160px;
 }
 
+div.img-category-menu {
+	float: left;
+	text-align: center;
+}
+
 div.menu-category img {
 	width: 140px;
 	height: 140px;
@@ -22,4 +27,8 @@ div.menu-category img {
 
 div.menu-category img:hover {
 	border: 2px solid #cdbfe3;
+}
+
+#mainWindow {
+	color: black;
 }

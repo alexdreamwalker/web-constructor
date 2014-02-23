@@ -19,10 +19,16 @@
       <p class="lead">Включает в себя рассчет и оформление эскиза для вертикальных, горизонтальных, мультифактурных жалюзи, а также рулонных штор</p>
       <p class="lead">Выберите категорию:</p>
       <div class="menu-category">
-        <img class="img-responsive" data-src="holder.js/140x140/auto" alt="140x140" src="images/menu/sunblinds/vertical.png" onclick="uiOperator.loadModule({'module': 'verticalsunblind'});" data-description="Вертикальные">
-        <img class="img-responsive" data-src="holder.js/140x140/auto" alt="140x140" src="images/menu/sunblinds/multi.jpg" onclick="uiOperator.loadModule({'module': 'multisunblind'});" data-description="Мультифактура">
+        <div class="img-category-menu">
+          <img class="img-responsive" data-src="holder.js/140x140/auto" alt="140x140" src="images/menu/sunblinds/vertical.png" onclick="uiOperator.loadModule({'module': 'verticalsunblind'});" data-description="Вертикальные">
+          <div>Вертикальные</div>
+        </div>
+        <div class="img-category-menu">
+          <img class="img-responsive" data-src="holder.js/140x140/auto" alt="140x140" src="images/menu/sunblinds/multi.jpg" onclick="uiOperator.loadModule({'module': 'multisunblind'});" data-description="Мультифактура">
+          <div>Мультифактура</div>
+        </div>
       </div>
-      <button type="button" class="btn btn-lg btn-primary" onclick="uiOperator.loadModule({'module': 'verticalsunblind'});">Перейти >></button>
+      <button type="button" class="btn btn-lg btn-primary" onclick="uiOperator.loadModule({'module': 'verticalsunblind'});" style="display:none">Перейти >></button>
     </div>
   </div>
 

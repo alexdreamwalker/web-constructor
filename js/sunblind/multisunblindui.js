@@ -9,5 +9,12 @@ function MultiSunblindUI(options) {
 		document.getElementById(this.elem).innerHTML = "";
 		var svg = sunblind.paint();
 		document.getElementById(this.elem).appendChild(svg);
+
+		this.sunblind = sunblind;
+	};
+
+	this.applyBezierLayers = function() {
+		var index = 0;
+		this.sunblind.layers[index].applyBezier();
 	};
 };
