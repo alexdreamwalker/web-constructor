@@ -37,6 +37,11 @@ SVGBezier.prototype.init = function() {
 	return "M" + this.x0 + "," + this.y0 + " C" + this.x1 + "," + this.y1 + " " + this.x2 + "," + this.y2 + " " + this.x + "," + this.y;
 };
 
+SVGBezier.prototype.getValue = function(t) {
+	var b = Math.pow((1 - t), 3) * this.x0 + 3 * t * this.x1 * Math.pow((1 - t), 2) + 3 * Math.pow(t, 2) * this.x2 + Math.pow(t, 3) * this.x3;
+	return b;
+};
+
 SVGBezier.prototype.paint = function() {
 	this.context = this.layer.element;
 	var self = this;
