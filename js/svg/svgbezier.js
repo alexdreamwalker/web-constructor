@@ -38,10 +38,10 @@ SVGBezier.prototype.init = function() {
 };
 
 SVGBezier.prototype.getValue = function(t) {
-	var b1 =  t * t * t;
-	var b2 = 3 * t * t * (1 - t);
-	var b3 =  3 * t * (1 - t) * (1 - t);
-	var b4 = (1 - t) * (1 - t) * (1 - t);
+	var b1 =  Math.pow(t, 3);
+	var b2 = 3 * Math.pow(t, 2) * (1 - t);
+	var b3 =  3 * t * Math.pow(1 - t, 2);
+	var b4 = Math.pow(1 - t, 3);
 
 	var b = {};
 

@@ -171,8 +171,8 @@ AxisArea.prototype.contextToContext = function(coords) {
 	var pixX = this.canvasWidth / this.wScale;
 	var pixY = this.canvasHeight / this.hScale;
 
-	result.x = (coords.x * pixX);
-	result.y = (coords.y * pixY);
+	result.x = (coords.x * pixX) - this.axisXOffset;
+	result.y = (coords.y * pixY) - this.axisYOffset;
 
 	return result;
 };
