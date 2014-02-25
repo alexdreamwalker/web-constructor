@@ -11,10 +11,23 @@ function Lamella(options) {
 Lamella.prototype.paint = function(options) {
 	this.context = this.layer.element;
 	this.element = document.createElementNS(this.NS, "rect");
+	this.makeElement();
+	this.context.appendChild(this.element);
+};
+
+Lamella.prototype.setPos = function(options) {
+	this.x = options.x;
+	this.y = options.y;
+	this.width = options.width;
+	this.height = options.height;
+
+	this.makeElement();	
+};
+
+Lamella.prototype.makeElement = function() {
 	var coords = global.axisArea.contextToMap({x: this.x, y: this.y, width: this.width, height: this.height});
 	this.element.setAttribute("x", coords.x);
 	this.element.setAttribute("y", coords.y);
 	this.element.setAttribute("width", coords.width);
 	this.element.setAttribute("height", coords.height);
-	this.context.appendChild(this.element);
 };

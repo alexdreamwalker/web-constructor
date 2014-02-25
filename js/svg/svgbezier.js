@@ -38,7 +38,16 @@ SVGBezier.prototype.init = function() {
 };
 
 SVGBezier.prototype.getValue = function(t) {
-	var b = Math.pow((1 - t), 3) * this.x0 + 3 * t * this.x1 * Math.pow((1 - t), 2) + 3 * Math.pow(t, 2) * this.x2 + Math.pow(t, 3) * this.x3;
+	var b1 =  t * t * t;
+	var b2 = 3 * t * t * (1 - t);
+	var b3 =  3 * t * (1 - t) * (1 - t);
+	var b4 = (1 - t) * (1 - t) * (1 - t);
+
+	var b = {};
+
+	b.x = this.x0 * b1 + this.x1 * b2 + this.x2 * b3 + this.x * b4;
+	b.y = this.y0 * b1 + this.y1 * b2 + this.y2 * b3 + this.y * b4;
+
 	return b;
 };
 

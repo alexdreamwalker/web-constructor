@@ -165,6 +165,18 @@ AxisArea.prototype.contextToMap = function(coords) {
 	return result;
 };
 
+AxisArea.prototype.contextToContext = function(coords) {
+	var result = {};
+
+	var pixX = this.canvasWidth / this.wScale;
+	var pixY = this.canvasHeight / this.hScale;
+
+	result.x = (coords.x * pixX);
+	result.y = (coords.y * pixY);
+
+	return result;
+};
+
 AxisArea.prototype.drawSizeAdjustments = function() {
 	var gW = document.createElementNS(this.NS, "g");
 	var gH = document.createElementNS(this.NS, "g");
