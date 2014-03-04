@@ -17,6 +17,10 @@ Layer.prototype.paint = function(options) {
 	this.context.appendChild(this.element);
 };
 
+Layer.prototype.destroy = function() {
+	this.element.outerHTML = "";
+};
+
 Layer.prototype.calculate = function(options) {
 	var result = 0;
 	return result;

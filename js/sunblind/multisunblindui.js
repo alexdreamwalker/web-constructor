@@ -11,10 +11,30 @@ function MultiSunblindUI(options) {
 		document.getElementById(this.elem).appendChild(svg);
 
 		this.sunblind = sunblind;
+
+		this.updateLayersComboBox();
 	};
 
 	this.applyBezierLayers = function() {
-		var index = 0;
-		this.sunblind.layers[index].applyBezier();
+		this.sunblind.applyBezier();
+	};
+
+	this.addLayer = function() {
+		this.sunblind.addMultiLayer();
+		this.updateLayersComboBox();
+	};
+
+	this.removeLayer = function() {
+		this.sunblind.removeMultiLayer();
+		this.updateLayersComboBox();
+	};
+
+	this.switchLayer = function(e) {
+		var index = e.value - 1;
+		this.sunblind.switchLayer(index);
+	};
+
+	this.updateLayersComboBox = function() {
+		document.getElementById("multiSunblindsCurrentLayer").setAttribute("max", this.sunblind.layers.length);
 	};
 };

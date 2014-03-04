@@ -1,11 +1,12 @@
 #include <iostream>
-#include "GL/"
+#include <string>
 #include "sunblind/verticalsunblind.cc"
 
 using namespace std;
 
 int main()
 {
+    std::to_string(0);
     VerticalSunblind sunblind; //объект жалюзи
     Cornice cornice; //объект карниза(это хрень сверху жалюзи в которой расположен поворотный механизм)
     VerticalLayer vlayer; //первый слой вертикальный ламелей

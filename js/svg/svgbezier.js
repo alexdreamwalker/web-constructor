@@ -21,6 +21,7 @@ function SVGBezier(options) {
 	};
 
 	this.element = null;
+	this.path = null;
 	this.x0element = null;
 	this.x1element = null;
 	this.x2element = null;
@@ -54,14 +55,14 @@ SVGBezier.prototype.getValue = function(t) {
 SVGBezier.prototype.paint = function() {
 	this.context = this.layer.element;
 	var self = this;
+	var group = document.createElementNS(this.NS, "g");
 	var path = document.createElementNS(this.NS, "path");
 	var d = this.init();
 	path.setAttribute("d", d);
 	path.setAttribute("stroke", "#3a87ad");
 	path.setAttribute("stroke-width", this.strokeWidth);
 	path.setAttribute("fill", "none");
-	this.element = path;
-	this.context.appendChild(this.element);
+	this.element = group;
 
 	this.x0element = this.makePoint(this.x0, this.y0, this.setX0, this.setY0);
 	this.x1element = this.makePoint(this.x1, this.y1, this.setX1, this.setY1);
@@ -83,10 +84,13 @@ SVGBezier.prototype.paint = function() {
 		self.activeElement = null;
 	});
 
-	this.context.appendChild(this.x0element);
-	this.context.appendChild(this.x1element);
-	this.context.appendChild(this.x2element);
-	this.context.appendChild(this.xelement);
+	group.appendChild(path);
+	group.appendChild(this.x0element);
+	group.appendChild(this.x1element);
+	group.appendChild(this.x2element);
+	group.appendChild(this.xelement);
+	this.path = path;
+	this.context.appendChild(this.element);
 };
 
 SVGBezier.prototype.makePoint = function(x, y, changeX, changeY) {
@@ -125,7 +129,7 @@ SVGBezier.prototype.setX0 = function(x0) {
 	this.x0 = x0;
 	this.x0element.setAttribute("cx", this.x0);
 	var d = this.init();
-	this.element.setAttribute("d", d);
+	this.path.setAttribute("d", d);
 };
 
 SVGBezier.prototype.setY0 = function(y0) {
@@ -133,7 +137,7 @@ SVGBezier.prototype.setY0 = function(y0) {
 	this.y0 = y0;
 	this.x0element.setAttribute("cy", this.y0);
 	var d = this.init();
-	this.element.setAttribute("d", d);
+	this.path.setAttribute("d", d);
 };
 
 SVGBezier.prototype.setX1 = function(x1) {
@@ -141,7 +145,7 @@ SVGBezier.prototype.setX1 = function(x1) {
 	this.x1 = x1;
 	this.x1element.setAttribute("cx", this.x1);
 	var d = this.init();
-	this.element.setAttribute("d", d);
+	this.path.setAttribute("d", d);
 };
 
 SVGBezier.prototype.setY1 = function(y1) {
@@ -149,7 +153,7 @@ SVGBezier.prototype.setY1 = function(y1) {
 	this.y1 = y1;
 	this.x1element.setAttribute("cy", this.y1);
 	var d = this.init();
-	this.element.setAttribute("d", d);
+	this.path.setAttribute("d", d);
 };
 
 SVGBezier.prototype.setX2 = function(x2) {
@@ -157,7 +161,7 @@ SVGBezier.prototype.setX2 = function(x2) {
 	this.x2 = x2;
 	this.x2element.setAttribute("cx", this.x2);
 	var d = this.init();
-	this.element.setAttribute("d", d);
+	this.path.setAttribute("d", d);
 };
 
 SVGBezier.prototype.setY2 = function(y2) {
@@ -165,7 +169,7 @@ SVGBezier.prototype.setY2 = function(y2) {
 	this.y2 = y2;
 	this.x2element.setAttribute("cy", this.y2);
 	var d = this.init();
-	this.element.setAttribute("d", d);
+	this.path.setAttribute("d", d);
 };
 
 SVGBezier.prototype.setX = function(x) {
@@ -173,7 +177,7 @@ SVGBezier.prototype.setX = function(x) {
 	this.x = x;
 	this.xelement.setAttribute("cx", this.x);
 	var d = this.init();
-	this.element.setAttribute("d", d);
+	this.path.setAttribute("d", d);
 };
 
 SVGBezier.prototype.setY = function(y) {
@@ -181,5 +185,5 @@ SVGBezier.prototype.setY = function(y) {
 	this.y = y;
 	this.xelement.setAttribute("cy", this.y);
 	var d = this.init();
-	this.element.setAttribute("d", d);
+	this.path.setAttribute("d", d);
 };

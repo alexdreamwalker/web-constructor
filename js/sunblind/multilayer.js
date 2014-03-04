@@ -6,6 +6,7 @@ function MultiLayer(options) {
 	this.height = options.height;
 	this.lamellaSize = options.lamellaSize;
 	this.lamellas = options.lamellas;
+	this.arcs = [];
 
 	this.topBezier = null;
 	this.bottomBezier = null;
@@ -22,22 +23,31 @@ MultiLayer.prototype.applyBezier = function() {
 	for(var i = 0; i < this.lamellas.length; i++) {
 		var lamella = this.lamellas[i];
 		var lamx = persent * (this.lamellas.length - i);
-		console.log("x: " + lamx);
 
 		//get top coordinate
 		var topy = this.topBezier.getValue(lamx);
-		console.log("topy: " + topy.x + " " + topy.y);
 		topy = global.axisArea.contextToContext({x: 0, y: topy.y, width: 0, height:0}).y;
 		//get bottom coordinate
 		var bottomy = this.bottomBezier.getValue(lamx);
-		console.log("bottomy: " + bottomy.x + " " + bottomy.y);
 		bottomy = global.axisArea.contextToContext({x: 0, y: bottomy.y, width: 0, height: 0}).y;
-
-		console.log("topy: " + topy + " bottomy:" + bottomy);
 
 		//set coordinates
 		lamella.setPos({x: lamella.x, y: topy, width: lamella.width, height: (bottomy - topy)});
+
+		//set arc 
+		var coords = global.axisArea.contextToMap({x: this.lamellas[i].x, y: this.lamellas[i].y, width: this.lamellas[i].width, height: this.lamellas[i].height});
+		this.arcs[i].setPos(coords.x, coords.y + coords.height, coords.x + coords.width, coords.y + coords.height);
 	}
+};
+
+MultiLayer.prototype.hideAdjustments = function() {
+	this.topBezier.element.style.display = "none";
+	this.bottomBezier.element.style.display = "none";
+};
+
+MultiLayer.prototype.showAdjustments = function() {
+	this.topBezier.element.style.display = "";
+	this.bottomBezier.element.style.display = "";
 };
 
 MultiLayer.prototype.paint = function() {
@@ -84,4 +94,13 @@ MultiLayer.prototype.paint = function() {
 	topBezier.paint();
 	this.addBezier(bottomBezier);
 	bottomBezier.paint();
+
+	//draw arcs
+	for(var i = 0; i < this.lamellas.length; i++) {
+		var coords = global.axisArea.contextToMap({x: this.lamellas[i].x, y: this.lamellas[i].y, width: this.lamellas[i].width, height: this.lamellas[i].height});
+		var arc = new Arc({x0: coords.x, y0: coords.y + coords.height, x: coords.x + coords.width, y: coords.y + coords.height});
+		arc.layer = this;
+		this.arcs.push(arc);
+		arc.paint();
+	}
 };
