@@ -27,7 +27,7 @@ function SVGBezier(options) {
 	this.x2element = null;
 	this.xelement = null;
 
-	this.strokeWidth = 0.01;
+	this.strokeWidth = 0.005;
 
 	this.NS = global.NS;
 	this.isActive = true;

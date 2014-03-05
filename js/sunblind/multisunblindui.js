@@ -34,6 +34,12 @@ function MultiSunblindUI(options) {
 		this.sunblind.switchLayer(index);
 	};
 
+	this.switchLayerControl = function(e) {
+		if(e.checked == false)
+			this.sunblind.hideLayerControls();
+		else this.sunblind.showLayerControls();
+	};
+
 	this.updateLayersComboBox = function() {
 		document.getElementById("multiSunblindsCurrentLayer").setAttribute("max", this.sunblind.layers.length);
 	};

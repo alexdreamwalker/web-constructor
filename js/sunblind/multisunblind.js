@@ -3,19 +3,19 @@ function MultiSunblind(options) {
 	Sunblind.apply(this, arguments);
 
 	this.data = {
-		width: 1000,
-		height: 1000,
+		width: 2200,
+		height: 2000,
 		layers: [
 			{
-				width: 1000,
-				height: 1000,
-				lamellaSize: 16,
+				width: 2200,
+				height: 2000,
+				lamellaSize: 89,
 				lamellas: []
 			}
 		],
 		cornice: {
-			width: 1000,
-			size: 16,
+			width: 2200,
+			size: 89,
 			x: 0,
 			y: 0
 		},
@@ -43,7 +43,9 @@ MultiSunblind.prototype.init = function() {
 };
 
 MultiSunblind.prototype.addMultiLayer = function() {
-	var layer = new MultiLayer({width: this.width, height: this.height, lamellaSize: 16, lamellas: []});
+	var lamSize = 89;
+	if(this.layers.length != 0) lamSize = this.layers[0].lamellaSize;
+	var layer = new MultiLayer({width: this.width, height: this.height, lamellaSize: lamSize, lamellas: []});
 	this.addLayer(layer);
 };
 
@@ -77,6 +79,14 @@ MultiSunblind.prototype.switchLayer = function(index) {
 			this.layers[i].hideAdjustments();
 		}
 	}
+};
+
+MultiSunblind.prototype.hideLayerControls = function() {
+	this.layers[this.activeLayer].hideAdjustments();
+};
+
+MultiSunblind.prototype.showLayerControls = function() {
+	this.layers[this.activeLayer].showAdjustments();
 };
 
 MultiSunblind.prototype.applyBezier = function() {
