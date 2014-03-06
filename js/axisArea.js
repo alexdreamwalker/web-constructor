@@ -193,7 +193,7 @@ AxisArea.prototype.drawSizeAdjustments = function() {
 	wRect.setAttribute("opacity", "0.5");
 	var wtext = document.createElementNS(this.NS, "text");
 	wtext.setAttribute("x", this.wScale * 0.47);
-	wtext.setAttribute("y", this.hScale * 0.03);
+	wtext.setAttribute("y", this.hScale * 0.04);
 	wtext.setAttribute("font-size", "0.018");
 	wtext.textContent = this.dimensions.width;
 	wRect.onclick = function(e) { 
@@ -207,11 +207,11 @@ AxisArea.prototype.drawSizeAdjustments = function() {
 	};
 
 	var hRect = document.createElementNS(this.NS, "rect");
-	hRect.setAttribute("x", this.wScale * 0.035);
-	hRect.setAttribute("y", this.hScale * 0.45);
+	hRect.setAttribute("x", this.wScale * 0.032);
+	hRect.setAttribute("y", this.hScale * 0.38);
 	hRect.setAttribute("width", this.wScale * 0.1);
 	hRect.setAttribute("height", this.hScale * 0.04);
-	hRect.setAttribute("transform", "rotate(90," + (this.wScale * 0.035) + "," + (this.hScale * 0.45) + ")");
+	hRect.setAttribute("transform", "rotate(90," + (this.wScale * 0.032) + "," + (this.hScale * 0.38) + ")");
 	hRect.setAttribute("fill", "lightgray");
 	hRect.setAttribute("opacity", "0.5");
 	var htext = document.createElementNS(this.NS, "text");
