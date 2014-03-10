@@ -2,8 +2,8 @@ function Cornice(options) {
 	var self = this;
 	this.width = options.width;
 	this.height = options.size;
-	this.x = options.x;
-	this.y = options.y;
+	this.x = options.x || 0;
+	this.y = options.y || 0;
 	this.NS = global.NS;
 }
 

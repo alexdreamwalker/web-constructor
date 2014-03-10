@@ -1,16 +1,35 @@
-#ifndef CORNICE_HPP
-#define CORNICE_HPP
+#ifndef CORNICE_CC
+#define CORNICE_CC
 
 #include "../complectation.cc"
+#include "sunblind.cc"
 
-class Cornice: public Complectation
+class Cornice
 {
 public:
-    Cornice() {}
+	Sunblind *sunblind;
+
+    Cornice(ww, hh, pp)
+    {
+    	width = ww;
+    	height = hh;
+    	price = pp;
+    } 
+
     virtual float calculate()
     {
-        return 3;
+        float result = 0;
+
+        result = width / 1000 * price;
+        if(result < sunblind->getMinCorniceLength() * price) result = sunblind->getMinCorniceLength() * price;
+
+        return result;
     }
+
+private:
+	int width;
+	int height;
+	float price;
 };
 
 #endif

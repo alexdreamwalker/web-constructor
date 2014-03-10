@@ -6,7 +6,7 @@
 class MultiSunblind: public VerticalSunblind
 {
 public:
-    MultiSunblind() {}
+    MultiSunblind(int ww, int hh, float mcl, float mls) : VerticalSunblind(ww, hh, mcl, mls) {}
 };
 
 #endif

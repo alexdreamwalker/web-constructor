@@ -40,6 +40,11 @@ function MultiSunblindUI(options) {
 		else this.sunblind.showLayerControls();
 	};
 
+	this.switchDecorPlank = function(e) {
+		var isActive = e.checked;
+		this.sunblind.showDecorPlank(isActive);
+	};
+
 	this.updateLayersComboBox = function() {
 		document.getElementById("multiSunblindsCurrentLayer").setAttribute("max", this.sunblind.layers.length);
 	};

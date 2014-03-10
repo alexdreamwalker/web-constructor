@@ -9,6 +9,7 @@ Sunblind.prototype = Object.create(Construction.prototype);
 Sunblind.prototype.elem = this.elem;
 Sunblind.prototype.layers = [];
 Sunblind.prototype.cornice = null;
+Sunblind.prototype.decorPlank = null;
 Sunblind.prototype.complectation = [];
 Sunblind.prototype.NS = global.NS;
 
@@ -27,10 +28,20 @@ Sunblind.prototype.setCornice = function(cornice) {
 	this.cornice = cornice;
 };
 
+Sunblind.prototype.setDecorPlank = function(plank) {
+	plank.sunblind = this;
+	this.decorPlank = plank;
+};
+
+Sunblind.prototype.showDecorPlank = function(isActive) {
+	this.decorPlank.setActive(isActive);
+};
+
 Sunblind.prototype.paint = function(options) {
 	var axisArea = new AxisArea({elem: this.elem, dimensions : {width: this.width, height: this.height}});
 	global.axisArea = axisArea;
 	this.cornice.paint();
+	this.decorPlank.paint();
 	for(var i = 0; i < this.layers.length; i++)
 		this.layers[i].paint();
 	for(var i = 0; i < this.complectation.length; i++)

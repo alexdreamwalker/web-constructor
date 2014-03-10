@@ -1,12 +1,12 @@
-#ifndef VERTICALLAYER_HPP
-#define VERTICALLAYER_HPP
+#ifndef VERTICALLAYER_CC
+#define VERTICALLAYER_CC
 
 #include "layer.cc"
 
 class VerticalLayer: public Layer
 {
 public:
-    VerticalLayer() {}
+    VerticalLayer(int ww, int hh) : Layer(ww, hh) {}
     virtual float calculate()
     {
         float result = getLamellas().size() * 5;
