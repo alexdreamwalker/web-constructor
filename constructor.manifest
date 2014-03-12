@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#05.03.2014 - 29
+#12.03.2014 - 16
 # main file 
 index.html
 # pages
@@ -54,6 +54,7 @@ js/svg/svgbezier.js
 js/svg/arc.js
 js/sunblind/cornice.js
 js/sunblind/complectation.js
+js/sunblind/decorplank.js
 js/sunblind/lamella.js
 js/sunblind/layer.js
 js/sunblind/other.js

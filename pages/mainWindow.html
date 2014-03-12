@@ -1,15 +1,19 @@
 <div style="height: 100%; width: 100%">
 	<table style="width: 100%; height: 100%">
 		<tr style="height: 70%">
-			<td style="width: 75%;">
-				<div class="panel panel-primary" style="height: 100%">
-					<div class="panel-heading">Эскиз</div>
+			<td style="width: 65%;">
+				<div class="panel panel-primary" style="height: 100%" id="mainImage">
+					<div class="panel-heading">
+						Эскиз
+						<span class="glyphicon glyphicon-resize-full" style="float: right" onclick="uiOperator.requestFullImageScreen(true);"></span>
+						<span class="glyphicon glyphicon-resize-small" style="float: right; display: none" onclick="uiOperator.requestFullImageScreen(false);"></span>
+					</div>
 					<div class="panel-body" id="moduleCanvas" style="height: 90%; padding: 0">
 						
 					</div>
 				</div>
 			</td>
-			<td style="width: 25%;">
+			<td style="width: 35%;">
 				<div class="panel panel-primary" style="height: 100%">
 					<div class="panel-heading">Категории</div>
 					<div class="panel-body" id="moduleCategories">
@@ -18,14 +22,14 @@
 			</td>
 		</tr>
 		<tr style="height: 30%">
-			<td style="width: 75%;">
+			<td style="width: 65%;">
 				<div class="panel panel-primary" style="height: 100%">
 					<div class="panel-heading">Таблица</div>
 					<div class="panel-body" id="moduleTable">
 					</div>
 				</div>
 			</td>
-			<td style="width: 25%;">
+			<td style="width: 35%;">
 				<div class="panel panel-primary" style="height: 100%">
 					<div class="panel-heading">Итого</div>
 					<div class="panel-body" id="moduleSummary">		

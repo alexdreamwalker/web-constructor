@@ -20,7 +20,7 @@ function MultiSunblind(options) {
 		decorplank: {
 			isActive: true,
 			color: null,
-			height: 89,
+			size: 89,
 			width: 2300
 		},
 		complectation: []
@@ -39,7 +39,8 @@ MultiSunblind.prototype.init = function() {
 	var cornice = new Cornice(this.data.cornice);
 	this.setCornice(cornice);
 
-	var decorPlank = new DecorPlank({this.data.decorplank});
+	var decorPlank = new DecorPlank(this.data.decorplank);
+	this.setDecorPlank(decorPlank);
 
 	for(var i = 0; i < this.data.layers.length; i++) {
 		var layer = new MultiLayer(this.data.layers[i]);

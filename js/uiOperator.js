@@ -98,6 +98,41 @@ function UIOperator(options) {
 		this.processWindows("mainWindow");
 	};
 
+	this.setFullScreen = function(element) {
+		if(element.requestFullscreen) {
+			element.requestFullscreen();
+		} else if(element.webkitRequestFullscreen) {
+			element.webkitRequestFullscreen();
+		} else if(element.mozRequestFullscreen) {
+			element.mozRequestFullScreen();
+		}
+	};
+
+	this.exitFullscreen = function() {
+		if(document.exitFullscreen) {
+			document.exitFullscreen();
+		} else if(document.webkitExitFullscreen ) {
+			document.webkitExitFullscreen();
+		} else if(document.mozCancelFullscreen) {
+			document.mozCancelFullScreen();
+		}
+	};
+
+	this.requestFullImageScreen = function(value) {
+		var img = document.getElementById("mainImage");
+		var fullScreen = img.querySelector("span.glyphicon-resize-full");
+		var normalScreen = img.querySelector("span.glyphicon-resize-small");
+		if(value) {
+			fullScreen.style.display = "none";
+			normalScreen.style.display = "";
+			this.setFullScreen(img);
+		} else {
+			fullScreen.style.display = "";
+			normalScreen.style.display = "none";
+			this.exitFullscreen();
+		}
+	};
+
 	this.loadVerticalSunblinds = function(options) {
 		global.ui = new VerticalSunblindUI({elem: "moduleCanvas", categories: "moduleCategories", table: "moduleTable", summary: "moduleSummary"});
 		global.ui.start();

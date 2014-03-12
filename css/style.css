@@ -32,3 +32,16 @@ div.menu-category img:hover {
 #mainWindow {
 	color: black;
 }
+
+div:-webkit-full-screen {
+  width: 100% !important;
+}
+div:-moz-full-screen {
+  width: 100% !important;
+}
+div:-ms-fullscreen {
+  width: 100% !important;
+}
+div:fullscreen {
+  width: 100% !important;
+}
