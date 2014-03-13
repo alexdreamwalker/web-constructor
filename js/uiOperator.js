@@ -105,6 +105,13 @@ function UIOperator(options) {
 			element.webkitRequestFullscreen();
 		} else if(element.mozRequestFullscreen) {
 			element.mozRequestFullScreen();
+		} else {
+			var rows = document.querySelectorAll("#mainWindow tr");
+			rows[0].style.height = "100%";
+			rows[0].style.display = "none";
+			var  cols = rows[0].querySelectorAll("td");
+			cols[0].style.width = "100%";
+			cols[1].style.display = "none";
 		}
 	};
 
@@ -115,6 +122,13 @@ function UIOperator(options) {
 			document.webkitExitFullscreen();
 		} else if(document.mozCancelFullscreen) {
 			document.mozCancelFullScreen();
+		} else {
+			var rows = document.querySelectorAll("#mainWindow tr");
+			rows[0].style.height = "70%";
+			rows[0].style.display = "";
+			var  cols = rows[0].querySelectorAll("td");
+			cols[0].style.width = "65%";
+			cols[1].style.display = "";
 		}
 	};
 
