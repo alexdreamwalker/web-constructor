@@ -11,6 +11,7 @@ class Server {
 	private $master; //master socket
 	private $sockets; //array for client's sockets
 	private $clients; //array of clients
+	private $selecter;
 
 	function __construct($address, $port) { //main server constructor
 		$this->address = $address;
@@ -32,6 +33,8 @@ class Server {
 		$this->master = $socket;
 		$this->sockets = array($socket);
 		$this->console("Server started on {$this->address}:{$this->port}");
+
+		$this->selecter = new Selecter();
 	}
 
 	public function run() {
@@ -92,6 +95,8 @@ class Server {
 		
 		if($i >= 0)
 			array_splice($this->clients, $i, 1);
+
+		posix_kill($client->getPid(), SIGTERM);
 		$this->console("Client #{$client->getId()} disconnected");
 	}
 
@@ -154,18 +159,27 @@ class Server {
 		return false;
 	}
 
-	private function action($client, $action) { //get message from client
-		$action = $this->unmask($action);
-		$this->console("Performing action: ".$action);
+	private function action($client, $cmd) { //get message from client
+		$cmd = $this->unmask($cmd);
+		$data = json_decode($cmd, true);
+		$param = $data['params'];
+		make($data);
 		
-		switch ($action)
-		{               
-			case 'exit':	$this->console("Killing a child process");
-							posix_kill($client->getPid(), SIGTERM);
-							$this->console("Process {$client->getPid()} is killed!");
-							break;
+		switch ($data['cmd'])
+		{
+			case 'authenticate':    $client->setIDUser($param['userId']);
+									if(is_null($client->getIdUser()))
+										$this->disconnect($client);
+									break;
+
+			case 'exit':			$this->console("Killing a child process");
+									posix_kill($client->getPid(), SIGTERM);
+									$this->console("Process {$client->getPid()} is killed!");
+									break;
 				
-				default:	break;
+			default:				$result = make($data);
+									$this->send($client, $result);
+									break;
 		}
 	}
 

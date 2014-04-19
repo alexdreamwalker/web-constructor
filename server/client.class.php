@@ -10,16 +10,22 @@ class Client {
 	private $socket; //client communication socket
 	private $handshake; //RS1365 handshake flag
 	private $pid;
+	private $idUser;
 
 	function __construct($id, $socket) {
 		$this->id = $id;
 		$this->socket = $socket;
 		$this->handshake = false;
 		$this->pid = null;
+		$this->idUser = null;
 	}
 
 	public function getId() {
 		return $this->id;
+	}
+
+	public function getIdUser() {
+		return $this->idUser;
 	}
 
 	public function setId($id) {
@@ -48,5 +54,10 @@ class Client {
 
 	public function setPid($pid) {
 		$this->pid = $pid;
+	}
+
+	public function setIDUser($id) {
+		if(is_numeric($id) && $id >= 0)
+			$this->idUser = $id;
 	}
 }

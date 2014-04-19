@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#13.03.2014 - 46
+#24.03.2014 - 04
 # main file 
 index.html
 # pages
@@ -17,6 +17,7 @@ pages/modules/multisunblind/canvas.html
 pages/modules/multisunblind/categories.html
 pages/modules/multisunblind/summary.html
 pages/modules/multisunblind/table.html
+pages/modules/multisunblind/modal.html
 # css
 css/bootstrap.css
 css/bootstrap.min.css

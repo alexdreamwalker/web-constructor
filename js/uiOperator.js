@@ -86,6 +86,7 @@ function UIOperator(options) {
 			uiOperator.loadWindow("moduleCategories", "pages/modules/" + module + "/categories.html");
 			uiOperator.loadWindow("moduleTable", "pages/modules/" + module + "/table.html");
 			uiOperator.loadWindow("moduleSummary", "pages/modules/" + module + "/summary.html");
+			uiOperator.loadWindow("moduleModal", "pages/modules/" + module + "/modal.html");
 
 			uiOperator.loadWindow("moduleCanvas", "pages/modules/" + module + "/canvas.html", function() {
 				switch(module) {
@@ -153,7 +154,7 @@ function UIOperator(options) {
 	};
 
 	this.loadMultiSunblinds = function(options) {
-		global.ui = new MultiSunblindUI({elem: "moduleCanvas", categories: "moduleCategories", table: "moduleTable", summary: "moduleSummary"});
+		global.ui = new MultiSunblindUI({elem: "moduleCanvas", categories: "moduleCategories", table: "moduleTable", summary: "moduleSummary", designer: "designerModal"});
 		global.ui.start();
 	};
 

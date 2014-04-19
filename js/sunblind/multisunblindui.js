@@ -2,6 +2,7 @@ function MultiSunblindUI(options) {
 	this.categories = options.categories;
 	this.sunblind = null;
 	this.elem = options.elem;
+	this.designer = options.designer;
 
 	this.start = function() {
 		var sunblind = new MultiSunblind({elem: this.elem});
@@ -47,5 +48,13 @@ function MultiSunblindUI(options) {
 
 	this.updateLayersComboBox = function() {
 		document.getElementById("multiSunblindsCurrentLayer").setAttribute("max", this.sunblind.layers.length);
+	};
+
+	this.showDesigner = function(e) {
+		$("#" + this.designer).modal("show");
+	};
+
+	this.hideDesigner = function(e) {
+		$("#" + this.designer).modal("hide");
 	};
 };

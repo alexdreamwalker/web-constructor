@@ -1,10 +1,12 @@
 #!/usr/bin/php -q
 <?php
-
+header('Access-Control-Allow-Origin: *'); 
 error_reporting(E_ALL);
 require_once "client.class.php";
 require_once "server.class.php";
 set_time_limit(0);
+
+session_start();
 
 //initialize input params
 

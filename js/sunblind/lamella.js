@@ -12,6 +12,9 @@ Lamella.prototype.paint = function(options) {
 	this.context = this.layer.element;
 	this.element = document.createElementNS(this.NS, "rect");
 	this.makeElement();
+	this.element.onclick = function(e) {
+		global.ui.showDesigner();
+	};
 	this.context.appendChild(this.element);
 };
 
