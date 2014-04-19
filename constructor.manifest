@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#24.03.2014 - 04
+#20.04.2014 - 05
 # main file 
 index.html
 # pages
@@ -47,6 +47,7 @@ js/cache.js
 js/capabs.js
 js/jquery.js
 js/uiOperator.js
+js/webSocket.js
 js/wsOperator.js
 js/cppOperator.js
 js/axisArea.js
@@ -60,6 +61,7 @@ js/sunblind/lamella.js
 js/sunblind/layer.js
 js/sunblind/other.js
 js/sunblind/sunblind.js
+js/sunblind/sunblindui.js
 js/sunblind/verticalsunblind.js
 js/sunblind/verticalsunblindui.js
 js/sunblind/verticallayer.js

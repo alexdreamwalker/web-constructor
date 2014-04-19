@@ -13,10 +13,16 @@
 		$params = $data['params'];
 		switch($data['cmd']);
 		{
-			case "getSunblindsColors": 
+			case 'getSunblindsColors': 
 				$group = $params['idGroup'];
 				$material = $params['idMaterial'];
 				return json_encode($selecter->getSunblindsColors($group, $material));
+				break;
+			case 'getSunblindsTypes':
+				return json_encode($selecter->getSunblindsTypes());
+				break;
+			case 'getSunblindsMaterials':
+				return json_encode($selecter->getSunblindsMaterials());
 				break;
 			default: break;
 		}

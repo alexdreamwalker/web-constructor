@@ -1,60 +1,46 @@
 function MultiSunblindUI(options) {
-	this.categories = options.categories;
-	this.sunblind = null;
-	this.elem = options.elem;
-	this.designer = options.designer;
+	SunblindUI.apply(this, arguments);
+};
 
-	this.start = function() {
-		var sunblind = new MultiSunblind({elem: this.elem});
+MultiSunblindUI.prototype = Object.create(SunblindUI.prototype);
 
-		document.getElementById(this.elem).innerHTML = "";
-		var svg = sunblind.paint();
-		document.getElementById(this.elem).appendChild(svg);
+MultiSunblindUI.prototype.start = function() {
+	SunblindUI.prototype.start.apply(this, arguments);
 
-		this.sunblind = sunblind;
+	var sunblind = new MultiSunblind({elem: this.elem});
+	var svg = sunblind.paint();
+	document.getElementById(this.elem).appendChild(svg);
 
-		this.updateLayersComboBox();
-	};
+	this.sunblind = sunblind;
 
-	this.applyBezierLayers = function() {
-		this.sunblind.applyBezier();
-	};
+	this.updateLayersComboBox();
+};
 
-	this.addLayer = function() {
-		this.sunblind.addMultiLayer();
-		this.updateLayersComboBox();
-	};
+MultiSunblindUI.prototype.applyBezierLayers = function() {
+	this.sunblind.applyBezier();
+};
 
-	this.removeLayer = function() {
-		this.sunblind.removeMultiLayer();
-		this.updateLayersComboBox();
-	};
+MultiSunblindUI.prototype.addLayer = function() {
+	this.sunblind.addMultiLayer();
+	this.updateLayersComboBox();
+};
 
-	this.switchLayer = function(e) {
-		var index = e.value - 1;
-		this.sunblind.switchLayer(index);
-	};
+MultiSunblindUI.prototype.removeLayer = function() {
+	this.sunblind.removeMultiLayer();
+	this.updateLayersComboBox();
+};
 
-	this.switchLayerControl = function(e) {
-		if(e.checked == false)
-			this.sunblind.hideLayerControls();
-		else this.sunblind.showLayerControls();
-	};
+MultiSunblindUI.prototype.switchLayer = function(e) {
+	var index = e.value - 1;
+	this.sunblind.switchLayer(index);
+};
 
-	this.switchDecorPlank = function(e) {
-		var isActive = e.checked;
-		this.sunblind.showDecorPlank(isActive);
-	};
+MultiSunblindUI.prototype.switchLayerControl = function(e) {
+	if(e.checked == false)
+		this.sunblind.hideLayerControls();
+	else this.sunblind.showLayerControls();
+};
 
-	this.updateLayersComboBox = function() {
-		document.getElementById("multiSunblindsCurrentLayer").setAttribute("max", this.sunblind.layers.length);
-	};
-
-	this.showDesigner = function(e) {
-		$("#" + this.designer).modal("show");
-	};
-
-	this.hideDesigner = function(e) {
-		$("#" + this.designer).modal("hide");
-	};
+MultiSunblindUI.prototype.updateLayersComboBox = function() {
+	document.getElementById("multiSunblindsCurrentLayer").setAttribute("max", this.sunblind.layers.length);
 };

@@ -11,7 +11,6 @@ class Server {
 	private $master; //master socket
 	private $sockets; //array for client's sockets
 	private $clients; //array of clients
-	private $selecter;
 
 	function __construct($address, $port) { //main server constructor
 		$this->address = $address;
@@ -33,8 +32,6 @@ class Server {
 		$this->master = $socket;
 		$this->sockets = array($socket);
 		$this->console("Server started on {$this->address}:{$this->port}");
-
-		$this->selecter = new Selecter();
 	}
 
 	public function run() {
@@ -163,7 +160,6 @@ class Server {
 		$cmd = $this->unmask($cmd);
 		$data = json_decode($cmd, true);
 		$param = $data['params'];
-		make($data);
 		
 		switch ($data['cmd'])
 		{

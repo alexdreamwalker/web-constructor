@@ -1,30 +1,37 @@
-var address = "web-constructor.barstrade.ru:8081/";
+function WSOperator(options) {
+	var actions = [];
+    var dbWorker = null;
 
-var socket = new WebSocket("ws://" + address);
 
-socket.onopen = function() {
-	self.postMessage({"cmd": "connect", "result": "success", "message": "Соединение успешно установлено"});
+    function startWork() {
+        dbWorker = new Worker("js/webSocket.js");
+        dbWorker.connected = false;
+        dbWorker.addEventListener("message", handleMessage, false);
+    };
+
+    this.postMessage = function(options, callback) {
+    	actions[options.cmd] = callback;
+        dbWorker.postMessage(options);
+    };
+
+    this.connect = function() {
+        startWork();
+    };
+
+    function handleMessage(e) {
+        console.log("socket says: " + e.data.message);
+        switch(e.data.cmd) {
+            case "connect":
+                uiOperator.processConnection(e.data); 
+                break;
+
+            case "message":
+                alert("Server says: " + e.data.message);
+                break;
+
+            default:
+                actions[e.data.cmd](e.data.message); 
+                break;
+        };
+    };
 };
-
-socket.onclose = function(event) {
-	self.postMessage({"cmd": "connect", "result": "closed", "message": "Соединение закрыто сервером(" + event.reason + " " + event.code + ")"});
-};
-
-socket.onmessage = function(event) {
-	self.postMessage({"cmd": "message", "result": "ok", "message": event.data});
-};
-
-socket.onerror = function(error) {
-	self.postMessage({"cmd": "connect", "result": "error", "message": "Ошибка соединения"});
-};
-
-self.addEventListener("message", function(e) {
-	switch(e.data.type) {
-		case "db":
-			socket.send(JSON.stringify(e.data));
-			break;
-		case "system":
-			break;
-		default: break;
-	};
-}, false);
