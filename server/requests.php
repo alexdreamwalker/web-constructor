@@ -11,7 +11,7 @@
 	{
 		global $selecter;
 		$params = $data['params'];
-		switch($data['cmd']);
+		switch($data['cmd'])
 		{
 			case 'getSunblindsColors': 
 				$group = $params['idGroup'];

@@ -1,11 +1,12 @@
 function WSOperator(options) {
 	var actions = [];
     var dbWorker = null;
+    this.connected = false;
 
 
     function startWork() {
         dbWorker = new Worker("js/webSocket.js");
-        dbWorker.connected = false;
+        this.connected = false;
         dbWorker.addEventListener("message", handleMessage, false);
     };
 

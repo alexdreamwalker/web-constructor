@@ -1,4 +1,4 @@
-var address = "web-constructor.barstrade.ru:8081/";
+var address = "localhost:8081/";
 
 var socket = new WebSocket("ws://" + address);
 
@@ -11,6 +11,7 @@ socket.onclose = function(event) {
 };
 
 socket.onmessage = function(event) {
+	console.log("message got");
 	self.postMessage({"cmd": "message", "result": "ok", "message": event.data});
 };
 

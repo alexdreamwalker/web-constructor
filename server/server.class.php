@@ -5,6 +5,8 @@
 * may be fullfilled in future
 */
 
+require_once("requests.php");
+
 class Server {
 	private $address; //the address of server
 	private $port; //port of server
@@ -159,7 +161,9 @@ class Server {
 	private function action($client, $cmd) { //get message from client
 		$cmd = $this->unmask($cmd);
 		$data = json_decode($cmd, true);
+		
 		$param = $data['params'];
+		print_r($data);
 		
 		switch ($data['cmd'])
 		{
@@ -172,9 +176,13 @@ class Server {
 									posix_kill($client->getPid(), SIGTERM);
 									$this->console("Process {$client->getPid()} is killed!");
 									break;
+			case null:				break;
 				
-			default:				$result = make($data);
-									$this->send($client, $result);
+			default:				$res = make($data);
+									$result['cmd'] = $data['cmd'];
+									//$result['message'] = $res;
+									$result['message'] = $res;
+									$this->send($client, json_encode($result));
 									break;
 		}
 	}
@@ -207,9 +215,9 @@ class Server {
 		if($length <= 125)
 			$header = pack('CC', $b1, $length);
 		elseif($length > 125 && $length < 65536)
-			$header = pack('CCS', $b1, 126, $length);
+			$header = pack('CCn', $b1, 126, $length);
 		elseif($length >= 65536)
-			$header = pack('CCN', $b1, 127, $length);
+			$header = pack('CCNN', $b1, 127, $length);
 		
 		return $header.$text;
 	}

@@ -44,7 +44,7 @@ function UIOperator(options) {
 			case "success": 
 				messageDiv.classList.remove("alert-danger");
 				messageDiv.classList.add("alert-success");
-				dbWorker.connected = true;
+				wsOperator.connected = true;
 				ready();
 				break;
 			case "closed": 

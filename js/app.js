@@ -22,5 +22,5 @@ function initWorkers() {
 };
 
 function ready() {
-	wsOperator.postMessage({"cmd": "authenticate", "type": "db", "params": {"userId": getCookie("bars-id")}}, null);
+	wsOperator.postMessage({"cmd": "authenticate", "type": "db", "params": {"userId": 1}}, null);
 };
