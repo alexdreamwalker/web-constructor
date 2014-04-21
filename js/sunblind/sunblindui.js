@@ -13,13 +13,62 @@ SunblindUI.prototype.materials = [];
 
 SunblindUI.prototype.start = function() {
 	document.getElementById(this.elem).innerHTML = "";
-	this.getMaterials();
+
+	this.getMaterials().then(function() { return this.getSizes(); }).then(function() { return this.getColors(); });
+
+	//this.getMaterials();
+	//this.getSizes();
+	//this.getColors();
 };
 
 SunblindUI.prototype.getMaterials = function() {
-	wsOperator.postMessage({cmd: "getSunblindsMaterials", type: "db"}, function(response) {
-		alert("resp" + response);
+	var promise = new Promise(function(resolve, reject) {
+		wsOperator.postMessage({cmd: "getSunblindsMaterials", type: "db"}, function(response) {
+			var materials = JSON.parse(response);
+			var container = document.getElementById("sunblindsMaterials");
+			container.innerHTML = "";
+			for(var i = 0; i < materials.length; i++) {
+				var option = document.createElement("option");
+				option.innerHTML = materials[i].Name;
+				option.dataset.id = materials[i].ID;
+				container.appendChild(option);
+			}
+			resolve();
+		});
 	});
+	return promise;
+};
+
+SunblindUI.prototype.getSizes = function() {
+	var promise = new Promise(function(resolve, reject) {
+		wsOperator.postMessage({cmd: "getSunblindsLamellaSizes", type: "db"}, function(response) {
+			var sizes = JSON.parse(response);
+			var container = document.getElementById("sunblindsLamellaSizes");
+			container.innerHTML = "";
+			for(var i = 0; i < sizes.length; i++) {
+				var option = document.createElement("option");
+				option.innerHTML = sizes[i].Size;
+				option.dataset.size = sizes[i];
+				container.appendChild(option);
+			}
+			resolve();
+		});
+	});
+	return promise;
+};
+
+SunblindUI.prototype.getColors = function() {
+	var promise = new Promise(function(resolve, reject) {
+		var material = getSelectValue("sunblindsMaterials").dataset.id;
+		var size = getSelectValue("sunblindsLamellaSizes").dataset.size;
+		var type = 1;
+		wsOperator.postMessage({cmd: "getSunblindsColors", type: "db", params: {"idMaterial": material, "idType": type, "size": size}}, function(response) {
+			var colors = JSON.parse(response);
+			alert("colors size: " + colors.length);
+			resolve();
+		});
+	});
+	return promise;
 };
 
 SunblindUI.prototype.switchDecorPlank = function(e) {

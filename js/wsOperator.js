@@ -27,11 +27,12 @@ function WSOperator(options) {
                 break;
 
             case "message":
-                alert("Server says: " + e.data.message);
+                var data = JSON.parse(e.data.message);
+                actions[data.cmd](data.message);
                 break;
 
             default:
-                actions[e.data.cmd](e.data.message); 
+                alert("unsupported operation"); 
                 break;
         };
     };

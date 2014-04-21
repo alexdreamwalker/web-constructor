@@ -13,3 +13,9 @@ var global = {
 	},
 	ui: null	
 };
+
+function getSelectValue(id) {
+	var select = document.getElementById(id).selectedIndex;
+	select = document.getElementById(id).options[select];
+	return select;
+};

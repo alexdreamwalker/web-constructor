@@ -14,9 +14,13 @@
 		switch($data['cmd'])
 		{
 			case 'getSunblindsColors': 
-				$group = $params['idGroup'];
+				$type = $params['idType'];
 				$material = $params['idMaterial'];
-				return json_encode($selecter->getSunblindsColors($group, $material));
+				$size = $params['size'];
+				return json_encode($selecter->getSunblindsColors($type, $material, $size));
+				break;
+			case 'getSunblindsLamellaSizes':
+				return json_encode($selecter->getSunblindsLamellaSizes());
 				break;
 			case 'getSunblindsTypes':
 				return json_encode($selecter->getSunblindsTypes());
