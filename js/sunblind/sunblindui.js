@@ -14,7 +14,10 @@ SunblindUI.prototype.materials = [];
 SunblindUI.prototype.start = function() {
 	document.getElementById(this.elem).innerHTML = "";
 
-	this.getMaterials().then(function() { return this.getSizes(); }).then(function() { return this.getColors(); });
+	var self = this;
+	this.getMaterials()
+		.then(function() { return self.getSizes(); })
+		.then(function() { return self.getColors(); });
 
 	//this.getMaterials();
 	//this.getSizes();
@@ -22,7 +25,7 @@ SunblindUI.prototype.start = function() {
 };
 
 SunblindUI.prototype.getMaterials = function() {
-	var promise = new Promise(function(resolve, reject) {
+	return new Promise(function(resolve, reject) {
 		wsOperator.postMessage({cmd: "getSunblindsMaterials", type: "db"}, function(response) {
 			var materials = JSON.parse(response);
 			var container = document.getElementById("sunblindsMaterials");
@@ -36,11 +39,10 @@ SunblindUI.prototype.getMaterials = function() {
 			resolve();
 		});
 	});
-	return promise;
 };
 
 SunblindUI.prototype.getSizes = function() {
-	var promise = new Promise(function(resolve, reject) {
+	return new Promise(function(resolve, reject) {
 		wsOperator.postMessage({cmd: "getSunblindsLamellaSizes", type: "db"}, function(response) {
 			var sizes = JSON.parse(response);
 			var container = document.getElementById("sunblindsLamellaSizes");
@@ -54,11 +56,10 @@ SunblindUI.prototype.getSizes = function() {
 			resolve();
 		});
 	});
-	return promise;
 };
 
 SunblindUI.prototype.getColors = function() {
-	var promise = new Promise(function(resolve, reject) {
+	return new Promise(function(resolve, reject) {
 		var material = getSelectValue("sunblindsMaterials").dataset.id;
 		var size = getSelectValue("sunblindsLamellaSizes").dataset.size;
 		var type = 1;
@@ -68,7 +69,6 @@ SunblindUI.prototype.getColors = function() {
 			resolve();
 		});
 	});
-	return promise;
 };
 
 SunblindUI.prototype.switchDecorPlank = function(e) {
