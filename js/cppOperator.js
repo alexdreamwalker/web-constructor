@@ -2,6 +2,7 @@ function CPPOperator(options) {
 	var actions = [];
     var elem = null;
     var embed = null;
+    var onLoadCallback = null;
 
     function startWork() {
         var listener = document.getElementById(elem);
@@ -9,6 +10,7 @@ function CPPOperator(options) {
             alert("Модуль " + elem + " готов к работе");
             embed = listener.querySelector("embed");
             listener.addEventListener('message', handleMessage, true);
+            onLoadCallback();
         }, true);
     };
 
@@ -22,8 +24,9 @@ function CPPOperator(options) {
     	embed.postMessage(JSON.stringify(array));
     };
 
-    this.setSource = function(source) {
+    this.setSource = function(source, loadCallback) {
         elem = source;
+        onLoadCallback = loadCallback;
         startWork();
     };
 
