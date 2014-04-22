@@ -14,7 +14,8 @@
 		{
 			$stmt = $this->mysqli->prepare("SELECT * from colors WHERE MaterialID = ? AND TypeID = ? AND Size = ?");
 			$stmt->bind_param('ddd', $material, $type, $size);
-			if($result = $stmt->execute()) {
+			if($stmt->execute()) {
+				$result = $stmt->get_result();
 				$result = $result->fetch_all(MYSQLI_ASSOC);
 				return $result;
 			} else return $this->mysqli->error;

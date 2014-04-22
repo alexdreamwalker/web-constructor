@@ -68,7 +68,7 @@
 					<div class="form-group">
 						<label class="col-xs-5 control-label">Ширина ламели:</label>
 						<div class="col-xs-3">
-							<select class="form-control input-sm" id="sunblindsLamellaSizes">
+							<select class="form-control input-sm" id="sunblindsLamellaSizes" onchange="global.ui.getColors();">
 								<option>89</option>
 							</select>
 						</div>
@@ -76,7 +76,7 @@
 					<div class="form-group">
 						<label class="col-xs-5 control-label">Тип материала:</label>
 						<div class="col-xs-7">
-							<select class="form-control input-sm" id="sunblindsMaterials">
+							<select class="form-control input-sm" id="sunblindsMaterials" onchange="global.ui.getColors();">
 								<option>Алюминий</option>
 								<option>Ткань</option>
 								<option>Пластик</option>

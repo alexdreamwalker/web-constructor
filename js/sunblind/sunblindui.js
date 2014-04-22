@@ -9,7 +9,7 @@ SunblindUI.prototype.categories = this.categories;
 SunblindUI.prototype.sunblind = this.sunblind;
 SunblindUI.prototype.elem = this.elem;
 SunblindUI.prototype.designer = this.designer;
-SunblindUI.prototype.materials = [];
+SunblindUI.prototype.colors = [];
 
 SunblindUI.prototype.start = function() {
 	document.getElementById(this.elem).innerHTML = "";
@@ -18,10 +18,6 @@ SunblindUI.prototype.start = function() {
 	this.getMaterials()
 		.then(function() { return self.getSizes(); })
 		.then(function() { return self.getColors(); });
-
-	//this.getMaterials();
-	//this.getSizes();
-	//this.getColors();
 };
 
 SunblindUI.prototype.getMaterials = function() {
@@ -50,7 +46,7 @@ SunblindUI.prototype.getSizes = function() {
 			for(var i = 0; i < sizes.length; i++) {
 				var option = document.createElement("option");
 				option.innerHTML = sizes[i].Size;
-				option.dataset.size = sizes[i];
+				option.dataset.size = sizes[i].Size;
 				container.appendChild(option);
 			}
 			resolve();
@@ -59,6 +55,7 @@ SunblindUI.prototype.getSizes = function() {
 };
 
 SunblindUI.prototype.getColors = function() {
+	var self = this;
 	return new Promise(function(resolve, reject) {
 		var material = getSelectValue("sunblindsMaterials").dataset.id;
 		var size = getSelectValue("sunblindsLamellaSizes").dataset.size;
@@ -66,9 +63,22 @@ SunblindUI.prototype.getColors = function() {
 		wsOperator.postMessage({cmd: "getSunblindsColors", type: "db", params: {"idMaterial": material, "idType": type, "size": size}}, function(response) {
 			var colors = JSON.parse(response);
 			alert("colors size: " + colors.length);
+			self.colors = colors;
+			self.fillColors();
 			resolve();
 		});
 	});
+};
+
+SunblindUI.prototype.fillColors = function() {
+	var holders = ["sunblindsColors", "sunblindsDecorColor"];
+	for(var j = 0; j < holders.length; j++) document.getElementById(holders[j]).innerHTML = "";
+
+	for(var i = 0; i < this.colors.length; i++) {
+		var option = document.createElement("option");
+		option.innerHTML = this.colors[i].Name;
+		for(var j = 0; j < holders.length; j++) document.getElementById(holders[j]).appendChild(option);
+	}
 };
 
 SunblindUI.prototype.switchDecorPlank = function(e) {
