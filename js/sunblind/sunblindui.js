@@ -13,6 +13,7 @@ SunblindUI.prototype.colors = [];
 
 SunblindUI.prototype.start = function() {
 	document.getElementById(this.elem).innerHTML = "";
+	this.hideDesigner();
 
 	var self = this;
 	this.getMaterials()
@@ -72,12 +73,31 @@ SunblindUI.prototype.getColors = function() {
 
 SunblindUI.prototype.fillColors = function() {
 	var holders = ["sunblindsColors", "sunblindsDecorColor"];
+	var designerTable = document.getElementById(this.designer).querySelector("tbody");
+	designerTable.innerHTML = "";
 	for(var j = 0; j < holders.length; j++) document.getElementById(holders[j]).innerHTML = "";
 
 	for(var i = 0; i < this.colors.length; i++) {
 		var option = document.createElement("option");
 		option.innerHTML = this.colors[i].Name;
-		for(var j = 0; j < holders.length; j++) document.getElementById(holders[j]).appendChild(option);
+		for(var j = 0; j < holders.length; j++) 
+			document.getElementById(holders[j]).appendChild(option);
+
+		var row = document.createElement("tr");
+		var imgTd = document.createElement("td");
+		var img = document.createElement("img");
+		img.src = this.colors[i].Color;
+		imgTd.appendChild(img);
+		var articleTd = document.createElement("td");
+		var article = document.createTextNode(this.colors[i].Article);
+		articleTd.appendChild(article);
+		var nameTd = document.createElement("td");
+		var name = document.createTextNode(this.colors[i].Name);
+		nameTd.appendChild(name);
+		row.appendChild(imgTd);
+		row.appendChild(articleTd);
+		row.appendChild(nameTd);
+		designerTable.appendChild(row);
 	}
 };
 

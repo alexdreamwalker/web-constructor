@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#22.04.2014 - 09
+#22.04.2014 - 16
 # main file 
 index.html
 # pages
@@ -12,6 +12,8 @@ pages/modules/default/canvas.html
 pages/modules/default/categories.html
 pages/modules/default/summary.html
 pages/modules/default/table.html
+# pages - modules - sunblind
+pages/modules/sunblind/designer.html
 # pages - modules - multisunblind
 pages/modules/multisunblind/canvas.html
 pages/modules/multisunblind/categories.html
