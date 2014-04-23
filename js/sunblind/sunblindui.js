@@ -14,6 +14,7 @@ SunblindUI.prototype.colors = [];
 SunblindUI.prototype.start = function() {
 	document.getElementById(this.elem).innerHTML = "";
 	this.hideDesigner();
+	Designer({elem: this.designer});
 
 	var self = this;
 	this.getMaterials()
