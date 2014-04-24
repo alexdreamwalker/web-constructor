@@ -1,5 +1,6 @@
 function Sunblind(options) {
 	var self = this;
+	this.defs = document.createElementNS(this.NS, "defs");
 	this.element = document.createElementNS(this.NS, "g");
 	this.elem = options.elem;
 }
@@ -46,6 +47,7 @@ Sunblind.prototype.paint = function(options) {
 		this.layers[i].paint();
 	for(var i = 0; i < this.complectation.length; i++)
 		this.complectation[i].paint();
+	axisArea.root.insertBefore(this.defs, axisArea.root.firstChild);
 	axisArea.context.appendChild(this.element);
 	axisArea.addConstruction(this);
 	return axisArea.root;

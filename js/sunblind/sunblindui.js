@@ -10,6 +10,7 @@ SunblindUI.prototype.sunblind = this.sunblind;
 SunblindUI.prototype.elem = this.elem;
 SunblindUI.prototype.designer = this.designer;
 SunblindUI.prototype.colors = [];
+SunblindUI.prototype.activeColors = [];
 
 SunblindUI.prototype.start = function() {
 	document.getElementById(this.elem).innerHTML = "";
@@ -85,6 +86,7 @@ SunblindUI.prototype.fillColors = function() {
 			document.getElementById(holders[j]).appendChild(option);
 
 		var row = document.createElement("tr");
+		row.dataset.id = this.colors[i].ID;
 		var imgTd = document.createElement("td");
 		var img = document.createElement("img");
 		img.src = this.colors[i].Color;
@@ -100,6 +102,7 @@ SunblindUI.prototype.fillColors = function() {
 		row.appendChild(nameTd);
 		designerTable.appendChild(row);
 	}
+	Designer({elem: this.designer});
 };
 
 SunblindUI.prototype.switchDecorPlank = function(e) {
@@ -113,4 +116,30 @@ SunblindUI.prototype.showDesigner = function(e) {
 
 SunblindUI.prototype.hideDesigner = function(e) {
 	$("#" + this.designer).modal("hide");
+};
+
+SunblindUI.prototype.addSVGColor = function(material) {
+	if(this.activeColors.indexOf(material.id) == -1) {
+		this.activeColors.push(material.id);
+		var pattern = document.createElementNS(global.NS, "pattern");
+		pattern.setAttribute("id", "pattern" + material.id);
+		pattern.setAttribute("patternUnits", "userSpaceOnUse");
+		pattern.setAttribute("width", 100);
+		pattern.setAttribute("height", 100);
+		var image = document.createElementNS(global.NS, "image");
+		image.setAttribute("xlink:href", material.url);
+		image.setAttribute("width", 100);
+		image.setAttribute("height", 100);
+		image.setAttribute("x", 0);
+		image.setAttribute("y", 0);
+		pattern.appendChild(image);
+		this.sunblind.defs.appendChild(pattern);
+	}
+};
+
+SunblindUI.prototype.applyColor = function(material) {
+	this.addSVGColor(material);
+	for(var i = 0; i < this.sunblind.layers.length; i++)
+		for(var j = 0; j < this.sunblind.layers[i].lamellas.length; j++)
+			if(this.sunblind.layers[i].lamellas[j].selected) this.sunblind.layers[i].lamellas[j].setMaterial(material);
 };

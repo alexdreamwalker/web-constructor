@@ -6,14 +6,35 @@ function Lamella(options) {
 	this.x = options.x;
 	this.y = options.y;
 	this.NS = global.NS;
+	this.selected = false;
+	this.hovered = false;
+
+	this.material = {
+		url: "",
+		id: 0
+	};
 }
 
 Lamella.prototype.paint = function(options) {
+	var self = this;
 	this.context = this.layer.element;
 	this.element = document.createElementNS(this.NS, "rect");
 	this.makeElement();
-	this.element.onclick = function(e) {
-		global.ui.showDesigner();
+	this.element.onmousedown = function(e) {
+		self.selected = !self.selected;
+		self.makeElement();
+	};
+	this.element.onmouseup = function(e) {
+		global.ui.showDesigner();	
+	};
+	this.element.onmouseover = function(e) {
+		if(e.which == 1) self.selected = !self.selected;
+		else self.hovered = true;
+		self.makeElement();
+	};
+	this.element.onmouseout = function(e) {
+		self.hovered = false;
+		self.makeElement();
 	};
 	this.context.appendChild(this.element);
 };
@@ -27,10 +48,19 @@ Lamella.prototype.setPos = function(options) {
 	this.makeElement();	
 };
 
+Lamella.prototype.setMaterial = function(material) {
+	this.material = material;
+	this.makeElement();
+};
+
 Lamella.prototype.makeElement = function() {
 	var coords = global.axisArea.contextToMap({x: this.x, y: this.y, width: this.width, height: this.height});
 	this.element.setAttribute("x", coords.x);
 	this.element.setAttribute("y", coords.y);
 	this.element.setAttribute("width", coords.width);
 	this.element.setAttribute("height", coords.height);
+	this.element.setAttribute("fill", "url('" + this.material.url + "')");
+
+	if(this.selected || this.hovered) this.element.setAttribute("fill-opacity", "0.5");
+	else this.element.setAttribute("fill-opacity", "1.0");
 };
