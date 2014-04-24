@@ -31,12 +31,12 @@ function Designer(options) {
 	};
 
 	this.setColor = function(e) {
-		var target = e.target.parentNode;
-		alert(target);
+		var target = this;
 		var material = {};
 		material.id = target.dataset.id;
-		material.url = target.querySelector("img").src;
+		material.url = target.dataset.url;
 		global.ui.applyColor(material);
+		global.ui.hideDesigner();
 	};
 
 	this.acceptColor = function() {

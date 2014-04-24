@@ -50,6 +50,7 @@ Lamella.prototype.setPos = function(options) {
 
 Lamella.prototype.setMaterial = function(material) {
 	this.material = material;
+	this.selected = false;
 	this.makeElement();
 };
 
@@ -59,7 +60,7 @@ Lamella.prototype.makeElement = function() {
 	this.element.setAttribute("y", coords.y);
 	this.element.setAttribute("width", coords.width);
 	this.element.setAttribute("height", coords.height);
-	this.element.setAttribute("fill", "url('" + this.material.url + "')");
+	this.element.setAttribute("fill", "url(#pattern" + this.material.id + ")");
 
 	if(this.selected || this.hovered) this.element.setAttribute("fill-opacity", "0.5");
 	else this.element.setAttribute("fill-opacity", "1.0");

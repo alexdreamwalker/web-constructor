@@ -87,6 +87,7 @@ SunblindUI.prototype.fillColors = function() {
 
 		var row = document.createElement("tr");
 		row.dataset.id = this.colors[i].ID;
+		row.dataset.url = this.colors[i].Color;
 		var imgTd = document.createElement("td");
 		var img = document.createElement("img");
 		img.src = this.colors[i].Color;
@@ -124,12 +125,12 @@ SunblindUI.prototype.addSVGColor = function(material) {
 		var pattern = document.createElementNS(global.NS, "pattern");
 		pattern.setAttribute("id", "pattern" + material.id);
 		pattern.setAttribute("patternUnits", "userSpaceOnUse");
-		pattern.setAttribute("width", 100);
-		pattern.setAttribute("height", 100);
+		pattern.setAttribute("width", 0.1);
+		pattern.setAttribute("height", 0.1);
 		var image = document.createElementNS(global.NS, "image");
-		image.setAttribute("xlink:href", material.url);
-		image.setAttribute("width", 100);
-		image.setAttribute("height", 100);
+		image.setAttributeNS("http://www.w3.org/1999/xlink", "href", material.url);
+		image.setAttribute("width", 0.1);
+		image.setAttribute("height", 0.1);
 		image.setAttribute("x", 0);
 		image.setAttribute("y", 0);
 		pattern.appendChild(image);
