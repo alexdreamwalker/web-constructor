@@ -65,7 +65,6 @@ SunblindUI.prototype.getColors = function() {
 		var type = 1;
 		wsOperator.postMessage({cmd: "getSunblindsColors", type: "db", params: {"idMaterial": material, "idType": type, "size": size}}, function(response) {
 			var colors = JSON.parse(response);
-			alert("colors size: " + colors.length);
 			self.colors = colors;
 			self.fillColors();
 			resolve();
@@ -80,10 +79,12 @@ SunblindUI.prototype.fillColors = function() {
 	for(var j = 0; j < holders.length; j++) document.getElementById(holders[j]).innerHTML = "";
 
 	for(var i = 0; i < this.colors.length; i++) {
-		var option = document.createElement("option");
-		option.innerHTML = this.colors[i].Name;
-		for(var j = 0; j < holders.length; j++) 
+		for(var j = 0; j < holders.length; j++) {
+			var option = document.createElement("option");
+			option.innerHTML = this.colors[i].Name;
+			option.dataset.id = this.colors[i].ID;
 			document.getElementById(holders[j]).appendChild(option);
+		}
 
 		var row = document.createElement("tr");
 		row.dataset.id = this.colors[i].ID;
@@ -143,4 +144,5 @@ SunblindUI.prototype.applyColor = function(material) {
 	for(var i = 0; i < this.sunblind.layers.length; i++)
 		for(var j = 0; j < this.sunblind.layers[i].lamellas.length; j++)
 			if(this.sunblind.layers[i].lamellas[j].selected) this.sunblind.layers[i].lamellas[j].setMaterial(material);
+	if(this.sunblind.decorPlank.selected) this.sunblind.decorPlank.setMaterial(material);
 };
