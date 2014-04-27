@@ -20,7 +20,9 @@ function SVGBezier(options) {
 		y: {min: 0, max: 1}
 	};
 
-	this.element = null;
+	this.NS = global.NS;
+
+	this.element = document.createElementNS(this.NS, "g");;
 	this.path = null;
 	this.x0element = null;
 	this.x1element = null;
@@ -29,9 +31,9 @@ function SVGBezier(options) {
 
 	this.strokeWidth = 0.005;
 
-	this.NS = global.NS;
 	this.isActive = true;
 	this.activeElement = null;
+	this.pointsActive = false;
 }
 
 SVGBezier.prototype.init = function() {
@@ -52,17 +54,27 @@ SVGBezier.prototype.getValue = function(t) {
 	return b;
 };
 
+SVGBezier.prototype.getBounds = function() {
+	var result = {};
+	result.min = this.getValue(0).x;
+	result.max = this.getValue(1).x;
+	return result;
+};
+
 SVGBezier.prototype.paint = function() {
 	this.context = this.layer.element;
 	var self = this;
-	var group = document.createElementNS(this.NS, "g");
+	var group = this.element;
 	var path = document.createElementNS(this.NS, "path");
 	var d = this.init();
 	path.setAttribute("d", d);
 	path.setAttribute("stroke", "#3a87ad");
 	path.setAttribute("stroke-width", this.strokeWidth);
 	path.setAttribute("fill", "none");
-	this.element = group;
+	path.addEventListener("click", function(e) {
+		if(self.pointsActive) self.hidePoints.call(self);
+		else self.showPoints.call(self);
+	}, false);
 
 	this.x0element = this.makePoint(this.x0, this.y0, this.setX0, this.setY0);
 	this.x1element = this.makePoint(this.x1, this.y1, this.setX1, this.setY1);
@@ -90,7 +102,26 @@ SVGBezier.prototype.paint = function() {
 	group.appendChild(this.x2element);
 	group.appendChild(this.xelement);
 	this.path = path;
+	this.hidePoints();
 	this.context.appendChild(this.element);
+};
+
+SVGBezier.prototype.hidePoints = function() {
+	this.x0element.style.display = "none";
+	this.x1element.style.display = "none";
+	this.x2element.style.display = "none";
+	this.xelement.style.display = "none";
+	this.path.setAttribute("stroke-opacity", "0.7");
+	this.pointsActive = false;
+};
+
+SVGBezier.prototype.showPoints = function() {
+	this.x0element.style.display = "";
+	this.x1element.style.display = "";
+	this.x2element.style.display = "";
+	this.xelement.style.display = "";
+	this.path.setAttribute("stroke-opacity", "1.0");
+	this.pointsActive = true;
 };
 
 SVGBezier.prototype.makePoint = function(x, y, changeX, changeY) {
@@ -186,4 +217,9 @@ SVGBezier.prototype.setY = function(y) {
 	this.xelement.setAttribute("cy", this.y);
 	var d = this.init();
 	this.path.setAttribute("d", d);
+};
+
+SVGBezier.prototype.destruct = function() {
+	this.element.outerHTML = "";
+	delete this;
 };

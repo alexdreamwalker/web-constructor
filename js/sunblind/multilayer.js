@@ -8,27 +8,26 @@ function MultiLayer(options) {
 	this.lamellas = options.lamellas;
 	this.arcs = [];
 
-	this.topBezier = null;
-	this.bottomBezier = null;
+	this.topBezierSpline = null;
+	this.bottomBezierSpline = null;
 }
 
 MultiLayer.prototype = Object.create(VerticalLayer.prototype);
-
-MultiLayer.prototype.addBezier = function(bezier) {
-	bezier.layer = this;
-};
 
 MultiLayer.prototype.applyBezier = function() {
 	var persent = 1 / this.lamellas.length;
 	for(var i = 0; i < this.lamellas.length; i++) {
 		var lamella = this.lamellas[i];
-		var lamx = persent * (this.lamellas.length - i);
+		var lamp = persent * (this.lamellas.length - i);
+		var lamx = global.axisArea.contextToMap({x: this.lamellas[i].x + this.lamellas[i].width / 2, y: 0, width: 0, height: 0}).x;
+		var lam = {value: lamx, persent: lamp};
+		console.log(lam);
 
 		//get top coordinate
-		var topy = this.topBezier.getValue(lamx);
+		var topy = this.topBezierSpline.getValue(lam);
 		topy = global.axisArea.contextToContext({x: 0, y: topy.y, width: 0, height:0}).y;
 		//get bottom coordinate
-		var bottomy = this.bottomBezier.getValue(lamx);
+		var bottomy = this.bottomBezierSpline.getValue(lam);
 		bottomy = global.axisArea.contextToContext({x: 0, y: bottomy.y, width: 0, height: 0}).y;
 
 		//set coordinates
@@ -41,13 +40,13 @@ MultiLayer.prototype.applyBezier = function() {
 };
 
 MultiLayer.prototype.hideAdjustments = function() {
-	this.topBezier.element.style.display = "none";
-	this.bottomBezier.element.style.display = "none";
+	this.topBezierSpline.hide();
+	this.bottomBezierSpline.hide();
 };
 
 MultiLayer.prototype.showAdjustments = function() {
-	this.topBezier.element.style.display = "";
-	this.bottomBezier.element.style.display = "";
+	this.topBezierSpline.show();
+	this.bottomBezierSpline.show();
 };
 
 MultiLayer.prototype.paint = function() {
@@ -88,11 +87,9 @@ MultiLayer.prototype.paint = function() {
 	};
 	bottomBezier.maxmin = bottomminmax;
 
-	this.topBezier = topBezier;
-	this.bottomBezier = bottomBezier;
-	this.addBezier(topBezier);
+	this.topBezierSpline = new SVGBezierSpline({curves: [topBezier], layer: this});
+	this.bottomBezierSpline = new SVGBezierSpline({curves: [bottomBezier], layer: this});
 	topBezier.paint();
-	this.addBezier(bottomBezier);
 	bottomBezier.paint();
 
 	//draw arcs

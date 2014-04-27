@@ -21,15 +21,17 @@ Lamella.prototype.paint = function(options) {
 	this.element = document.createElementNS(this.NS, "rect");
 	this.makeElement();
 	this.element.onmousedown = function(e) {
+		global.ui.designerActive = true;
 		self.selected = !self.selected;
 		self.makeElement();
 	};
 	this.element.onmouseup = function(e) {
+		global.ui.designerActive = false;
 		global.ui.showDesigner();	
 	};
 	this.element.onmouseover = function(e) {
-		if(e.which == 1) self.selected = !self.selected;
-		else self.hovered = true;
+		if(e.which == 1 && global.ui.designerActive) self.selected = !self.selected;
+		else if(e.which == 0) self.hovered = true;
 		self.makeElement();
 	};
 	this.element.onmouseout = function(e) {

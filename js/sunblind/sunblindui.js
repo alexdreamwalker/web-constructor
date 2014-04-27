@@ -11,6 +11,7 @@ SunblindUI.prototype.elem = this.elem;
 SunblindUI.prototype.designer = this.designer;
 SunblindUI.prototype.colors = [];
 SunblindUI.prototype.activeColors = [];
+SunblindUI.prototype.designerActive = false;
 
 SunblindUI.prototype.start = function() {
 	document.getElementById(this.elem).innerHTML = "";

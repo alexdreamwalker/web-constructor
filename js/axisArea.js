@@ -253,7 +253,6 @@ AxisArea.prototype.drawContext = function() {
 
 	context.addEventListener("mousemove", function(e) {
 		var coords = self.mapToContext({x: e.pageX, y: e.pageY});
-		console.log(coords.x + " " + coords.y);
 		var coordtext = document.createElementNS(self.NS, "text");
 		coordtext.setAttribute("x", self.wScale * 0.8);
 		coordtext.setAttribute("y", self.hScale * 0.92);
