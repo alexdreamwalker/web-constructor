@@ -12,6 +12,9 @@ function SVGBezierSpline(options) {
 	this.NS = global.NS;
 	this.isActive = true;
 	this.activeElement = null;
+
+	this.level = options.level || 1;
+	this.startPoint = options.startPoint || 0;
 };
 
 SVGBezierSpline.prototype.hide = function() {
@@ -43,13 +46,11 @@ SVGBezierSpline.prototype.addCurve = function(curve) {
 
 SVGBezierSpline.prototype.getValue = function(t) {
 	if(this.splines.length == 0)
-		for(var i = 0; i < this.curves.length; i++) {
-			var bounds = this.curves[i].getBounds();
-			if(t.value >= bounds.min && t.value <= bounds.max) return this.curves[i].getValue(t.persent);
-		}
-	else 
-		for(var i = 0; i < this.splines.length; i++)
-			if(this.splines[i].getValue(t) != null) return this.splines[i].getValue(t);
+		return this.curves[0].getValue(1 - ((t - this.startPoint) / this.level));
+	else if(t <= (this.startPoint + this.level / 2))
+			return this.splines[0].getValue(t);
+		else
+			return this.splines[1].getValue(t);
 	return null;
 };
 
@@ -186,8 +187,11 @@ SVGBezierSpline.prototype.splitCurve = function(curve) {
 	curve.destruct();
 	this.curves.splice(index, 1);
 
-	var firstChildSpline = new SVGBezierSpline({curves: [firstChildBezier], layer: this.layer});
-	var secondChildSpline = new SVGBezierSpline({curves: [secondChildBezier], layer: this.layer});
+
+	var newLevel = this.level / 2;
+	var newPoint = this.startPoint + newLevel; 
+	var firstChildSpline = new SVGBezierSpline({curves: [firstChildBezier], layer: this.layer, level: newLevel, startPoint: this.startPoint});
+	var secondChildSpline = new SVGBezierSpline({curves: [secondChildBezier], layer: this.layer, level: newLevel, startPoint: newPoint});
 	this.splines.push(firstChildSpline);
 	this.splines.push(secondChildSpline);
 

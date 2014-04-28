@@ -18,16 +18,13 @@ MultiLayer.prototype.applyBezier = function() {
 	var persent = 1 / this.lamellas.length;
 	for(var i = 0; i < this.lamellas.length; i++) {
 		var lamella = this.lamellas[i];
-		var lamp = persent * (this.lamellas.length - i);
-		var lamx = global.axisArea.contextToMap({x: this.lamellas[i].x + this.lamellas[i].width / 2, y: 0, width: 0, height: 0}).x;
-		var lam = {value: lamx, persent: lamp};
-		console.log(lam);
+		var lamx = persent * (i);
 
 		//get top coordinate
-		var topy = this.topBezierSpline.getValue(lam);
+		var topy = this.topBezierSpline.getValue(lamx);
 		topy = global.axisArea.contextToContext({x: 0, y: topy.y, width: 0, height:0}).y;
 		//get bottom coordinate
-		var bottomy = this.bottomBezierSpline.getValue(lam);
+		var bottomy = this.bottomBezierSpline.getValue(lamx);
 		bottomy = global.axisArea.contextToContext({x: 0, y: bottomy.y, width: 0, height: 0}).y;
 
 		//set coordinates
