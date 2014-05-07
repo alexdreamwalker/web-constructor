@@ -2,18 +2,17 @@
 #define CORNICE_CC
 
 #include "../complectation.cc"
-#include "sunblind.cc"
 
 class Cornice
 {
 public:
-	Sunblind *sunblind;
-
-    Cornice(ww, hh, pp)
+    Cornice() : width(0), height(0), price(0), minLength(0) {}
+    Cornice(int ww, int hh, float pp, int ml)
     {
     	width = ww;
     	height = hh;
     	price = pp;
+        minLength = ml;
     } 
 
     virtual float calculate()
@@ -21,7 +20,7 @@ public:
         float result = 0;
 
         result = width / 1000 * price;
-        if(result < sunblind->getMinCorniceLength() * price) result = sunblind->getMinCorniceLength() * price;
+        if(result < minLength * price) result = minLength * price;
 
         return result;
     }
@@ -30,6 +29,7 @@ private:
 	int width;
 	int height;
 	float price;
+    int minLength;
 };
 
 #endif

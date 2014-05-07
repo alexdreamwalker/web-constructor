@@ -22,7 +22,8 @@ public:
         int corniceWidth = root["cornice"].get("width", 0).asInt();
         int corniceSize = root["cornice"].get("size", 0).asInt();
         float cornicePrice = root["cornice"].get("price", 0.0).asFloat();
-        Cornice cornice(corniceWidth, corniceSize, cornicePrice);
+        int minCornLength = root.get("minCornLength", 0).asInt();
+        Cornice cornice(corniceWidth, corniceSize, cornicePrice, minCornLength);
         sunblind.setCornice(cornice);
 
         // get layers info
@@ -31,7 +32,8 @@ public:
         {
             int layerWidth = layers[i].get("width", 0).asInt();
             int layerHeight = layers[i].get("height", 0).asInt();
-            MultiLayer layer(layerWidth, layerHeight);
+            int minLayerSquare = layers[i].get("minLayerSquare", 0).asInt();
+            MultiLayer layer(layerWidth, layerHeight, minLayerSquare);
 
             float lamellaPrice = layers[i].get("price", 0.0).asFloat();
             int lamellaSize = layers[i].get("lamellaSize", 0).asInt();

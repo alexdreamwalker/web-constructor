@@ -6,7 +6,7 @@
 class VerticalSunblind: public Sunblind
 {
 public:
-    VerticalSunblind(int ww, int hh, float mcl, float mls) : Sunblind(ww, hh, mcl, mls) {}
+    VerticalSunblind(int ww, int hh) : Sunblind(ww, hh) {}
 };
 
 #endif

@@ -2,11 +2,12 @@
 #define MULTISUNBLIND_HPP
 
 #include "verticalsunblind.cc"
+#include "multilayer.cc"
 
 class MultiSunblind: public VerticalSunblind
 {
 public:
-    MultiSunblind(int ww, int hh, float mcl, float mls) : VerticalSunblind(ww, hh, mcl, mls) {}
+    MultiSunblind(int ww, int hh) : VerticalSunblind(ww, hh) {}
 };
 
 #endif

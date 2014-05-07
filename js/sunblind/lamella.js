@@ -11,7 +11,8 @@ function Lamella(options) {
 
 	this.material = {
 		url: "",
-		id: 0
+		id: 0,
+		price: 0
 	};
 }
 

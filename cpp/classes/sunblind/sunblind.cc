@@ -8,12 +8,10 @@
 class Sunblind: public Construction
 {
 public:
-    Sunblind(int ww, int hh, float mcl, float mls) 
+    Sunblind(int ww, int hh) 
     {
         width = ww;
         height = hh;
-        minCorniceLength = mcl;
-        minLayerSquare = mls;
     };
 
     virtual std::map<std::string, float> calculate()
@@ -32,17 +30,13 @@ public:
     void addLayer(Layer &layer)
     {
         layers.push_back(&layer);
-        layer.sunblind = this;
     }
 
     void setCornice(Cornice &nCornice)
     {
         cornice = nCornice;
-        cornice.sunblind = this;
     }
 
-    float getMinCorniceLength() { return minCorniceLength; }
-    float getMinLayerSquare() { return minLayerSquare; }
 
 private:
     Cornice cornice;
@@ -50,8 +44,6 @@ private:
     std::vector<Complectation*> complectation;
     int width;
     int height;
-    float minCorniceLength;
-    float minLayerSquare;
 };
 
 #endif

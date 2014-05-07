@@ -6,7 +6,7 @@
 class MultiLayer: public VerticalLayer
 {
 public:
-    MultiLayer(int ww, int hh) : VerticalLayer(ww, hh) {}
+    MultiLayer(int ww, int hh, int ms) : VerticalLayer(ww, hh, ms) {}
     virtual float calculate()
     {
         float result = 0;
@@ -15,13 +15,13 @@ public:
 
         for (std::map<float, int>::iterator it = colors.begin(); it != colors.end(); ++it) 
         {
-        	float percent = it->second / lamellas.size();
+        	float percent = it->second / getLamellas().size();
         	float price = s * percent * it->first;
         	result += price;
         	if(price > maxPrice) maxPrice = price;
         }
 
-        if(result < maxPrice * sunblind->getMinLayerSquare()) result = maxPrice * sunblind->getMinLayerSquare();
+        if(result < maxPrice * minSquare) result = maxPrice * minSquare;
 
         return result;
     }

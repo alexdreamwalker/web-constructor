@@ -12,7 +12,9 @@
 
 		public function getSunblindsColors($type, $material, $size)
 		{
-			$stmt = $this->mysqli->prepare("SELECT * from colors WHERE MaterialID = ? AND TypeID = ? AND Size = ?");
+			$stmt = $this->mysqli->prepare("SELECT colors.*, pricelamellas.Price from colors 
+											INNER JOIN pricelamellas ON colors.ID = pricelamellas.IDColor 
+											WHERE MaterialID = ? AND TypeID = ? AND Size = ?");
 			$stmt->bind_param('ddd', $material, $type, $size);
 			if($stmt->execute()) {
 				$result = $stmt->get_result();

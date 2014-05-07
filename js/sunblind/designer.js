@@ -35,6 +35,7 @@ function Designer(options) {
 		var material = {};
 		material.id = target.dataset.id;
 		material.url = target.dataset.url;
+		material.price = target.dataset.price;
 		global.ui.applyColor(material);
 		global.ui.hideDesigner();
 	};

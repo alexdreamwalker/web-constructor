@@ -43,17 +43,16 @@ export CYGWIN
 
 
 # Declare the ALL target first, to make the 'all' target the default build
-all: instance.pexe
+all: sunblindinstance.pexe
 
 clean:
-	$(RM) instance.pexe instance.bc
+	$(RM) sunblindinstance.pexe sunblindinstance.bc
 
-instance.bc: instance.cc
+sunblindinstance.bc: sunblindinstance.cc
 	$(PNACL_CXX) -o $@ $< -O2 $(CXXFLAGS) $(LDFLAGS)
 
-instance.pexe: instance.bc
+sunblindinstance.pexe: sunblindinstance.bc
 	$(PNACL_FINALIZE) -o $@ $<
-
 
 #
 # Makefile target to run the SDK's simple HTTP server and serve this example.

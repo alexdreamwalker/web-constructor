@@ -84,12 +84,14 @@ SunblindUI.prototype.fillColors = function() {
 			var option = document.createElement("option");
 			option.innerHTML = this.colors[i].Name;
 			option.dataset.id = this.colors[i].ID;
+			option.dataset.price = this.colors[i].Price;
 			document.getElementById(holders[j]).appendChild(option);
 		}
 
 		var row = document.createElement("tr");
 		row.dataset.id = this.colors[i].ID;
 		row.dataset.url = this.colors[i].Color;
+		row.dataset.price = this.colors[i].Price;
 		var imgTd = document.createElement("td");
 		var img = document.createElement("img");
 		img.src = this.colors[i].Color;

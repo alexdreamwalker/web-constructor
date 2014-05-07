@@ -4,17 +4,17 @@
 #include <vector>
 #include <map>
 #include "lamella.cc"
-#include "sunblind.cc"
 
 class Layer
 {
 public:
-    Sunblind *sunblind;
+    Layer() : width(0), height(0), minSquare(0) {}
 
-    Layer(int ww, int hh) 
+    Layer(int ww, int hh, int ms) 
     {
         width = ww;
         height = hh;
+        minSquare = ms;
     }
 
     virtual float calculate() = 0;
@@ -22,7 +22,7 @@ public:
     void addLamella(Lamella& lamella)
     {
         lamellas.push_back(lamella);
-        if(colors[lamella.price] == null) colors[lamella.price] = 0;
+        if(colors[lamella.price] == NULL) colors[lamella.price] = 0;
         else colors[lamella.price]++;
     }
 
@@ -34,6 +34,7 @@ public:
 protected:
     int width;
     int height;
+    int minSquare;
     std::map<float, int> colors;
 
 private:

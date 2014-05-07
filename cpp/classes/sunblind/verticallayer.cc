@@ -6,7 +6,7 @@
 class VerticalLayer: public Layer
 {
 public:
-    VerticalLayer(int ww, int hh) : Layer(ww, hh) {}
+    VerticalLayer(int ww, int hh, int ms) : Layer(ww, hh, ms) {}
     virtual float calculate()
     {
         float result = getLamellas().size() * 5;
