@@ -7,7 +7,7 @@
 class Factory
 {
 public:
-    virtual Construction fromJSON(std::string data) = 0;
+    virtual Construction* fromJSON(std::string data) = 0;
 protected:
 	Json::Value root;   // will contains the root value after parsing.
   	Json::Reader reader; // will read JSON data

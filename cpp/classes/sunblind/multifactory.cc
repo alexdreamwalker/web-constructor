@@ -9,7 +9,7 @@ class MultiFactory: public Factory
 public:
     MultiFactory() {};
 
-    virtual Construction fromJSON(std::string data)
+    virtual Construction* fromJSON(std::string data)
     {
         reader.parse(data, root);
 
@@ -60,7 +60,7 @@ public:
             sunblind.addLayer(layer);
         }
 
-        return sunblind;
+        return &sunblind;
     }
 };
 
