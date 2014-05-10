@@ -78,10 +78,6 @@ Sunblind.prototype.calculate = function(options) {
 	return result;
 };
 
-Sunblind.prototype.toJSON = function(options) {
-	return JSON.stringify(this);
-};
-
 Sunblind.prototype.fromJSON = function(json) {
 	var layers = json.layers;
 	for(var i = 0; i < layers.length; i++) {
