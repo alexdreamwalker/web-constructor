@@ -10,3 +10,9 @@
  Construction.prototype.paint = function(options) {
 
  };
+
+ Construction.prototype.toJSON = function() {
+ 	var str = JSON.stringify(this);
+ 	console.log(str);
+ 	return str;
+ };

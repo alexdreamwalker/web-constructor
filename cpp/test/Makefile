@@ -36,7 +36,7 @@ PNACL_AR := $(PNACL_TC_PATH)/bin/pnacl-ar
 PNACL_RANLIB := $(PNACL_TC_PATH)/bin/pnacl-ranlib
 PNACL_FINALIZE := $(PNACL_TC_PATH)/bin/pnacl-finalize
 CXXFLAGS := -I$(NACL_SDK_ROOT)/include
-GXXFLAGS := -I/usr/include
+GXXFLAGS := -I/usr/include/jsoncpp/ -ljsoncpp
 LDFLAGS := -L$(NACL_SDK_ROOT)/lib/pnacl/Release -lppapi_cpp -lppapi -ljsoncpp
 LDGLIBCFLAGS := -L$(NACL_SDK_ROOT)/lib/glibc_x86_64/Release -lppapi_cpp -lppapi_simple -ljsoncpp
 
@@ -71,7 +71,7 @@ sunblind-gcc: sunblindtest.cc
 	$(GCC_CXX) sunblindtest.cc -o sunblindtest-gcc.run $(GXXFLAGS)
 
 sunblind-clang: sunblindtest.cc
-	$(CLANG_CXX) sunblindtest.cc -o sunblindtest-clang.run $(CXXFLAGS)
+	$(CLANG_CXX) sunblindtest.cc -o sunblindtest-clang.run $(GXXFLAGS)
 
 sunblind-ems: sunblindtest.cc
 	$(EMS_CXX) sunblindtest.cc -o sunblindtest-ems.js
