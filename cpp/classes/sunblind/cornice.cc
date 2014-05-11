@@ -7,7 +7,7 @@ class Cornice
 {
 public:
     Cornice() : width(0), height(0), price(0), minLength(0) {}
-    Cornice(int ww, int hh, float pp, int ml)
+    Cornice(int ww, int hh, float pp, float ml)
     {
     	width = ww;
     	height = hh;
@@ -29,7 +29,7 @@ private:
 	int width;
 	int height;
 	float price;
-    int minLength;
+    float minLength;
 };
 
 #endif

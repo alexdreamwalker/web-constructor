@@ -10,7 +10,7 @@ class Layer
 public:
     Layer() : width(0), height(0), minSquare(0) {}
 
-    Layer(int ww, int hh, int ms) 
+    Layer(int ww, int hh, float ms)
     {
         width = ww;
         height = hh;
@@ -21,12 +21,12 @@ public:
 
     void addLamella(Lamella& lamella)
     {
-        lamellas.push_back(lamella);
+        lamellas.push_back(&lamella);
         if(colors[lamella.price] == NULL) colors[lamella.price] = 0;
         else colors[lamella.price]++;
     }
 
-    std::vector<Lamella>& getLamellas()
+    std::vector<Lamella*>& getLamellas()
     {
         return lamellas;
     }
@@ -34,11 +34,11 @@ public:
 protected:
     int width;
     int height;
-    int minSquare;
+    float minSquare;
     std::map<float, int> colors;
 
 private:
-    std::vector<Lamella> lamellas;
+    std::vector<Lamella*> lamellas;
 };
 
 #endif

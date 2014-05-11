@@ -33,9 +33,9 @@ function Designer(options) {
 	this.setColor = function(e) {
 		var target = this;
 		var material = {};
-		material.id = target.dataset.id;
+		material.id = parseInt(target.dataset.id);
 		material.url = target.dataset.url;
-		material.price = target.dataset.price;
+		material.price = parseFloat(target.dataset.price);
 		global.ui.applyColor(material);
 		global.ui.hideDesigner();
 	};

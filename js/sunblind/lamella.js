@@ -68,3 +68,19 @@ Lamella.prototype.makeElement = function() {
 	if(this.selected || this.hovered) this.element.setAttribute("fill-opacity", "0.5");
 	else this.element.setAttribute("fill-opacity", "1.0");
 };
+
+Lamella.prototype.fromJSON = function(obj) {
+	this.width = obj.width;
+	this.height = obj.height;
+	this.material.price = obj.price;
+	this.material.id = obj.id;
+};
+
+Lamella.prototype.toJSON = function() {
+	return {
+		width: this.width,
+		height: this.height,
+		price: this.material.price,
+		material: this.material.id
+	};
+};

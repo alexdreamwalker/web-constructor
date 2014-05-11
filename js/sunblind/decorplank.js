@@ -12,7 +12,8 @@ function DecorPlank(options) {
 
 	this.material = {
 		url: "",
-		id: 0
+		id: 0,
+		price: 0
 	};
 }
 
@@ -66,4 +67,18 @@ DecorPlank.prototype.repaint = function() {
 DecorPlank.prototype.calculate = function(options) {
 	var result = 0;
 	return result;
+};
+
+DecorPlank.prototype.fromJSON = function(obj) {
+	this.width = obj.width;
+	this.height = obj.height;
+	this.material.price = obj.price;
+};
+
+DecorPlank.prototype.toJSON = function() {
+	return {
+		width: this.width,
+		height: this.height,
+		price: this.material.price
+	};
 };

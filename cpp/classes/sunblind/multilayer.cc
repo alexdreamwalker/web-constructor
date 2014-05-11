@@ -9,6 +9,7 @@ public:
     MultiLayer(int ww, int hh, int ms) : VerticalLayer(ww, hh, ms) {}
     virtual float calculate()
     {
+        return 0;
         float result = 0;
         float s = width * height / 1000;
         float maxPrice = 0;

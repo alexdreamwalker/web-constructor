@@ -19,9 +19,37 @@ SunblindUI.prototype.start = function() {
 	Designer({elem: this.designer});
 
 	var self = this;
-	this.getMaterials()
+	this.getPlacement()
+		.then(function() { return self.getMaterials(); })
 		.then(function() { return self.getSizes(); })
-		.then(function() { return self.getColors(); });
+		.then(function() { return self.getColors(); })
+		.then(function() { return self.getComplectation(); });
+};
+
+SunblindUI.prototype.getPlacement = function() {
+	return new Promise(function(resolve, reject) {
+		wsOperator.postMessage({cmd: "getSunblindsPlacement", type: "db"}, function(response) {
+			var placements = JSON.parse(response);
+			var container = document.getElementById("sunblindsPlacement");
+			container.innerHTML = "";
+			for(var i = 0; i < placements.length; i++) {
+				var div = document.createElement("div");
+				div.className = "radio";
+				var label = document.createElement("label");
+				var input = document.createElement("input");
+				input.type = "radio";
+				input.name = "placementRadio";
+				input.value = placements[i].ID;
+				input.dataset.id = placements[i].ID;
+				var text = document.createTextNode(placements[i].Name);
+				label.appendChild(input);
+				label.appendChild(text);
+				div.appendChild(label);
+				container.appendChild(div);
+			}
+			resolve();
+		});
+	});
 };
 
 SunblindUI.prototype.getMaterials = function() {
@@ -68,6 +96,32 @@ SunblindUI.prototype.getColors = function() {
 			var colors = JSON.parse(response);
 			self.colors = colors;
 			self.fillColors();
+			resolve();
+		});
+	});
+};
+
+SunblindUI.prototype.getComplectation = function() {
+	return new Promise(function(resolve, reject) {
+		wsOperator.postMessage({cmd: "getSunblindsComplectation", type: "db"}, function(response) {
+			var complectations = JSON.parse(response);
+			var container = document.getElementById("sunblindsComplectation");
+			container.innerHTML = "";
+			for(var i = 0; i < complectations.length; i++) {
+				var div = document.createElement("div");
+				div.className = "radio";
+				var label = document.createElement("label");
+				var input = document.createElement("input");
+				input.type = "radio";
+				input.name = "complectationRadio";
+				input.value = complectations[i].ID;
+				input.dataset.id = complectations[i].ID;
+				var text = document.createTextNode(complectations[i].Name);
+				label.appendChild(input);
+				label.appendChild(text);
+				div.appendChild(label);
+				container.appendChild(div);
+			}
 			resolve();
 		});
 	});

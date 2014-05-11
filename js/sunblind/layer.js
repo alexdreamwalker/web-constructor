@@ -30,3 +30,24 @@ Layer.prototype.addLamella = function(lamella) {
 	lamella.layer = this;
 	this.lamellas.push(lamella);
 };
+
+Layer.prototype.fromJSON = function(obj) {
+	var lamellas = obj.lamellas;
+	for(var i = 0; i < lamellas.length; i++) {
+		var lamella = new Lamella();
+		lamella.fromJSON(lamellas[i]);
+		this.addLamella(lamella);
+	}
+};
+
+Layer.prototype.toJSON = function() {
+	var lamellas = [];
+	for(var i = 0; i < this.lamellas.length; i++)
+		lamellas.push(this.lamellas[i].toJSON());
+	return {
+		"lamellas": lamellas,
+		minLayerSquare: define.sunblind.MIN_LAYER_SQUARE,
+		width: this.sunblind.width,
+		height: this.sunblind.height
+	};
+};

@@ -10,6 +10,14 @@
 			$this->mysqli = $mysqli;
 		}
 
+		public function getSunblindsPlacement()
+		{
+			if($result = $this->mysqli->query("SELECT * FROM placement")) {
+				$result = $result->fetch_all(MYSQLI_ASSOC);
+				return $result;
+			} else return $this->mysqli->error;
+		}
+
 		public function getSunblindsColors($type, $material, $size)
 		{
 			$stmt = $this->mysqli->prepare("SELECT colors.*, pricelamellas.Price from colors 
@@ -42,6 +50,14 @@
 		public function getSunblindsLamellaSizes()
 		{
 			if($result = $this->mysqli->query("SELECT DISTINCT Size from colors")) {
+				$result = $result->fetch_all(MYSQLI_ASSOC);
+				return $result;
+			} else return $this->mysqli->error;
+		}
+
+		public function getSunblindsComplectation()
+		{
+			if($result = $this->mysqli->query("SELECT * FROM complectation")) {
 				$result = $result->fetch_all(MYSQLI_ASSOC);
 				return $result;
 			} else return $this->mysqli->error;

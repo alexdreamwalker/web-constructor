@@ -18,8 +18,11 @@ public:
     {
         std::map<std::string, float> result;
         result["ламели"] = 0;
-        for(int i = 0; i < layers.size(); i++)
-            result["ламели"] += (*layers[i]).calculate();
+        for(int i = 0; i < layers.size(); i++) {
+            Layer* layer = layers.at(i);
+            float pr = layer->calculate();
+            result["ламели"] += pr;
+        }
         result["карниз"] = cornice.calculate();
         result["комплектация"] = 0;
         for(int i = 0; i < complectation.size(); i++)

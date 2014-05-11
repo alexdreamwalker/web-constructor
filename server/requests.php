@@ -28,6 +28,12 @@
 			case 'getSunblindsMaterials':
 				return json_encode($selecter->getSunblindsMaterials());
 				break;
+			case 'getSunblindsPlacement':
+				return json_encode($selecter->getSunblindsPlacement());
+				break;
+			case 'getSunblindsComplectation':
+				return json_encode($selecter->getSunblindsComplectation());
+				break;
 			default: break;
 		}
 	};

@@ -7,6 +7,8 @@ function Sunblind(options) {
 
 Sunblind.prototype = Object.create(Construction.prototype);
 
+Sunblind.prototype.width = 0;
+Sunblind.prototype.height = 0;
 Sunblind.prototype.elem = this.elem;
 Sunblind.prototype.layers = [];
 Sunblind.prototype.cornice = null;
@@ -98,6 +100,20 @@ Sunblind.prototype.fromJSON = function(json) {
 		};
 		this.addComplectation(complect);
 	}
+};
+
+Sunblind.prototype.toJSON = function() {
+	var layers = [];
+	for(var i = 0; i < this.layers.length; i++)
+		layers.push(this.layers[i].toJSON());
+	var obj = {
+		width: this.width,
+		height: this.height,
+		cornice: this.cornice.toJSON(),
+		"layers": layers,
+		decorPlank: this.decorPlank.toJSON()
+	};
+	console.log(JSON.stringify(obj));
 };
 
 Sunblind.prototype.changeWidth = function(newWidth) {

@@ -4,6 +4,7 @@ function Cornice(options) {
 	this.height = options.size;
 	this.x = options.x || 0;
 	this.y = options.y || 0;
+	this.price = 0;
 	this.NS = global.NS;
 }
 
@@ -21,4 +22,19 @@ Cornice.prototype.paint = function(options) {
 Cornice.prototype.calculate = function(options) {
 	var result = 0;
 	return result;
+};
+
+Cornice.prototype.fromJSON = function(obj) {
+	this.width = obj.width;
+	this.height = obj.height;
+	this.price = obj.price;
+};
+
+Cornice.prototype.toJSON = function() {
+	return {
+		width: this.width,
+		size: this.height,
+		price: this.price,
+		minCornLength: define.sunblind.MIN_CORNICE_LENGTH
+	};
 };

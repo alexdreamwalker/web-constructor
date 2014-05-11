@@ -1,5 +1,7 @@
  function Construction(options) {
  	var self = this;
+ 	if(options.json) 
+ 		this.fromJSON(options.json);
  }
 
  Construction.prototype.calculate = function(options) {
@@ -11,8 +13,10 @@
 
  };
 
+ Construction.prototype.fromJSON = function(obj) {
+
+ };
+
  Construction.prototype.toJSON = function() {
- 	var str = JSON.stringify(this);
- 	console.log(str);
- 	return str;
+ 	
  };
