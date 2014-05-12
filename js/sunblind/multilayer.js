@@ -84,6 +84,9 @@ MultiLayer.prototype.paint = function() {
 	};
 	bottomBezier.maxmin = bottomminmax;
 
+	if(this.topBezierSpline != null) this.topBezierSpline.destruct();
+	if(this.bottomBezierSpline != null) this.bottomBezierSpline.destruct();
+
 	this.topBezierSpline = new SVGBezierSpline({curves: [topBezier], layer: this});
 	this.bottomBezierSpline = new SVGBezierSpline({curves: [bottomBezier], layer: this});
 	topBezier.paint();

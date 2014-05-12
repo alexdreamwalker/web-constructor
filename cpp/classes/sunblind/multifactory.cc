@@ -33,7 +33,7 @@ public:
             int layerWidth = layers[i].get("width", 0).asInt();
             int layerHeight = layers[i].get("height", 0).asInt();
             int minLayerSquare = layers[i].get("minLayerSquare", 0.0).asFloat();
-            MultiLayer layer(layerWidth, layerHeight, minLayerSquare);
+            Layer* layer = new MultiLayer(layerWidth, layerHeight, minLayerSquare);
 
             const Json::Value lamellas = layers[i]["lamellas"];
             if(lamellas.size() > 0)
@@ -44,8 +44,8 @@ public:
                     int lamellaHeight = lamellas[i].get("height", 0).asInt();
                     float lamellaPrice = lamellas[i].get("price", 0.0).asFloat();
                     int lamellaMaterial = lamellas[i].get("material", 0).asInt();
-                    Lamella lamella(lamellaWidth, lamellaHeight, lamellaPrice, lamellaMaterial);
-                    layer.addLamella(lamella);
+                    Lamella* lamella = new Lamella(lamellaWidth, lamellaHeight, lamellaPrice, lamellaMaterial);
+                    layer->addLamella(lamella);
                 }    
             } else
             {
@@ -54,8 +54,8 @@ public:
                 int lamellaCount = width / lamellaSize;
                 for(int j = 0; j < lamellaCount; j++)
                 {
-                    Lamella lamella(lamellaSize, height, lamellaPrice, 0);
-                    layer.addLamella(lamella);
+                    Lamella* lamella = new Lamella(lamellaSize, height, lamellaPrice, 0);
+                    layer->addLamella(lamella);
                 }
             }
             sunblind.addLayer(layer);

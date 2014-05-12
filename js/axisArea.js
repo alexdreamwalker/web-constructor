@@ -276,6 +276,7 @@ AxisArea.prototype.drawContext = function() {
 };
 
 AxisArea.prototype.widthChanged = function(newWidth) {
+	newWidth = parseInt(newWidth);
 	this.dimensions.width = newWidth;
 	this.root.removeChild(this.axisArea);
 
@@ -294,6 +295,7 @@ AxisArea.prototype.widthChanged = function(newWidth) {
 };
 
 AxisArea.prototype.heightChanged = function(newHeight) {
+	newHeight = parseInt(newHeight);
 	this.dimensions.height = newHeight;
 	this.root.removeChild(this.axisArea);
 

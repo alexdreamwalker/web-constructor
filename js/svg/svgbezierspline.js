@@ -197,3 +197,14 @@ SVGBezierSpline.prototype.splitCurve = function(curve) {
 
 	this.makeCollisionPoint(x1234, y1234, firstChildSpline, secondChildSpline);
 };
+
+SVGBezierSpline.prototype.destruct = function() {
+	if(this.splines.length == 0) {
+		for(var i = 0; i < this.curves.length; i++)
+			this.curves[i].destruct();
+		delete this;
+	}
+	else
+		for(var i = 0; i < this.splines.length; i++)
+			this.splines[i].destruct();
+};
