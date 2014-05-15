@@ -22,8 +22,8 @@ public:
     void addLamella(Lamella& lamella)
     {
         lamellas.push_back(&lamella);
-        if(colors[lamella.price] == NULL) colors[lamella.price] = 0;
-        else colors[lamella.price]++;
+        colors[lamella.price]++;
+        std::cout << lamella.price << '\n';
     }
 
     std::vector<Lamella*>& getLamellas()

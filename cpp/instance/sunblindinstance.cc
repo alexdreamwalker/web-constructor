@@ -27,6 +27,12 @@
 #include "instance.cc"
 #include "../classes/sunblind/multifactory.cc"
 
+#define COUNT_SUNBLIND 1
+
+#define VERTICAL_SUNBLIND 1
+#define HORIZONTAL_SUNBLIND 2
+#define MULTI_SUNBLIND 3
+
 /// The Instance class.  One of these exists for each instance of your NaCl
 /// module on the web page.  The browser will ask the Module object to create
 /// a new Instance for each occurrence of the <embed> tag that has these
@@ -41,7 +47,9 @@ class SunblindInstance : public ConstructorInstance {
   /// The constructor creates the plugin-side instance.
   /// @param[in] instance the handle to the browser-side plugin instance.
   explicit SunblindInstance(PP_Instance instance) : ConstructorInstance(instance)
-  {}
+  {
+    actions["countSunblinds"] = 1;
+  }
   virtual ~SunblindInstance() {}
 
   /// Handler for messages coming in from the browser via postMessage().  The
@@ -56,9 +64,33 @@ class SunblindInstance : public ConstructorInstance {
     // parse JSON data
     reader.parse(message, root);
     std::string action = root.get("action", "undefined").asString();
+    // make task and get a response
+    int task = actions[action];
+    switch(task)
+    {
+      case COUNT_SUNBLIND:
+        int type = root["data"].get("type", 0).asInt();
+        switch(type)
+        {
+          case VERTICAL_SUNBLIND:
+            break;
+          case HORIZONTAL_SUNBLIND:
+            break;
+          case MULTI_SUNBLIND:
+            Factory* factory = new MultiFactory();
+            Construction* sunblind = factory->fromJSON(root.get("data", "undefined").asString());
+            std::map<std::string, float> price = sunblind->calculate();
+
+            root["data"].clear();
+            for (std::map<std::string, float>::iterator it=price.begin(); it!=price.end(); ++it) 
+              root["data"][it->first] = it->second; 
+
+            break;
+        }
+        break;
+    }
     // send a response
     root["action"] = action;
-    root["data"] = "Got action: " + action;
     std::string output = writer.write(root);
     pp::Var var_reply;
     var_reply = pp::Var(output);

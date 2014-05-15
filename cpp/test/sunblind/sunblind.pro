@@ -3,6 +3,9 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
+INCLUDEPATH = /usr/include/jsoncpp/
+unix:LIBS += -ljsoncpp
+
 SOURCES += \
     ../sunblindtest.cc \
     ../../classes/sunblind/cornice.cc \

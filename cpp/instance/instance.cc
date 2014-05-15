@@ -28,6 +28,8 @@
 #include "ppapi/cpp/module.h"
 #include "ppapi/cpp/var.h"
 #include "json/json.h"
+#include <map>
+#include <iostream>
 
 namespace {
   const char* const kHelloString = "hello";
@@ -45,6 +47,7 @@ namespace {
 /// back to the browser.  Note that this interface is asynchronous.
 class ConstructorInstance : public pp::Instance {
  public:
+  std::map<std::string, int> actions;
   Json::Value root;   // will contains the root value after parsing.
   Json::Reader reader; // will read JSON data
   Json::StyledWriter writer; // will write JSON data

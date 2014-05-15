@@ -16,7 +16,7 @@ public:
         // get basic sunblind info
         int width = root.get("width", 0).asInt();
         int height = root.get("height", 0).asInt();
-        MultiSunblind sunblind(width, height);
+        Sunblind *sunblind = new MultiSunblind(width, height);
 
         // get cornice info
         int corniceWidth = root["cornice"].get("width", 0).asInt();
@@ -24,7 +24,7 @@ public:
         float cornicePrice = root["cornice"].get("price", 0.0).asFloat();
         int minCornLength = root["cornice"].get("minCornLength", 0).asInt();
         Cornice cornice(corniceWidth, corniceSize, cornicePrice, minCornLength);
-        sunblind.setCornice(cornice);
+        sunblind->setCornice(cornice);
 
         // get layers info
         const Json::Value layers = root["layers"];
@@ -40,12 +40,12 @@ public:
             {
                 for(int j = 0; j < lamellas.size(); j++)
                 {
-                    int lamellaWidth = lamellas[i].get("width", 0).asInt();
-                    int lamellaHeight = lamellas[i].get("height", 0).asInt();
-                    float lamellaPrice = lamellas[i].get("price", 0.0).asFloat();
-                    int lamellaMaterial = lamellas[i].get("material", 0).asInt();
+                    int lamellaWidth = lamellas[j].get("width", 0).asInt();
+                    int lamellaHeight = lamellas[j].get("height", 0).asInt();
+                    float lamellaPrice = lamellas[j].get("price", 0.0).asFloat();
+                    int lamellaMaterial = lamellas[j].get("material", 0).asInt();
                     Lamella* lamella = new Lamella(lamellaWidth, lamellaHeight, lamellaPrice, lamellaMaterial);
-                    layer->addLamella(lamella);
+                    layer->addLamella(*lamella);
                 }    
             } else
             {
@@ -55,13 +55,13 @@ public:
                 for(int j = 0; j < lamellaCount; j++)
                 {
                     Lamella* lamella = new Lamella(lamellaSize, height, lamellaPrice, 0);
-                    layer->addLamella(lamella);
+                    layer->addLamella(*lamella);
                 }
             }
-            sunblind.addLayer(layer);
+            sunblind->addLayer(*layer);
         }
 
-        return &sunblind;
+        return sunblind;
     }
 };
 
