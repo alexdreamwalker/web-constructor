@@ -82,7 +82,7 @@ class SunblindInstance : public ConstructorInstance {
             std::map<std::string, float> price = sunblind->calculate();
 
             root["data"].clear();
-            for (std::map<std::string, float>::iterator it=price.begin(); it!=price.end(); ++it) 
+            for(std::map<std::string, float>::iterator it = price.begin(); it != price.end(); ++it) 
               root["data"][it->first] = it->second; 
 
             break;

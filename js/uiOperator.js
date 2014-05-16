@@ -87,8 +87,9 @@ function UIOperator(options) {
 			uiOperator.loadWindow("moduleTable", "pages/modules/" + module + "/table.html");
 			uiOperator.loadWindow("moduleSummary", "pages/modules/" + module + "/summary.html");
 			uiOperator.loadWindow("moduleModal", "pages/modules/" + module + "/modal.html");
+			uiOperator.loadWindow("moduleCanvas", "pages/modules/" + module + "/canvas.html");
 
-			uiOperator.loadWindow("moduleCanvas", "pages/modules/" + module + "/canvas.html", function() {
+			uiOperator.loadWindow("moduleEmbed", "pages/modules/" + module + "/embed.html", function() {
 				switch(module) {
 					case "verticalsunblind": self.loadVerticalSunblinds(); break;
 					case "multisunblind": self.loadMultiSunblinds(); break;

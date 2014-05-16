@@ -113,7 +113,14 @@ Sunblind.prototype.toJSON = function() {
 		"layers": layers,
 		decorPlank: this.decorPlank.toJSON()
 	};
-	console.log(JSON.stringify(obj));
+	return JSON.stringify(obj);
+};
+
+Sunblind.prototype.sendToCalculate = function() {
+	var data = this.toJSON();
+	cppOperator.postMessage("countSunblinds", {"data": data}, function(response) {
+		alert(response);
+	});
 };
 
 Sunblind.prototype.changeWidth = function(newWidth) {

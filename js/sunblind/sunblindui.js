@@ -24,6 +24,9 @@ SunblindUI.prototype.start = function() {
 		.then(function() { return self.getSizes(); })
 		.then(function() { return self.getColors(); })
 		.then(function() { return self.getComplectation(); });
+	cppOperator.setSource("sunblindListener", function() {
+		alert("ready to count");
+	});
 };
 
 SunblindUI.prototype.getPlacement = function() {
