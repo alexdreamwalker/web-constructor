@@ -18,16 +18,16 @@ std::string readFromFile(char* filename)
 
 int main()
 {
-	std::cout << "here 1";
 	std::string data = readFromFile("data.json");
 	Factory* factory = new MultiFactory();
 	Construction* sunblind = factory->fromJSON(data);
-	std::cout << "here 2";
 	std::map<std::string, float> price = sunblind->calculate();
 
 	for (std::map<std::string, float>::iterator it=price.begin(); it!=price.end(); ++it) //распечатаем в консоль детализацию расчетов по жалюзи
         std::cout << it->first << " => " << it->second << '\n';
 
+    delete sunblind;
+    delete factory;
     std::cout << "\n ready \n";
     return 0;      
 }

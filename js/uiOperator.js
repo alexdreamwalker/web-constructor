@@ -84,9 +84,16 @@ function UIOperator(options) {
 			var module = options.module;
 			
 			uiOperator.loadWindow("moduleCategories", "pages/modules/" + module + "/categories.html");
+
 			uiOperator.loadWindow("moduleTable", "pages/modules/" + module + "/table.html");
-			uiOperator.loadWindow("moduleSummary", "pages/modules/" + module + "/summary.html");
+
+			uiOperator.loadWindow("moduleSummary", "pages/modules/" + module + "/summary.html", function() {
+				var inputs = document.querySelectorAll("#moduleSummary input[type='number']");
+					for(var i = 0; i < inputs.length; i++) inputs[i].addEventListener("change", self.recalculateSummary, false);
+			});
+
 			uiOperator.loadWindow("moduleModal", "pages/modules/" + module + "/modal.html");
+
 			uiOperator.loadWindow("moduleCanvas", "pages/modules/" + module + "/canvas.html");
 
 			uiOperator.loadWindow("moduleEmbed", "pages/modules/" + module + "/embed.html", function() {
@@ -162,5 +169,44 @@ function UIOperator(options) {
 	this.loadOrder = function(options) {
 		this.loadWindow("mainOrder", "pages/mainOrder.html", function() {});
 		this.processWindows("mainOrder");
+	};
+
+	this.setPriceTable = function(table) {
+		var tbody = document.querySelector("#moduleTable tbody");
+		tbody.innerHTML = "";
+		var total = 0;
+		for(var row in table) {
+			var caption = document.createElement("td");
+			caption.innerHTML = row;
+			var price = document.createElement("td");
+			price.innerHTML = table[row] + " р.";
+			var tr = document.createElement("tr");
+			tr.appendChild(caption);
+			tr.appendChild(price);
+			tbody.appendChild(tr);
+			total += table[row];
+		}
+		this.setPrice(total);
+	};
+
+	this.setPrice = function(price) {
+		document.querySelectorAll("#moduleSummary input[type='number']")[6].value = price;
+		this.recalculateSummary();
+	};
+
+	this.recalculateSummary = function() {
+		var inputs = document.querySelectorAll("#moduleSummary input[type='number']");
+		var per1 = inputs[0].value;
+		var per2 = inputs[1].value;
+		var per3 = inputs[2].value;
+		var count = inputs[3].value;
+		var price = inputs[6].value;
+		var withoutDiscount = price * count;
+		var withDiscount = withoutDiscount;
+		withDiscount -= withDiscount / 100 * per1;
+		withDiscount -= withDiscount / 100 * per2;
+		withDiscount -= withDiscount / 100 * per3;
+		inputs[4].value = withoutDiscount;
+		inputs[5].value = withDiscount;
 	};
 };

@@ -3,6 +3,7 @@ function VerticalSunblind(options) {
 	Sunblind.apply(this, arguments);
 
 	this.data = {
+		type: define.sunblind.ID_VERTICAL,
 		width: 1000,
 		height: 1000,
 		layers: [
@@ -28,6 +29,7 @@ function VerticalSunblind(options) {
 VerticalSunblind.prototype = Object.create(Sunblind.prototype);
 
 VerticalSunblind.prototype.init = function() {
+	this.type = this.data.type;
 	this.width = this.data.width;
 	this.height = this.data.height;
 

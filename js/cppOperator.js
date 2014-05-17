@@ -32,7 +32,6 @@ function CPPOperator(options) {
 
     function handleMessage(message_event) {
     	var message = JSON.parse(message_event.data);
-        alert(message);
       	for(var action in actions)
       		if(message.action == action)
       			actions[action](message_event.data);

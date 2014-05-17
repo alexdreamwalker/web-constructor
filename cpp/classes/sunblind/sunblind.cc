@@ -12,7 +12,15 @@ public:
     {
         width = ww;
         height = hh;
-    };
+    }
+
+    ~Sunblind()
+    {
+        for(int i = 0; i < layers.size(); i++)
+            delete layers[i];
+        for(int i = 0; i < complectation.size(); i++)
+            delete complectation[i];
+    }
 
     virtual std::map<std::string, float> calculate()
     {

@@ -3,6 +3,7 @@ function MultiSunblind(options) {
 	Sunblind.apply(this, arguments);
 
 	this.data = {
+		type: define.sunblind.ID_MULTI,
 		width: 2200,
 		height: 2000,
 		layers: [
@@ -33,6 +34,7 @@ function MultiSunblind(options) {
 MultiSunblind.prototype = Object.create(VerticalSunblind.prototype);
 
 MultiSunblind.prototype.init = function() {
+	this.type = this.data.type;
 	this.width = this.data.width;
 	this.height = this.data.height;
 

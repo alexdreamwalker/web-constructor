@@ -69,6 +69,7 @@ class SunblindInstance : public ConstructorInstance {
     switch(task)
     {
       case COUNT_SUNBLIND:
+      {
         int type = root["data"].get("type", 0).asInt();
         switch(type)
         {
@@ -77,8 +78,9 @@ class SunblindInstance : public ConstructorInstance {
           case HORIZONTAL_SUNBLIND:
             break;
           case MULTI_SUNBLIND:
+          {
             Factory* factory = new MultiFactory();
-            Construction* sunblind = factory->fromJSON(root.get("data", "undefined").asString());
+            Construction* sunblind = factory->fromJSON(writer.write(root["data"]));
             std::map<std::string, float> price = sunblind->calculate();
 
             root["data"].clear();
@@ -86,7 +88,13 @@ class SunblindInstance : public ConstructorInstance {
               root["data"][it->first] = it->second; 
 
             break;
+          }
+          default:
+            break;
         }
+        break;
+      }
+      default:
         break;
     }
     // send a response

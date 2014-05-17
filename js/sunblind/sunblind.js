@@ -15,6 +15,7 @@ Sunblind.prototype.cornice = null;
 Sunblind.prototype.decorPlank = null;
 Sunblind.prototype.complectation = [];
 Sunblind.prototype.NS = global.NS;
+Sunblind.prototype.type = 0;
 
 Sunblind.prototype.addLayer = function(layer) {
 	layer.sunblind = this;
@@ -107,19 +108,21 @@ Sunblind.prototype.toJSON = function() {
 	for(var i = 0; i < this.layers.length; i++)
 		layers.push(this.layers[i].toJSON());
 	var obj = {
+		type: this.type,
 		width: this.width,
 		height: this.height,
 		cornice: this.cornice.toJSON(),
 		"layers": layers,
 		decorPlank: this.decorPlank.toJSON()
 	};
-	return JSON.stringify(obj);
+	return obj;
 };
 
 Sunblind.prototype.sendToCalculate = function() {
 	var data = this.toJSON();
 	cppOperator.postMessage("countSunblinds", {"data": data}, function(response) {
-		alert(response);
+		var data = JSON.parse(response).data;
+		uiOperator.setPriceTable(data);
 	});
 };
 

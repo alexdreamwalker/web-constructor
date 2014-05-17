@@ -17,13 +17,18 @@ public:
         minSquare = ms;
     }
 
+    ~Layer()
+    {
+        for(int i = 0; i < lamellas.size(); i++)
+            delete lamellas[i];
+    }
+
     virtual float calculate() = 0;
 
     void addLamella(Lamella& lamella)
     {
         lamellas.push_back(&lamella);
         colors[lamella.price]++;
-        std::cout << lamella.price << '\n';
     }
 
     std::vector<Lamella*>& getLamellas()
