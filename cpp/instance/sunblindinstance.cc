@@ -86,6 +86,8 @@ class SunblindInstance : public ConstructorInstance {
             root["data"].clear();
             for(std::map<std::string, float>::iterator it = price.begin(); it != price.end(); ++it) 
               root["data"][it->first] = it->second; 
+            delete sunblind;
+            delete factory;
 
             break;
           }

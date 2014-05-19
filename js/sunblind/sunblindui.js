@@ -19,13 +19,13 @@ SunblindUI.prototype.start = function() {
 	Designer({elem: this.designer});
 
 	var self = this;
-	this.getPlacement()
+	
+	cppOperator.setSource("sunblindListener", function() {
+		self.getPlacement()
 		.then(function() { return self.getMaterials(); })
 		.then(function() { return self.getSizes(); })
 		.then(function() { return self.getColors(); })
 		.then(function() { return self.getComplectation(); });
-	cppOperator.setSource("sunblindListener", function() {
-		alert("ready to count");
 	});
 };
 
