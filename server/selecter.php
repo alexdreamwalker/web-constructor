@@ -18,12 +18,67 @@
 			} else return $this->mysqli->error;
 		}
 
+		public function getSunblindsSizeLimits()
+		{
+			if($result = $this->mysqli->query("SELECT * FROM sizelimits")) {
+				$result = $result->fetch_all(MYSQLI_ASSOC);
+				return $result;
+			} else return $this->mysqli->error;
+		}
+
+		public function getSunblindsCorrespondness()
+		{
+			if($result = $this->mysqli->query("SELECT * FROM correspondness")) {
+				$result = $result->fetch_all(MYSQLI_ASSOC);
+				return $result;
+			} else return $this->mysqli->error;
+		}
+
+		public function getSunblindsCorniceColors()
+		{
+			$stmt = $this->mysqli->prepare("SELECT cornices.*, pricecornices.Price from cornices 
+											INNER JOIN pricecornices ON cornices.ID = pricecornices.IDCornice");
+			if($stmt->execute()) {
+				$result = $stmt->get_result();
+				$result = $result->fetch_all(MYSQLI_ASSOC);
+				return $result;
+			} else return $this->mysqli->error;
+		}
+
+		public function getSunblindsRopes()
+		{
+			$stmt = $this->mysqli->prepare("SELECT ropes.*, priceropes.Price from ropes 
+											INNER JOIN priceropes ON ropes.ID = priceropes.IDRope");
+			if($stmt->execute()) {
+				$result = $stmt->get_result();
+				$result = $result->fetch_all(MYSQLI_ASSOC);
+				return $result;
+			} else return $this->mysqli->error;
+		}
+
+		public function getSunblindsStaircases()
+		{
+			$stmt = $this->mysqli->prepare("SELECT staircases.*, pricestaircases.Price from staircases 
+											INNER JOIN pricestaircases ON staircases.ID = pricestaircases.IDStaircase");
+			if($stmt->execute()) {
+				$result = $stmt->get_result();
+				$result = $result->fetch_all(MYSQLI_ASSOC);
+				return $result;
+			} else return $this->mysqli->error;
+		}
+
 		public function getSunblindsColors($type, $material, $size)
 		{
-			$stmt = $this->mysqli->prepare("SELECT colors.*, pricelamellas.Price from colors 
-											INNER JOIN pricelamellas ON colors.ID = pricelamellas.IDColor 
-											WHERE MaterialID = ? AND TypeID = ? AND Size = ?");
-			$stmt->bind_param('ddd', $material, $type, $size);
+			if(empty($type) || empty($material) || empty($size))
+				$stmt = $this->mysqli->prepare("SELECT colors.*, pricelamellas.Price from colors 
+												INNER JOIN pricelamellas ON colors.ID = pricelamellas.IDColor");
+			else {
+				$stmt = $this->mysqli->prepare("SELECT colors.*, pricelamellas.Price from colors 
+												INNER JOIN pricelamellas ON colors.ID = pricelamellas.IDColor 
+												WHERE MaterialID = ? AND TypeID = ? AND Size = ?");
+				$stmt->bind_param('ddd', $material, $type, $size);
+			}
+
 			if($stmt->execute()) {
 				$result = $stmt->get_result();
 				$result = $result->fetch_all(MYSQLI_ASSOC);
@@ -57,7 +112,10 @@
 
 		public function getSunblindsComplectation()
 		{
-			if($result = $this->mysqli->query("SELECT * FROM complectation")) {
+			$stmt = $this->mysqli->prepare("SELECT complectation.*, pricecomplectation.Price from complectation 
+											INNER JOIN pricecomplectation ON complectation.ID = pricecomplectation.IDComplectation");
+			if($stmt->execute()) {
+				$result = $stmt->get_result();
 				$result = $result->fetch_all(MYSQLI_ASSOC);
 				return $result;
 			} else return $this->mysqli->error;

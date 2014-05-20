@@ -34,6 +34,21 @@
 			case 'getSunblindsComplectation':
 				return json_encode($selecter->getSunblindsComplectation());
 				break;
+			case 'getSunblindsSizeLimits':
+				return json_encode($selecter->getSunblindsSizeLimits());
+				break;
+			case 'getSunblindsCorrespondness':
+				return json_encode($selecter->getSunblindsCorrespondness());
+				break;
+			case 'getSunblindsCorniceColors':
+				return json_encode($selecter->getSunblindsCorniceColors());
+				break;
+			case 'getSunblindsRopes':
+				return json_encode($selecter->getSunblindsRopes());
+				break;
+			case 'getSunblindsStaircases':
+				return json_encode($selecter->getSunblindsStaircases());
+				break;
 			default: break;
 		}
 	};
