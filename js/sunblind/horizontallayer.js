@@ -1,4 +1,4 @@
-function VerticalLayer(options) {
+function HorizontalLayer(options) {
 	var self = this;
 	this.element = null;
 	this.NS = global.NS;
@@ -8,19 +8,19 @@ function VerticalLayer(options) {
 	this.lamellas = options.lamellas;
 }
 
-VerticalLayer.prototype = Object.create(Layer.prototype);
+HorizontalLayer.prototype = Object.create(Layer.prototype);
 
-VerticalLayer.prototype.paint = function() {
+HorizontalLayer.prototype.paint = function() {
 	this.context = this.sunblind.element;
 	this.element = document.createElementNS(this.NS, "g");
-	var lamellaCount = this.width / this.lamellaSize;
+	var lamellaCount = this.height / this.lamellaSize;
 	if(this.lamellas.length == 0)
 		for(var i = 0; i < lamellaCount; i++) {
-			var lamellaWidth = this.lamellaSize * 0.95;
-			var lamellaHeight = this.height - this.sunblind.cornice.height * 2;
+			var lamellaWidth = this.width;
+			var lamellaHeight = this.lamellaSize * 0.95;;
 			var pos = {
-				x: i * lamellaWidth * 1.05,
-				y: 0 + this.sunblind.cornice.height * 2
+				x: 0,
+				y: 0 + this.sunblind.cornice.height * 2 + i * lamellaHeight * 1.05;
 			};
 			var lamella = new Lamella({width: lamellaWidth, height: lamellaHeight, x: pos.x, y: pos.y});
 			this.addLamella(lamella);

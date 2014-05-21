@@ -1,13 +1,15 @@
-function VerticalSunblindUI(options) {
-	this.categories = options.categories;
-	this.sunblind = null;
-	this.elem = options.elem;
+function HorizontalSunblindUI(options) {
+	SunblindUI.apply(this, arguments);
+};
 
-	this.start = function() {
-		var sunblind = new VerticalSunblind({elem: this.elem});
+HorizontalSunblindUI.prototype = Object.create(SunblindUI.prototype);
 
-		document.getElementById(this.elem).innerHTML = "";
-		var svg = sunblind.paint();
-		document.getElementById(this.elem).appendChild(svg);
-	};
+HorizontalSunblindUI.prototype.start = function() {
+	SunblindUI.prototype.start.apply(this, arguments);
+
+	var sunblind = new HorizontalSunblind({elem: this.elem});
+	var svg = sunblind.paint();
+	document.getElementById(this.elem).appendChild(svg);
+
+	this.sunblind = sunblind;
 };

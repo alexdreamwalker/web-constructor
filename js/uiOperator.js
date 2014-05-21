@@ -99,6 +99,7 @@ function UIOperator(options) {
 			uiOperator.loadWindow("moduleEmbed", "pages/modules/" + module + "/embed.html", function() {
 				switch(module) {
 					case "verticalsunblind": self.loadVerticalSunblinds(); break;
+					case "horizontalsunblind": self.loadHorizontalSunblinds(); break;
 					case "multisunblind": self.loadMultiSunblinds(); break;
 					default: break;
 				}
@@ -157,7 +158,12 @@ function UIOperator(options) {
 	};
 
 	this.loadVerticalSunblinds = function(options) {
-		global.ui = new VerticalSunblindUI({elem: "moduleCanvas", categories: "moduleCategories", table: "moduleTable", summary: "moduleSummary"});
+		global.ui = new VerticalSunblindUI({elem: "moduleCanvas", categories: "moduleCategories", table: "moduleTable", summary: "moduleSummary", designer: "designerModal"});
+		global.ui.start();
+	};
+
+	this.loadHorizontalSunblinds = function(options) {
+		global.ui = new HorizontalSunblindUI({elem: "moduleCanvas", categories: "moduleCategories", table: "moduleTable", summary: "moduleSummary", designer: "designerModal"});
 		global.ui.start();
 	};
 

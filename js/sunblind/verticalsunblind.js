@@ -4,21 +4,25 @@ function VerticalSunblind(options) {
 
 	this.data = {
 		type: define.sunblind.ID_VERTICAL,
-		width: 1000,
-		height: 1000,
+		width: 2200,
+		height: 2000,
 		layers: [
 			{
-				width: 1000,
-				height: 1000,
-				lamellaSize: 16,
+				width: 2200,
+				height: 2000,
+				lamellaSize: 89,
 				lamellas: []
 			}
 		],
 		cornice: {
-			width: 1000,
-			size: 16,
-			x: 0,
-			y: 0
+			width: 2200,
+			size: 89
+		},
+		decorplank: {
+			isActive: true,
+			color: null,
+			size: 89,
+			width: 2300
 		},
 		complectation: []
 	};
@@ -35,6 +39,9 @@ VerticalSunblind.prototype.init = function() {
 
 	var cornice = new Cornice(this.data.cornice);
 	this.setCornice(cornice);
+
+	var decorPlank = new DecorPlank(this.data.decorplank);
+	this.setDecorPlank(decorPlank);
 
 	for(var i = 0; i < this.data.layers.length; i++) {
 		var layer = new VerticalLayer(this.data.layers[i]);
