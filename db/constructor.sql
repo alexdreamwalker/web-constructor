@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Май 19 2014 г., 07:00
+-- Время создания: Май 21 2014 г., 07:27
 -- Версия сервера: 5.5.37-MariaDB
 -- Версия PHP: 5.5.12
 
@@ -35,7 +35,9 @@ CREATE TABLE IF NOT EXISTS `colors` (
   `Size` int(11) NOT NULL,
   `Color` varchar(50) NOT NULL,
   `IsDeleted` tinyint(4) NOT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`ID`),
+  KEY `MaterialID` (`MaterialID`),
+  KEY `TypeID` (`TypeID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Цвета для жалюзи' AUTO_INCREMENT=267 ;
 
 --
@@ -320,7 +322,7 @@ CREATE TABLE IF NOT EXISTS `complectation` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Комплектация' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Комплектация' AUTO_INCREMENT=11 ;
 
 --
 -- Дамп данных таблицы `complectation`
@@ -328,7 +330,15 @@ CREATE TABLE IF NOT EXISTS `complectation` (
 
 INSERT INTO `complectation` (`ID`, `Name`) VALUES
 (1, 'Стандартная'),
-(2, 'Люкс');
+(2, 'Люкс'),
+(3, 'Межрамная'),
+(4, 'Межрамная Люкс'),
+(5, 'Наклонная'),
+(6, 'Magic'),
+(7, 'Декоративная планка вертикальная'),
+(8, 'Декоративная планка горизонтальная'),
+(9, 'ДНКМ'),
+(10, 'ФНК');
 
 -- --------------------------------------------------------
 
@@ -344,7 +354,7 @@ CREATE TABLE IF NOT EXISTS `cornices` (
   `Size` int(11) NOT NULL,
   `Color` varchar(100) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Карнизы для жалюзи' AUTO_INCREMENT=89 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Карнизы для жалюзи' AUTO_INCREMENT=90 ;
 
 --
 -- Дамп данных таблицы `cornices`
@@ -438,7 +448,8 @@ INSERT INTO `cornices` (`ID`, `Article`, `Name`, `Orientation`, `Size`, `Color`)
 (85, 'ЖГК_0901191', 'Карниз верхний 25х24, персиковый П,5м\n', 1, 25, 'images/cornices/ЖГК_0901191.png'),
 (86, 'ЖГК_0901192', 'Карниз нижний, персиковый П,5м \n', 2, 25, 'images/cornices/ЖГК_0901192.png'),
 (87, 'ЖГК_0901191', 'Карниз верхний 25х24, персиковый П,5м\n', 1, 25, 'images/cornices/ЖГК_0901191.png'),
-(88, 'ЖГК_0901192', 'Карниз нижний, персиковый П,5м\n', 2, 25, 'images/cornices/ЖГК_0901192.png');
+(88, 'ЖГК_0901192', 'Карниз нижний, персиковый П,5м\n', 2, 25, 'images/cornices/ЖГК_0901192.png'),
+(89, '', 'Карниз Белый', 1, 89, '');
 
 -- --------------------------------------------------------
 
@@ -453,7 +464,12 @@ CREATE TABLE IF NOT EXISTS `correspondness` (
   `IDLowCornice` int(11) NOT NULL,
   `IDTopCornice` int(11) NOT NULL,
   `IDLamella` int(11) NOT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`ID`),
+  KEY `IDRope` (`IDRope`),
+  KEY `IDStaircase` (`IDStaircase`),
+  KEY `IDLowCornice` (`IDLowCornice`),
+  KEY `IDTopCornice` (`IDTopCornice`),
+  KEY `IDLamella` (`IDLamella`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Таблица соответствия жалюзи' AUTO_INCREMENT=40 ;
 
 --
@@ -535,7 +551,7 @@ CREATE TABLE IF NOT EXISTS `placement` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='размещение жалюзи' AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='размещение жалюзи' AUTO_INCREMENT=5 ;
 
 --
 -- Дамп данных таблицы `placement`
@@ -544,7 +560,147 @@ CREATE TABLE IF NOT EXISTS `placement` (
 INSERT INTO `placement` (`ID`, `Name`) VALUES
 (1, 'Стеновое'),
 (2, 'Потолочное'),
-(3, 'Armstrong');
+(3, 'Armstrong'),
+(4, 'Межрамное');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `pricecomplectation`
+--
+
+CREATE TABLE IF NOT EXISTS `pricecomplectation` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `IDComplectation` int(11) NOT NULL,
+  `Price` float NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `IDComplectation` (`IDComplectation`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Цены на комплектацию для жалюзи' AUTO_INCREMENT=12 ;
+
+--
+-- Дамп данных таблицы `pricecomplectation`
+--
+
+INSERT INTO `pricecomplectation` (`ID`, `IDComplectation`, `Price`) VALUES
+(1, 1, 0),
+(2, 2, 6.9),
+(3, 3, 2),
+(4, 4, 20.6),
+(5, 5, 5.1),
+(6, 6, 9.4),
+(8, 7, 4.7),
+(9, 8, 1.1),
+(10, 9, 2.7),
+(11, 10, 0.4);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `pricecornices`
+--
+
+CREATE TABLE IF NOT EXISTS `pricecornices` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `IDCornice` int(11) NOT NULL,
+  `Price` float NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `IDCornice` (`IDCornice`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Цены на карнизы жалюзи' AUTO_INCREMENT=128 ;
+
+--
+-- Дамп данных таблицы `pricecornices`
+--
+
+INSERT INTO `pricecornices` (`ID`, `IDCornice`, `Price`) VALUES
+(1, 1, 10.7),
+(2, 2, 10.7),
+(3, 3, 10.7),
+(4, 4, 10.7),
+(5, 5, 10.7),
+(6, 6, 10.7),
+(7, 7, 10.7),
+(8, 8, 10.7),
+(9, 9, 10.7),
+(10, 10, 10.7),
+(11, 11, 10.7),
+(12, 12, 10.7),
+(13, 13, 10.7),
+(14, 14, 10.7),
+(15, 15, 10.7),
+(16, 16, 10.7),
+(17, 17, 10.7),
+(18, 18, 10.7),
+(19, 19, 10.7),
+(20, 20, 10.7),
+(21, 21, 10.7),
+(22, 22, 10.7),
+(23, 23, 10.7),
+(24, 24, 10.7),
+(25, 25, 10.7),
+(26, 26, 10.7),
+(27, 27, 10.7),
+(28, 28, 10.7),
+(29, 29, 10.7),
+(30, 30, 10.7),
+(31, 31, 10.7),
+(32, 32, 10.7),
+(33, 33, 10.7),
+(34, 34, 10.7),
+(35, 35, 10.7),
+(36, 36, 10.7),
+(37, 37, 10.7),
+(38, 38, 10.7),
+(39, 39, 10.7),
+(40, 40, 10.7),
+(41, 41, 10.7),
+(42, 42, 10.7),
+(43, 43, 10.7),
+(44, 44, 10.7),
+(45, 45, 10.7),
+(46, 46, 10.7),
+(47, 47, 10.7),
+(48, 48, 10.7),
+(49, 49, 10.7),
+(50, 50, 10.7),
+(51, 51, 10.7),
+(52, 52, 10.7),
+(53, 53, 10.7),
+(54, 54, 10.7),
+(55, 55, 10.7),
+(56, 56, 10.7),
+(57, 57, 10.7),
+(58, 58, 10.7),
+(59, 59, 10.7),
+(60, 60, 10.7),
+(61, 61, 10.7),
+(62, 62, 10.7),
+(63, 63, 10.7),
+(64, 64, 10.7),
+(65, 65, 10.7),
+(66, 66, 10.7),
+(67, 67, 10.7),
+(68, 68, 10.7),
+(69, 69, 10.7),
+(70, 70, 10.7),
+(71, 71, 10.7),
+(72, 72, 10.7),
+(73, 73, 10.7),
+(74, 74, 10.7),
+(75, 75, 10.7),
+(76, 76, 10.7),
+(77, 77, 10.7),
+(78, 78, 10.7),
+(79, 79, 10.7),
+(80, 80, 10.7),
+(81, 81, 10.7),
+(82, 82, 10.7),
+(83, 83, 10.7),
+(84, 84, 10.7),
+(85, 85, 10.7),
+(86, 86, 10.7),
+(87, 87, 10.7),
+(88, 88, 10.7),
+(89, 89, 9);
 
 -- --------------------------------------------------------
 
@@ -577,7 +733,11 @@ CREATE TABLE IF NOT EXISTS `pricelamellas` (
   `IDColor` int(11) NOT NULL,
   `IDPriceGroup` int(11) NOT NULL,
   `Price` float NOT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `IDColor` (`IDColor`),
+  KEY `IDColor_2` (`IDColor`),
+  KEY `IDPriceGroup` (`IDPriceGroup`),
+  KEY `IDPriceGroup_2` (`IDPriceGroup`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Цены на материалы ламелей' AUTO_INCREMENT=250 ;
 
 --
@@ -838,6 +998,134 @@ INSERT INTO `pricelamellas` (`ID`, `IDColor`, `IDPriceGroup`, `Price`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `priceropes`
+--
+
+CREATE TABLE IF NOT EXISTS `priceropes` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `IDRope` int(11) NOT NULL,
+  `Price` float NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `IDRope` (`IDRope`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Цены на веревочки для жалюзи' AUTO_INCREMENT=64 ;
+
+--
+-- Дамп данных таблицы `priceropes`
+--
+
+INSERT INTO `priceropes` (`ID`, `IDRope`, `Price`) VALUES
+(1, 1, 0.03),
+(2, 2, 0.03),
+(3, 3, 0.03),
+(4, 4, 0.03),
+(5, 5, 0.03),
+(6, 6, 0.03),
+(7, 7, 0.03),
+(8, 8, 0.03),
+(9, 9, 0.03),
+(10, 10, 0.03),
+(11, 11, 0.03),
+(12, 12, 0.03),
+(13, 13, 0.03),
+(14, 14, 0.03),
+(15, 15, 0.03),
+(16, 16, 0.03),
+(17, 17, 0.03),
+(18, 18, 0.03),
+(19, 19, 0.03),
+(20, 20, 0.03),
+(21, 21, 0.03),
+(22, 22, 0.03),
+(23, 23, 0.03),
+(24, 24, 0.03),
+(25, 25, 0.03),
+(26, 26, 0.03),
+(27, 27, 0.03),
+(28, 28, 0.03),
+(29, 29, 0.03),
+(30, 30, 0.03),
+(31, 31, 0.03),
+(32, 32, 0.03),
+(33, 33, 0.03),
+(34, 34, 0.03),
+(35, 35, 0.03),
+(36, 36, 0.03),
+(37, 37, 0.03),
+(38, 38, 0.03),
+(39, 39, 0.03),
+(40, 40, 0.03),
+(41, 41, 0.03),
+(42, 42, 0.03),
+(43, 43, 0.03),
+(44, 44, 0.03);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `pricestaircases`
+--
+
+CREATE TABLE IF NOT EXISTS `pricestaircases` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `IDStaircase` int(11) NOT NULL,
+  `Price` float NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `IDStaircase` (`IDStaircase`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Цены на лесенки жалюзи' AUTO_INCREMENT=64 ;
+
+--
+-- Дамп данных таблицы `pricestaircases`
+--
+
+INSERT INTO `pricestaircases` (`ID`, `IDStaircase`, `Price`) VALUES
+(1, 1, 0.1),
+(2, 2, 0.1),
+(3, 3, 0.1),
+(4, 4, 0.1),
+(5, 5, 0.1),
+(6, 6, 0.1),
+(7, 7, 0.1),
+(8, 8, 0.1),
+(9, 9, 0.1),
+(10, 10, 0.1),
+(11, 11, 0.1),
+(12, 12, 0.1),
+(13, 13, 0.1),
+(14, 14, 0.1),
+(15, 15, 0.1),
+(16, 16, 0.1),
+(17, 17, 0.1),
+(18, 18, 0.1),
+(19, 19, 0.1),
+(20, 20, 0.1),
+(21, 21, 0.1),
+(22, 22, 0.1),
+(23, 23, 0.1),
+(24, 24, 0.1),
+(25, 25, 0.1),
+(26, 26, 0.1),
+(27, 27, 0.1),
+(28, 28, 0.1),
+(29, 29, 0.1),
+(30, 30, 0.1),
+(31, 31, 0.1),
+(32, 32, 0.1),
+(33, 33, 0.1),
+(34, 34, 0.1),
+(35, 35, 0.1),
+(36, 36, 0.1),
+(37, 37, 0.1),
+(38, 38, 0.1),
+(39, 39, 0.1),
+(40, 40, 0.1),
+(41, 41, 0.1),
+(42, 42, 0.1),
+(43, 43, 0.1),
+(44, 44, 0.1);
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `ropes`
 --
 
@@ -916,8 +1204,43 @@ CREATE TABLE IF NOT EXISTS `sizelimits` (
   `MaxWidth` int(11) NOT NULL,
   `MinHeight` int(11) NOT NULL,
   `MaxHeight` int(11) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ограничения по размерам для жалюзи' AUTO_INCREMENT=1 ;
+  PRIMARY KEY (`ID`),
+  KEY `IDType` (`IDType`),
+  KEY `IDMaterial` (`IDMaterial`),
+  KEY `IDPlacement` (`IDPlacement`),
+  KEY `IDComplectation` (`IDComplectation`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='ограничения по размерам для жалюзи' AUTO_INCREMENT=26 ;
+
+--
+-- Дамп данных таблицы `sizelimits`
+--
+
+INSERT INTO `sizelimits` (`ID`, `IDType`, `IDMaterial`, `IDPlacement`, `Size`, `IDComplectation`, `MinWidth`, `MaxWidth`, `MinHeight`, `MaxHeight`) VALUES
+(1, 1, NULL, NULL, NULL, NULL, 250, 3500, 250, 3500),
+(2, 1, 5, NULL, NULL, NULL, 250, 3500, 250, 5000),
+(3, 2, 4, NULL, 16, NULL, 250, 1300, 250, 2000),
+(4, 2, 4, NULL, 16, 6, 450, 1300, 250, 2500),
+(5, 2, 4, NULL, 16, 1, 250, 2100, 250, 2500),
+(6, 2, 4, 4, 16, NULL, 250, 1500, 250, 2000),
+(7, 2, 4, NULL, 25, NULL, 250, 1500, 250, 2000),
+(8, 2, 4, NULL, 25, 6, 450, 1500, 250, 2500),
+(9, 2, 4, NULL, 25, 1, 250, 3000, 250, 2500),
+(10, 2, 4, 4, 25, NULL, 250, 1500, 250, 2000),
+(11, 2, 4, NULL, 50, NULL, 450, 1800, 400, 1800),
+(12, 2, 4, NULL, 50, 1, 450, 2500, 400, 2500),
+(13, 2, 4, 4, 50, NULL, 450, 1500, 400, 2000),
+(14, 2, 1, NULL, 25, NULL, 330, 1800, 400, 1800),
+(15, 2, 1, NULL, 25, 1, 330, 2130, 400, 3000),
+(16, 2, 1, 4, 25, NULL, 330, 1500, 400, 1700),
+(17, 2, 1, NULL, 50, NULL, 420, 1800, 400, 1800),
+(18, 2, 1, NULL, 50, 1, 420, 2130, 400, 3000),
+(19, 2, 2, NULL, 25, NULL, 330, 1800, 400, 1800),
+(20, 2, 2, NULL, 25, 1, 330, 1800, 400, 3000),
+(21, 2, 2, 4, 25, NULL, 330, 1500, 400, 1700),
+(22, 2, 2, NULL, 50, NULL, 420, 1800, 400, 1800),
+(23, 2, 2, NULL, 50, 1, 420, 1800, 400, 3000),
+(24, 2, 3, NULL, 50, NULL, 420, 1800, 400, 1800),
+(25, 2, 3, NULL, 50, 1, 420, 2130, 400, 3000);
 
 -- --------------------------------------------------------
 
@@ -1005,6 +1328,67 @@ INSERT INTO `types` (`ID`, `Name`) VALUES
 (3, 'Мультифактурные'),
 (4, 'Рулонные шторы'),
 (5, 'amilux');
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
+--
+
+--
+-- Ограничения внешнего ключа таблицы `colors`
+--
+ALTER TABLE `colors`
+  ADD CONSTRAINT `colors_ibfk_2` FOREIGN KEY (`TypeID`) REFERENCES `types` (`ID`),
+  ADD CONSTRAINT `colors_ibfk_1` FOREIGN KEY (`MaterialID`) REFERENCES `materials` (`ID`);
+
+--
+-- Ограничения внешнего ключа таблицы `correspondness`
+--
+ALTER TABLE `correspondness`
+  ADD CONSTRAINT `correspondness_ibfk_5` FOREIGN KEY (`IDLamella`) REFERENCES `colors` (`ID`),
+  ADD CONSTRAINT `correspondness_ibfk_1` FOREIGN KEY (`IDRope`) REFERENCES `ropes` (`ID`),
+  ADD CONSTRAINT `correspondness_ibfk_2` FOREIGN KEY (`IDStaircase`) REFERENCES `pricestaircases` (`ID`),
+  ADD CONSTRAINT `correspondness_ibfk_3` FOREIGN KEY (`IDLowCornice`) REFERENCES `cornices` (`ID`),
+  ADD CONSTRAINT `correspondness_ibfk_4` FOREIGN KEY (`IDTopCornice`) REFERENCES `cornices` (`ID`);
+
+--
+-- Ограничения внешнего ключа таблицы `pricecomplectation`
+--
+ALTER TABLE `pricecomplectation`
+  ADD CONSTRAINT `pricecomplectation_ibfk_1` FOREIGN KEY (`IDComplectation`) REFERENCES `complectation` (`ID`);
+
+--
+-- Ограничения внешнего ключа таблицы `pricecornices`
+--
+ALTER TABLE `pricecornices`
+  ADD CONSTRAINT `pricecornices_ibfk_1` FOREIGN KEY (`IDCornice`) REFERENCES `cornices` (`ID`);
+
+--
+-- Ограничения внешнего ключа таблицы `pricelamellas`
+--
+ALTER TABLE `pricelamellas`
+  ADD CONSTRAINT `pricelamellas_ibfk_2` FOREIGN KEY (`IDPriceGroup`) REFERENCES `pricegroups` (`ID`),
+  ADD CONSTRAINT `pricelamellas_ibfk_1` FOREIGN KEY (`IDColor`) REFERENCES `colors` (`ID`);
+
+--
+-- Ограничения внешнего ключа таблицы `priceropes`
+--
+ALTER TABLE `priceropes`
+  ADD CONSTRAINT `priceropes_ibfk_1` FOREIGN KEY (`IDRope`) REFERENCES `ropes` (`ID`);
+
+--
+-- Ограничения внешнего ключа таблицы `pricestaircases`
+--
+ALTER TABLE `pricestaircases`
+  ADD CONSTRAINT `pricestaircases_ibfk_1` FOREIGN KEY (`IDStaircase`) REFERENCES `staircases` (`ID`);
+
+--
+-- Ограничения внешнего ключа таблицы `sizelimits`
+--
+ALTER TABLE `sizelimits`
+  ADD CONSTRAINT `sizelimits_ibfk_4` FOREIGN KEY (`IDComplectation`) REFERENCES `complectation` (`ID`),
+  ADD CONSTRAINT `sizelimits_ibfk_1` FOREIGN KEY (`IDType`) REFERENCES `types` (`ID`),
+  ADD CONSTRAINT `sizelimits_ibfk_2` FOREIGN KEY (`IDMaterial`) REFERENCES `materials` (`ID`),
+  ADD CONSTRAINT `sizelimits_ibfk_3` FOREIGN KEY (`IDPlacement`) REFERENCES `placement` (`ID`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
