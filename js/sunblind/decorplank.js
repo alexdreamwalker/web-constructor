@@ -27,7 +27,7 @@ DecorPlank.prototype.paint = function(options) {
 		self.repaint();
 	};
 	this.element.onmouseup = function(e) {
-		global.ui.showDesigner();	
+		global.ui.showDesigner("lamella");	
 	};
 
 	this.repaint();

@@ -10,6 +10,7 @@ SunblindUI.prototype.sunblind = this.sunblind;
 SunblindUI.prototype.elem = this.elem;
 SunblindUI.prototype.designer = this.designer;
 SunblindUI.prototype.colors = [];
+SunblindUI.prototype.cornices = [];
 SunblindUI.prototype.activeColors = [];
 SunblindUI.prototype.designerActive = false;
 
@@ -25,6 +26,7 @@ SunblindUI.prototype.start = function() {
 		.then(function() { return self.getMaterials(); })
 		.then(function() { return self.getSizes(); })
 		.then(function() { return self.getColors(); })
+		.then(function() { return self.getCorniceColors(); })
 		.then(function() { return self.getComplectation(); });
 	});
 };
@@ -94,11 +96,25 @@ SunblindUI.prototype.getColors = function() {
 	return new Promise(function(resolve, reject) {
 		var material = getSelectValue("sunblindsMaterials").dataset.id;
 		var size = getSelectValue("sunblindsLamellaSizes").dataset.size;
-		var type = 1;
+		alert(self.sunblind.lamellaOrientation);
+		var type = self.sunblind.lamellaOrientation;
 		wsOperator.postMessage({cmd: "getSunblindsColors", type: "db", params: {"idMaterial": material, "idType": type, "size": size}}, function(response) {
 			var colors = JSON.parse(response);
 			self.colors = colors;
 			self.fillColors();
+			resolve();
+		});
+	});
+};
+
+SunblindUI.prototype.getCorniceColors = function() {
+	var self = this;
+	return new Promise(function(resolve, reject) {
+		var size = getSelectValue("sunblindsLamellaSizes").dataset.size;
+		wsOperator.postMessage({cmd: "getSunblindsCorniceColors", type: "db", params: {"size": size}}, function(response) {
+			var colors = JSON.parse(response);
+			self.cornices = colors;
+			self.fillCornices();
 			resolve();
 		});
 	});
@@ -131,24 +147,15 @@ SunblindUI.prototype.getComplectation = function() {
 };
 
 SunblindUI.prototype.fillColors = function() {
-	var holders = ["sunblindsColors", "sunblindsDecorColor"];
 	var designerTable = document.getElementById(this.designer).querySelector("tbody");
 	designerTable.innerHTML = "";
-	for(var j = 0; j < holders.length; j++) document.getElementById(holders[j]).innerHTML = "";
 
 	for(var i = 0; i < this.colors.length; i++) {
-		for(var j = 0; j < holders.length; j++) {
-			var option = document.createElement("option");
-			option.innerHTML = this.colors[i].Name;
-			option.dataset.id = this.colors[i].ID;
-			option.dataset.price = this.colors[i].Price;
-			document.getElementById(holders[j]).appendChild(option);
-		}
-
 		var row = document.createElement("tr");
 		row.dataset.id = this.colors[i].ID;
 		row.dataset.url = this.colors[i].Color;
 		row.dataset.price = this.colors[i].Price;
+		row.dataset.type = "lamella";
 		var imgTd = document.createElement("td");
 		var img = document.createElement("img");
 		img.src = this.colors[i].Color;
@@ -167,12 +174,39 @@ SunblindUI.prototype.fillColors = function() {
 	Designer({elem: this.designer});
 };
 
+SunblindUI.prototype.fillCornices = function() {
+	var designerTable = document.getElementById(this.designer).querySelector("tbody");
+
+	for(var i = 0; i < this.colors.length; i++) {
+		var row = document.createElement("tr");
+		row.dataset.id = this.colors[i].ID;
+		row.dataset.url = this.colors[i].Color;
+		row.dataset.price = this.colors[i].Price;
+		row.dataset.type = "cornice";
+		var imgTd = document.createElement("td");
+		var img = document.createElement("img");
+		img.src = this.colors[i].Color;
+		imgTd.appendChild(img);
+		var articleTd = document.createElement("td");
+		var article = document.createTextNode(this.colors[i].Article);
+		articleTd.appendChild(article);
+		var nameTd = document.createElement("td");
+		var name = document.createTextNode(this.colors[i].Name);
+		nameTd.appendChild(name);
+		row.appendChild(imgTd);
+		row.appendChild(articleTd);
+		row.appendChild(nameTd);
+		designerTable.appendChild(row);
+	}
+};
+
 SunblindUI.prototype.switchDecorPlank = function(e) {
 	var isActive = e.checked;
 	this.sunblind.showDecorPlank(isActive);
 };
 
-SunblindUI.prototype.showDesigner = function(e) {
+SunblindUI.prototype.showDesigner = function(type) {
+	this.designer.setType(type);
 	$("#" + this.designer).modal("show");
 };
 
@@ -184,7 +218,8 @@ SunblindUI.prototype.addSVGColor = function(material) {
 	if(this.activeColors.indexOf(material.id) == -1) {
 		this.activeColors.push(material.id);
 		var pattern = document.createElementNS(global.NS, "pattern");
-		pattern.setAttribute("id", "pattern" + material.id);
+		if(material.type == "cornice") pattern.setAttribute("id", "patternCornice" + material.id);
+		else pattern.setAttribute("id", "pattern" + material.id);
 		pattern.setAttribute("patternUnits", "userSpaceOnUse");
 		pattern.setAttribute("width", 0.1);
 		pattern.setAttribute("height", 0.1);
@@ -205,4 +240,5 @@ SunblindUI.prototype.applyColor = function(material) {
 		for(var j = 0; j < this.sunblind.layers[i].lamellas.length; j++)
 			if(this.sunblind.layers[i].lamellas[j].selected) this.sunblind.layers[i].lamellas[j].setMaterial(material);
 	if(this.sunblind.decorPlank.selected) this.sunblind.decorPlank.setMaterial(material);
+	if(this.sunblind.cornice.selected) this.sunblind.cornice.setMaterial(material);
 };

@@ -4,6 +4,7 @@ function HorizontalSunblind(options) {
 
 	this.data = {
 		type: define.sunblind.ID_HORIZONTAL,
+		lamellaOrientation: define.sunblind.ID_HORIZONTAL,
 		width: 1000,
 		height: 1000,
 		layers: [
@@ -23,8 +24,8 @@ function HorizontalSunblind(options) {
 		decorplank: {
 			isActive: true,
 			color: null,
-			size: 89,
-			width: 2300
+			size: 16,
+			width: 1000
 		},
 		complectation: []
 	};
@@ -36,6 +37,7 @@ HorizontalSunblind.prototype = Object.create(Sunblind.prototype);
 
 HorizontalSunblind.prototype.init = function() {
 	this.type = this.data.type;
+	this.lamellaOrientation = this.data.lamellaOrientation;
 	this.width = this.data.width;
 	this.height = this.data.height;
 

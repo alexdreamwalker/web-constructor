@@ -28,7 +28,7 @@ Lamella.prototype.paint = function(options) {
 	};
 	this.element.onmouseup = function(e) {
 		global.ui.designerActive = false;
-		global.ui.showDesigner();	
+		global.ui.showDesigner("lamella");	
 	};
 	this.element.onmouseover = function(e) {
 		if(e.which == 1 && global.ui.designerActive) self.selected = !self.selected;

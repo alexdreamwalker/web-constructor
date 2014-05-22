@@ -4,6 +4,7 @@ function MultiSunblind(options) {
 
 	this.data = {
 		type: define.sunblind.ID_MULTI,
+		lamellaOrientation: define.sunblind.ID_VERTICAL,
 		width: 2200,
 		height: 2000,
 		layers: [
@@ -35,6 +36,7 @@ MultiSunblind.prototype = Object.create(VerticalSunblind.prototype);
 
 MultiSunblind.prototype.init = function() {
 	this.type = this.data.type;
+	this.lamellaOrientation = this.data.lamellaOrientation;
 	this.width = this.data.width;
 	this.height = this.data.height;
 

@@ -34,10 +34,17 @@
 			} else return $this->mysqli->error;
 		}
 
-		public function getSunblindsCorniceColors()
+		public function getSunblindsCorniceColors($size)
 		{
-			$stmt = $this->mysqli->prepare("SELECT cornices.*, pricecornices.Price from cornices 
-											INNER JOIN pricecornices ON cornices.ID = pricecornices.IDCornice");
+			if(empty($size))
+				$stmt = $this->mysqli->prepare("SELECT cornices.*, pricecornices.Price from cornices 
+												INNER JOIN pricecornices ON cornices.ID = pricecornices.IDCornice");
+			else {
+				$stmt = $this->mysqli->prepare("SELECT cornices.*, pricecornices.Price from cornices 
+												INNER JOIN pricecornices ON cornices.ID = pricecornices.IDCornice
+												WHERE Size = ?");
+				$stmt->bind_param('d', $size);
+			}
 			if($stmt->execute()) {
 				$result = $stmt->get_result();
 				$result = $result->fetch_all(MYSQLI_ASSOC);

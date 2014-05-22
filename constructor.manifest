@@ -1,19 +1,24 @@
 CACHE MANIFEST
-#19.05.2014 - 01
+#22.05.2014 - 07
+
 # main file 
 index.html
+
 # pages
 pages/mainMenu.html
 pages/mainOrder.html
 pages/mainPrint.html
 pages/mainWindow.html
+
 # pages - modules - default
 pages/modules/default/canvas.html
 pages/modules/default/categories.html
 pages/modules/default/summary.html
 pages/modules/default/table.html
+
 # pages - modules - sunblind
 pages/modules/sunblind/designer.html
+
 # pages - modules - multisunblind
 pages/modules/multisunblind/canvas.html
 pages/modules/multisunblind/categories.html
@@ -21,17 +26,36 @@ pages/modules/multisunblind/summary.html
 pages/modules/multisunblind/table.html
 pages/modules/multisunblind/modal.html
 pages/modules/multisunblind/embed.html
+
+# pages - modules - verticalsunblind
+pages/modules/verticalsunblind/canvas.html
+pages/modules/verticalsunblind/categories.html
+pages/modules/verticalsunblind/summary.html
+pages/modules/verticalsunblind/table.html
+pages/modules/verticalsunblind/modal.html
+pages/modules/verticalsunblind/embed.html
+
+# pages - modules - horizontalsunblind
+pages/modules/horizontalsunblind/canvas.html
+pages/modules/horizontalsunblind/categories.html
+pages/modules/horizontalsunblind/summary.html
+pages/modules/horizontalsunblind/table.html
+pages/modules/horizontalsunblind/modal.html
+pages/modules/horizontalsunblind/embed.html
+
 # css
 css/bootstrap.css
 css/bootstrap.min.css
 css/bootstrap-theme.css
 css/bootstrap-theme.min.css
 css/style.css
+
 # fonts
 fonts/glyphicons-halflings-regular.eot
 fonts/glyphicons-halflings-regular.ttf
 fonts/glyphicons-halflings-regular.svg
 fonts/glyphicons-halflings-regular.woff
+
 # images
 images/vertical/1.png
 images/bg.png
@@ -43,6 +67,7 @@ images/menu/sunblinds/multi.jpg
 images/menu/sunblinds/roll.jpg
 images/menu/sunblinds/vertical.png
 images/menu/windows/multi.jpg
+
 # js
 js/define.js
 js/common.js
@@ -60,6 +85,8 @@ js/construction.js
 js/svg/svgbezier.js
 js/svg/svgbezierspline.js
 js/svg/arc.js
+
+# js - sunblind
 js/sunblind/cornice.js
 js/sunblind/complectation.js
 js/sunblind/decorplank.js
@@ -69,15 +96,26 @@ js/sunblind/layer.js
 js/sunblind/other.js
 js/sunblind/sunblind.js
 js/sunblind/sunblindui.js
+
+# js - sunblind - vertical
 js/sunblind/verticalsunblind.js
 js/sunblind/verticalsunblindui.js
 js/sunblind/verticallayer.js
+
+# js - sunblind - horizontal
+js/sunblind/horizontalsunblind.js
+js/sunblind/horizontalsunblindui.js
+js/sunblind/horizontallayer.js
+
+# js - sunblind - multi
 js/sunblind/multisunblind.js
 js/sunblind/multisunblindui.js
 js/sunblind/multilayer.js
+
 # cpp - NaCl
 cpp/instance/sunblindinstance.nmf
 cpp/instance/sunblindinstance.pexe
+
 # network
 NETWORK:
 *

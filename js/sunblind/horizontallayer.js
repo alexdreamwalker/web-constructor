@@ -17,10 +17,10 @@ HorizontalLayer.prototype.paint = function() {
 	if(this.lamellas.length == 0)
 		for(var i = 0; i < lamellaCount; i++) {
 			var lamellaWidth = this.width;
-			var lamellaHeight = this.lamellaSize * 0.95;;
+			var lamellaHeight = this.lamellaSize * 0.95;
 			var pos = {
 				x: 0,
-				y: 0 + this.sunblind.cornice.height * 2 + i * lamellaHeight * 1.05;
+				y: 0 + this.sunblind.cornice.height * 2 + i * lamellaHeight * 1.05
 			};
 			var lamella = new Lamella({width: lamellaWidth, height: lamellaHeight, x: pos.x, y: pos.y});
 			this.addLamella(lamella);

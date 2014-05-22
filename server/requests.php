@@ -41,7 +41,8 @@
 				return json_encode($selecter->getSunblindsCorrespondness());
 				break;
 			case 'getSunblindsCorniceColors':
-				return json_encode($selecter->getSunblindsCorniceColors());
+				$size = $params['size'];
+				return json_encode($selecter->getSunblindsCorniceColors($size));
 				break;
 			case 'getSunblindsRopes':
 				return json_encode($selecter->getSunblindsRopes());

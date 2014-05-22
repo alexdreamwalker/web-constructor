@@ -16,6 +16,7 @@ Sunblind.prototype.decorPlank = null;
 Sunblind.prototype.complectation = [];
 Sunblind.prototype.NS = global.NS;
 Sunblind.prototype.type = 0;
+Sunblind.prototype.lamellaOrientation = 0;
 
 Sunblind.prototype.addLayer = function(layer) {
 	layer.sunblind = this;
