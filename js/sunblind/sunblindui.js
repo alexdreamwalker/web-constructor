@@ -9,15 +9,16 @@ SunblindUI.prototype.categories = this.categories;
 SunblindUI.prototype.sunblind = this.sunblind;
 SunblindUI.prototype.elem = this.elem;
 SunblindUI.prototype.designer = this.designer;
+SunblindUI.prototype.designerActive = false;
+SunblindUI.prototype.designerObj = null;
 SunblindUI.prototype.colors = [];
 SunblindUI.prototype.cornices = [];
 SunblindUI.prototype.activeColors = [];
-SunblindUI.prototype.designerActive = false;
 
 SunblindUI.prototype.start = function() {
 	document.getElementById(this.elem).innerHTML = "";
 	this.hideDesigner();
-	Designer({elem: this.designer});
+	this.designerObj = new Designer({elem: this.designer});
 
 	var self = this;
 	
@@ -171,7 +172,7 @@ SunblindUI.prototype.fillColors = function() {
 		row.appendChild(nameTd);
 		designerTable.appendChild(row);
 	}
-	Designer({elem: this.designer});
+	this.designerObj = new Designer({elem: this.designer});
 };
 
 SunblindUI.prototype.fillCornices = function() {
@@ -206,7 +207,7 @@ SunblindUI.prototype.switchDecorPlank = function(e) {
 };
 
 SunblindUI.prototype.showDesigner = function(type) {
-	this.designer.setType(type);
+	this.designerObj.setType(type);
 	$("#" + this.designer).modal("show");
 };
 

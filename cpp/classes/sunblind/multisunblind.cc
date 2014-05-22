@@ -1,5 +1,5 @@
-#ifndef MULTISUNBLIND_HPP
-#define MULTISUNBLIND_HPP
+#ifndef MULTISUNBLIND_CC
+#define MULTISUNBLIND_CC
 
 #include "verticalsunblind.cc"
 #include "multilayer.cc"

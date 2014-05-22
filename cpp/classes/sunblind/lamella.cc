@@ -1,5 +1,5 @@
-#ifndef LAMELLA_HPP
-#define LAMELLA_HPP
+#ifndef LAMELLA_CC
+#define LAMELLA_CC
 
 #include "../complectation.cc"
 

@@ -1,10 +1,23 @@
-#ifndef COMPLECTATION_HPP
-#define COMPLECTATION_HPP
+#ifndef COMPLECTATION_CC
+#define COMPLECTATION_CC
 
 class Complectation
 {
 public:
-    virtual float calculate() = 0;
+	Complectation() : name(""), price(0) {}
+	Complectation(std::string nn, float pp)
+	{
+		name = nn;
+		price = pp;
+	}
+
+    virtual float calculate()
+    {
+    	return price;
+    }
+
+	std::string name;
+	float price;
 };
 
 #endif

@@ -18,6 +18,8 @@ function Designer(options) {
 
 		var rows = this.table.querySelectorAll("tr");
 		for(var i = 0; i < rows.length; i++) rows[i].addEventListener("click", this.setColor, false);
+
+		return this;
 	};
 
 	this.filterColors = function() {

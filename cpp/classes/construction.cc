@@ -1,5 +1,5 @@
-#ifndef CONSTRUCTION_HPP
-#define CONSTRUCTION_HPP
+#ifndef CONSTRUCTION_CC
+#define CONSTRUCTION_CC
 
 #include <map>
 #include <string>

@@ -1,5 +1,5 @@
-#ifndef VERTICALSUNBLIND_HPP
-#define VERTICALSUNBLIND_HPP
+#ifndef VERTICALSUNBLIND_CC
+#define VERTICALSUNBLIND_CC
 
 #include "sunblind.cc"
 
