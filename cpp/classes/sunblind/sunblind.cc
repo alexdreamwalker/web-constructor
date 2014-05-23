@@ -3,6 +3,7 @@
 
 #include "../construction.cc"
 #include "cornice.cc"
+#include "decorplank.cc"
 #include "layer.cc"
 
 class Sunblind: public Construction
@@ -32,6 +33,7 @@ public:
             result["ламели"] += pr;
         }
         result["карниз"] = cornice.calculate();
+        result["декоративная планка"] = decor.calculate();
         result["комплектация"] = 0;
         for(int i = 0; i < complectation.size(); i++)
             result["комплектация"] += (*complectation[i]).calculate();
@@ -43,14 +45,25 @@ public:
         layers.push_back(&layer);
     }
 
+    void addComplectation(Complectation &complect)
+    {
+        complectation.push_back(&complect);
+    }
+
     void setCornice(Cornice &nCornice)
     {
         cornice = nCornice;
     }
 
+    void setDecorPlank(DecorPlank &nDecor)
+    {
+        decor = nDecor;
+    }
+
 
 private:
     Cornice cornice;
+    DecorPlank decor;
     std::vector<Layer*> layers;
     std::vector<Complectation*> complectation;
     int width;

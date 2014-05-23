@@ -25,6 +25,8 @@
 /// NaCl module.
 
 #include "instance.cc"
+#include "../classes/sunblind/horizontalfactory.cc"
+#include "../classes/sunblind/verticalfactory.cc"
 #include "../classes/sunblind/multifactory.cc"
 
 #define COUNT_SUNBLIND 1
@@ -43,85 +45,104 @@
 /// receive messages from the browser, and use PostMessage() to send messages
 /// back to the browser.  Note that this interface is asynchronous.
 class SunblindInstance : public ConstructorInstance {
- public:
+public:
   /// The constructor creates the plugin-side instance.
   /// @param[in] instance the handle to the browser-side plugin instance.
-  explicit SunblindInstance(PP_Instance instance) : ConstructorInstance(instance)
-  {
-    actions["countSunblinds"] = 1;
-  }
-  virtual ~SunblindInstance() {}
+	explicit SunblindInstance(PP_Instance instance) : ConstructorInstance(instance) {
+		actions["countSunblinds"] = 1;
+	}
+	virtual ~SunblindInstance() {}
 
   /// Handler for messages coming in from the browser via postMessage().  The
   /// @a var_message can contain be any pp:Var type; for example int, string
   /// Array or Dictinary. Please see the pp:Var documentation for more details.
   /// @param[in] var_message The message posted by the browser.
-  virtual void HandleMessage(const pp::Var& var_message) {
+	virtual void HandleMessage(const pp::Var& var_message) {
     // TODO(sdk_user): 1. Make this function handle the incoming message.
-    if(!var_message.is_string())
-      return; 
-    std::string message = var_message.AsString();
+		if(!var_message.is_string())
+			return; 
+		std::string message = var_message.AsString();
     // parse JSON data
-    reader.parse(message, root);
-    std::string action = root.get("action", "undefined").asString();
+		reader.parse(message, root);
+		std::string action = root.get("action", "undefined").asString();
     // make task and get a response
-    int task = actions[action];
-    switch(task)
-    {
-      case COUNT_SUNBLIND:
-      {
-        int type = root["data"].get("type", 0).asInt();
-        switch(type)
-        {
-          case VERTICAL_SUNBLIND:
-            break;
-          case HORIZONTAL_SUNBLIND:
-            break;
-          case MULTI_SUNBLIND:
-          {
-            Factory* factory = new MultiFactory();
-            Construction* sunblind = factory->fromJSON(writer.write(root["data"]));
-            std::map<std::string, float> price = sunblind->calculate();
+		int task = actions[action];
+		switch(task) {
 
-            root["data"].clear();
-            for(std::map<std::string, float>::iterator it = price.begin(); it != price.end(); ++it) 
-              root["data"][it->first] = it->second; 
-            delete sunblind;
-            delete factory;
+			case COUNT_SUNBLIND: {
+				int type = root["data"].get("type", 0).asInt();
+				switch(type) {
+					
+					case VERTICAL_SUNBLIND: {
+						Factory* factory = new VerticalFactory();
+						Construction* sunblind = factory->fromJSON(writer.write(root["data"]));
+						std::map<std::string, float> price = sunblind->calculate();
 
-            break;
-          }
-          default:
-            break;
-        }
-        break;
-      }
-      default:
-        break;
-    }
+						root["data"].clear();
+						for(std::map<std::string, float>::iterator it = price.begin(); it != price.end(); ++it) 
+							root["data"][it->first] = it->second; 
+						delete sunblind;
+						delete factory;
+						break;
+					}
+
+					case HORIZONTAL_SUNBLIND: {
+						Factory* factory = new HorizontalFactory();
+						Construction* sunblind = factory->fromJSON(writer.write(root["data"]));
+						std::map<std::string, float> price = sunblind->calculate();
+
+						root["data"].clear();
+						for(std::map<std::string, float>::iterator it = price.begin(); it != price.end(); ++it) 
+							root["data"][it->first] = it->second; 
+						delete sunblind;
+						delete factory;
+						break;
+					}
+
+					case MULTI_SUNBLIND: {
+						Factory* factory = new MultiFactory();
+						Construction* sunblind = factory->fromJSON(writer.write(root["data"]));
+						std::map<std::string, float> price = sunblind->calculate();
+
+						root["data"].clear();
+						for(std::map<std::string, float>::iterator it = price.begin(); it != price.end(); ++it) 
+							root["data"][it->first] = it->second; 
+						delete sunblind;
+						delete factory;
+						break;
+					}
+
+					default:
+					break;
+				}
+				break;
+			}
+			default:
+			break;
+		}
     // send a response
-    root["action"] = action;
-    std::string output = writer.write(root);
-    pp::Var var_reply;
-    var_reply = pp::Var(output);
-    PostMessage(var_reply);
-  }
+		root["action"] = action;
+		std::string output = writer.write(root);
+		pp::Var var_reply;
+		var_reply = pp::Var(output);
+		PostMessage(var_reply);
+	}
 };
 
 /// The Module class.  The browser calls the CreateInstance() method to create
 /// an instance of your NaCl module on the web page.  The browser creates a new
 /// instance for each <embed> tag with type="application/x-pnacl".
 class SunblindModule : public ConstructorModule {
- public:
-  SunblindModule() : ConstructorModule() {}
-  virtual ~SunblindModule() {}
+public:
+	SunblindModule() : ConstructorModule() {}
+	virtual ~SunblindModule() {}
 
   /// Create and return a HelloTutorialInstance object.
   /// @param[in] instance The browser-side instance.
   /// @return the plugin-side instance.
-  virtual pp::Instance* CreateInstance(PP_Instance instance) {
-    return new SunblindInstance(instance);
-  }
+	virtual pp::Instance* CreateInstance(PP_Instance instance) {
+		return new SunblindInstance(instance);
+	}
 };
 
 namespace pp {
@@ -130,7 +151,7 @@ namespace pp {
 /// CreateInstance() method on the object you return to make instances.  There
 /// is one instance per <embed> tag on the page.  This is the main binding
 /// point for your NaCl module with the browser.
-Module* CreateModule() {
-  return new SunblindModule();
-}
+	Module* CreateModule() {
+		return new SunblindModule();
+	}
 }  // namespace pp

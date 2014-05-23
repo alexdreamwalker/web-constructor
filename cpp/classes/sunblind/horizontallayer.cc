@@ -21,6 +21,7 @@ public:
         	result += price;
         	if(price > maxPrice) maxPrice = price;
         }
+        if(colors.size() >= 3) result *= 1.5;
         if(result < maxPrice * minSquare) result = maxPrice * minSquare;
 
         return result;

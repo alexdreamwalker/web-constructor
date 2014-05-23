@@ -2,6 +2,7 @@
 #define VERTICALSUNBLIND_CC
 
 #include "sunblind.cc"
+#include "verticallayer.cc"
 
 class VerticalSunblind: public Sunblind
 {

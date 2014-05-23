@@ -26,6 +26,12 @@ public:
         Cornice cornice(corniceWidth, corniceSize, cornicePrice, minCornLength);
         sunblind->setCornice(cornice);
 
+        //get decor plank info
+        int decorWidth = root["decorPlank"].get("width", 0).asInt();
+        float decorPrice = root["decorPlank"].get("price", 0.0).asFloat();
+        DecorPlank decor(decorWidth, decorPrice);
+        sunblind->setDecorPlank(decor); 
+
         // get layers info
         const Json::Value layers = root["layers"];
         for(int i = 0; i < layers.size(); i++)
@@ -59,6 +65,16 @@ public:
                 }
             }
             sunblind->addLayer(*layer);
+        }
+
+        //get complectation info
+        const Json::Value complectation = root["complectation"];
+        for(int i = 0; i < complectation.size(); i++)
+        {
+            std::string compName = complectation[i].get("name", "undefined").asString();
+            float compPrice = complectation[i].get("price", 0.0).asFloat();
+            Complectation *complect = new Complectation(compName, compPrice);
+            sunblind->addComplectation(*complect);
         }
 
         return sunblind;

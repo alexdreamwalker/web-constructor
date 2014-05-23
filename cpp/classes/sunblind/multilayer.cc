@@ -11,17 +11,21 @@ public:
     {
         float result = 0;
         float s = (float)(width / 1000) * (float)(height / 1000);
-        float maxPrice = 0;
+
+        float price = 0;
+        float currentSquare = 0;
+        for(int i = 0; i < getLamellas().size(); i++)
+            currentSquare += ((float)getLamellas()[i]->width / 1000) * ((float)getLamellas()[i]->height / 1000);
+
+        float mediumPrice = 0;
         for (std::map<float, int>::iterator it = colors.begin(); it != colors.end(); ++it) 
-        {
-            float percent = (float)it->second / (float)getLamellas().size();
-            std::cout << it->second << " / " << getLamellas().size() << " = " << percent << '\n';
-        	float price = s * percent * it->first;
-            std::cout << s << " * " << percent << " * " << it->first << '\n';
-        	result += price;
-        	if(price > maxPrice) maxPrice = price;
-        }
-        if(result < maxPrice * minSquare) result = maxPrice * minSquare;
+            mediumPrice += it->first;
+        mediumPrice = mediumPrice / (float)colors.size();
+
+        float part = currentSquare / s;
+        if(part < 0.5)
+            price = s * mediumPrice / 2;
+        else price = s * mediumPrice;
 
         return result;
     }
