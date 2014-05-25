@@ -3,7 +3,6 @@ function WSOperator(options) {
     var dbWorker = null;
     this.connected = false;
 
-
     function startWork() {
         dbWorker = new Worker("js/webSocket.js");
         this.connected = false;

@@ -69,17 +69,22 @@
 							<select class="form-control input-sm">
 								<option>Справа</option>
 								<option>Слева</option>
+								<option>В -- П</option>
+								<option>П -- В</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-6 control-label">Вариант раскрытия:</label>
+						<label class="col-xs-6 control-label">Лесенка:</label>
 						<div class="col-xs-6">
-							<select class="form-control input-sm">
-								<option>К управлению</option>
-								<option>От управления</option>
-								<option>В разные стороны</option>
-								<option>К центру</option>
+							<select class="form-control input-sm" id="sunblindsStaircase">
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-6 control-label">Веревочка:</label>
+						<div class="col-xs-6">
+							<select class="form-control input-sm" id="sunblindsRope">
 							</select>
 						</div>
 					</div>
@@ -87,11 +92,6 @@
 						<label class="col-xs-6 control-label">Длина управления:</label>
 						<div class="col-xs-4">
 							<input type="text" class="form-control input-sm">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-xs-4 control-label">Комплектация:</label>
-						<div class="col-xs-6" id="sunblindsComplectation">
 						</div>
 					</div>
 				</form>
@@ -124,10 +124,22 @@
 						<select class="form-control input-sm" id="sunblindsDecorColor"></select>
 					</div>
 				</div>
+			</form>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a data-toggle="collapse" data-parent="#accordion" href="#collapseSix">
+					Комплектация
+				</a>
+			</h4>
+		</div>
+		<div id="collapseSix" class="panel-collapse collapse">
+			<form class="form-horizontal" role="form">
 				<div class="form-group">
-					<label class="col-xs-5 control-label">Длина планки:</label>
-					<div class="col-xs-4">
-						<input type="text" class="form-control input-sm">
+					<label class="col-xs-4 control-label">Комплектация:</label>
+					<div class="col-xs-6" id="sunblindsComplectation">
 					</div>
 				</div>
 			</form>

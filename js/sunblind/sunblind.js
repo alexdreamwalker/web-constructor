@@ -7,6 +7,15 @@ function Sunblind(options) {
 
 Sunblind.prototype = Object.create(Construction.prototype);
 
+Sunblind.prototype.placements = [];
+Sunblind.prototype.materials = [];
+Sunblind.prototype.cornices = [];
+Sunblind.prototype.colors = [];
+Sunblind.prototype.sizes = [];
+Sunblind.prototype.sizeLimits = [];
+Sunblind.prototype.complectations = [];
+
+Sunblind.prototype.placement = null;
 Sunblind.prototype.width = 0;
 Sunblind.prototype.height = 0;
 Sunblind.prototype.elem = this.elem;
@@ -24,8 +33,15 @@ Sunblind.prototype.addLayer = function(layer) {
 };
 
 Sunblind.prototype.addComplectation = function(complectation) {
+	if(this.complectation.indexOf(complectation) != -1) return;
 	complectation.sunblind = this;
 	this.complectation.push(complectation);
+	this.sendToCalculate();
+};
+
+Sunblind.prototype.setPlacement = function(placement) {
+	this.placement = placement;
+	this.sendToCalculate();
 };
 
 Sunblind.prototype.setCornice = function(cornice) {
@@ -40,6 +56,7 @@ Sunblind.prototype.setDecorPlank = function(plank) {
 
 Sunblind.prototype.showDecorPlank = function(isActive) {
 	this.decorPlank.setActive(isActive);
+	this.sendToCalculate();
 };
 
 Sunblind.prototype.paint = function(options) {
@@ -83,6 +100,11 @@ Sunblind.prototype.calculate = function(options) {
 };
 
 Sunblind.prototype.fromJSON = function(json) {
+	this.width = json.width;
+	this.height = json.height;
+	this.complectation = json.complectation;
+	this.type = json.type;
+
 	var layers = json.layers;
 	for(var i = 0; i < layers.length; i++) {
 		var layer = new Layer();
@@ -94,11 +116,15 @@ Sunblind.prototype.fromJSON = function(json) {
 	cornice.fromJSON(json.cornice);
 	this.setCornice(cornice);
 
+	var decorPlank = new DecorPlank();
+	decorPlank.fromJSON(json.decorPlank);
+	this.setDecorPlank(decorPlank);
+
 	var complectation = json.complectation;
 	for(var i = 0; i < complectation.length; i++) {
 		var complect = null;
 		switch(complectation.type) {
-			default: complect = new Complectation(); break;
+			default: complect = new Complectation({id: complectation[i].id, name: complectation[i].name, price: complectation[i].price}); break;
 		};
 		this.addComplectation(complect);
 	}
@@ -108,19 +134,25 @@ Sunblind.prototype.toJSON = function() {
 	var layers = [];
 	for(var i = 0; i < this.layers.length; i++)
 		layers.push(this.layers[i].toJSON());
+	var complectation = [];
+	for(var i = 0; i < this.complectation.length; i++)
+		complectation.push(this.complectation[i].toJSON());
 	var obj = {
 		type: this.type,
+		placement: this.placement,
 		width: this.width,
 		height: this.height,
 		cornice: this.cornice.toJSON(),
 		"layers": layers,
-		decorPlank: this.decorPlank.toJSON()
+		decorPlank: this.decorPlank.toJSON(),
+		"complectation": complectation
 	};
 	return obj;
 };
 
 Sunblind.prototype.sendToCalculate = function() {
 	var data = this.toJSON();
+	console.log(data);
 	cppOperator.postMessage("countSunblinds", {"data": data}, function(response) {
 		var data = JSON.parse(response).data;
 		uiOperator.setPriceTable(data);
@@ -128,20 +160,83 @@ Sunblind.prototype.sendToCalculate = function() {
 };
 
 Sunblind.prototype.changeWidth = function(newWidth) {
-	console.log("new width : " + newWidth);
-	this.width = newWidth;
-	this.cornice.width = newWidth;
-	for(var i = 0; i < this.layers.length; i++)
-		this.layers[i].width = newWidth;
-	this.repaint();
+	if(this.checkSizeLimits(newWidth, this.height)) {
+		this.width = newWidth;
+		this.cornice.width = newWidth;
+		for(var i = 0; i < this.layers.length; i++)
+			this.layers[i].width = newWidth;
+		this.repaint();
+		this.sendToCalculate();
+	} else {
+		alert("Введено недопустимое значение");
+	}
 };
 
 Sunblind.prototype.changeHeight = function(newHeight) {
-	console.log("new height : " + newHeight);
-	this.height = newHeight;
-	for(var i = 0; i < this.layers.length; i++)
-		this.layers[i].height = newHeight;
-	this.repaint();
+	if(this.checkSizeLimits(this.width, newHeight)) {
+		this.height = newHeight;
+		for(var i = 0; i < this.layers.length; i++)
+			this.layers[i].height = newHeight;
+		this.repaint();
+		this.sendToCalculate();
+	} else {
+		alert("Введено недопустимое значение");
+	}
+};
+
+Sunblind.prototype.checkSizeLimits = function(width, height) {
+	var limit = this.getSizeArray()[0];
+	if(limit != null)
+		return (width >= limit.MinWidth) && (width <= limit.MaxWidth) && (height >= limit.MinHeight) && (height <= limit.MaxHeight);
+	else
+		return undefined;
+};
+
+Sunblind.prototype.getSizeArray = function() {
+	var result = true;
+	var type = this.type;
+	var placement = this.placement.id;
+	var material = getSelectValue("sunblindsMaterials").dataset.id;
+	var size = getSelectValue("sunblindsLamellaSizes").dataset.size;
+	var complectation = this.complectation[0].id;
+	var limits = this.sizeLimits;
+
+	var stage = [];
+	var finalStage = [];
+	for(var i = 0; i < limits.length; i++)
+		if(limits[i].IDType == type || limits[i].IDType == null)
+			stage.push(limits[i]);
+	
+	if(stage.length == 0) return finalStage;
+	finalStage = stage.slice();
+	stage = [];
+	for(var i = 0; i < finalStage.length; i++)
+		if(finalStage[i].IDMaterial == material || finalStage[i].IDMaterial == null)
+			stage.push(finalStage[i]);
+
+	if(stage.length == 0) return finalStage;
+	finalStage = stage.slice();
+	stage = [];
+	for(var i = 0; i < finalStage.length; i++)
+		if(finalStage[i].IDPlacement == placement || finalStage[i].IDPlacement == null)
+			stage.push(finalStage[i]);
+
+	if(stage.length == 0) return finalStage;
+	finalStage = stage.slice();
+	stage = [];
+	for(var i = 0; i < finalStage.length; i++)
+		if(finalStage[i].Size == size || finalStage[i].Size == null)
+			stage.push(finalStage[i]);
+
+	if(stage.length == 0) return finalStage;
+	finalStage = stage.slice();
+	stage = [];
+	for(var i = 0; i < finalStage.length; i++)
+		if(finalStage[i].IDComplectation == complectation || finalStage[i].IDComplectation == null)
+			stage.push(finalStage[i]);
+
+	if(stage.length == 0) return finalStage;
+	return stage;
 };
 
 Sunblind.prototype.test = function(options) {

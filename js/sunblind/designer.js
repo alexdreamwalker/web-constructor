@@ -44,7 +44,7 @@ function Designer(options) {
 		material.id = parseInt(target.dataset.id);
 		material.url = target.dataset.url;
 		material.price = parseFloat(target.dataset.price);
-		material.type = this.selectedType;
+		material.type = target.dataset.type;
 		global.ui.applyColor(material);
 		global.ui.hideDesigner();
 	};

@@ -15,6 +15,7 @@ function CPPOperator(options) {
     };
 
     this.postMessage = function(action, args, callback) {
+        if(embed == null) return;
     	actions[action] = callback;
         console.log("message posted");
     	var array = {};

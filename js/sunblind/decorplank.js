@@ -9,6 +9,7 @@ function DecorPlank(options) {
 
 	this.selected = false;
 	this.hovered = false;
+	this.activePrice = 0;
 
 	this.material = {
 		url: "",
@@ -37,8 +38,10 @@ DecorPlank.prototype.paint = function(options) {
 
 DecorPlank.prototype.setActive = function(isActive) {
 	this.isActive = isActive;
-	if(this.isActive) this.element.style.display = "";
-	else this.element.style.display = "none";
+	if(this.isActive) 
+		this.element.style.display = "";
+	else 
+		this.element.style.display = "none";
 };
 
 DecorPlank.prototype.setWidth = function(newWidth) {
@@ -47,7 +50,8 @@ DecorPlank.prototype.setWidth = function(newWidth) {
 };
 
 DecorPlank.prototype.setMaterial = function(material) {
-	this.material = material;
+	this.material.url = material.url;
+	this.material.id = material.id;
 	this.selected = false;
 	this.repaint();
 };
@@ -79,6 +83,6 @@ DecorPlank.prototype.toJSON = function() {
 	return {
 		width: this.width,
 		height: this.height,
-		price: this.material.price
+		price: this.isActive ? this.material.price : 0
 	};
 };

@@ -5,6 +5,10 @@ function VerticalSunblind(options) {
 	this.data = {
 		type: define.sunblind.ID_VERTICAL,
 		lamellaOrientation: define.sunblind.ID_VERTICAL,
+		placement: {
+			id: 1,
+			name: "Стеновое"
+		},
 		width: 2200,
 		height: 2000,
 		layers: [
@@ -25,7 +29,13 @@ function VerticalSunblind(options) {
 			size: 89,
 			width: 2300
 		},
-		complectation: []
+		complectation: [
+			{
+				id: 1,
+				name: "Стандартная",
+				price: 0
+			}
+		]
 	};
 
 	this.init();
@@ -38,6 +48,7 @@ VerticalSunblind.prototype.init = function() {
 	this.lamellaOrientation = this.data.lamellaOrientation;
 	this.width = this.data.width;
 	this.height = this.data.height;
+	this.placement = this.data.placement;
 
 	var cornice = new Cornice(this.data.cornice);
 	this.setCornice(cornice);
@@ -49,7 +60,13 @@ VerticalSunblind.prototype.init = function() {
 		var layer = new VerticalLayer(this.data.layers[i]);
 		this.addLayer(layer);
 	}
+
+	for(var i = 0; i < this.data.complectation.length; i++) {
+		var complectation = new Complectation(this.data.complectation[i]);
+		this.addComplectation(complectation);
+	}
 };
+
 
 VerticalSunblind.prototype.changeWidth = function(newWidth) {
 	for(var i = 0; i < this.layers.length; i++)

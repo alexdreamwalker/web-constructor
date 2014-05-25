@@ -61,7 +61,7 @@ class Server {
 							if($this->handshake($client, $data))
 								$this->startProcess($client);
 						}
-						elseif($bytes === 0) {
+						elseif($bytes === 0 || json_decode($data)['cmd'] == 'exit') {
 							$this->disconnect($client);
 						}
 						else {
@@ -172,10 +172,6 @@ class Server {
 										$this->disconnect($client);
 									break;
 
-			case 'exit':			$this->console("Killing a child process");
-									posix_kill($client->getPid(), SIGTERM);
-									$this->console("Process {$client->getPid()} is killed!");
-									break;
 			case null:				break;
 				
 			default:				$res = make($data);

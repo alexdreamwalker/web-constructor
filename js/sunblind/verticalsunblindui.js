@@ -5,11 +5,10 @@ function VerticalSunblindUI(options) {
 VerticalSunblindUI.prototype = Object.create(SunblindUI.prototype);
 
 VerticalSunblindUI.prototype.start = function() {
-	SunblindUI.prototype.start.apply(this, arguments);
-
 	var sunblind = new VerticalSunblind({elem: this.elem});
 	var svg = sunblind.paint();
-	document.getElementById(this.elem).appendChild(svg);
-
 	this.sunblind = sunblind;
+
+	SunblindUI.prototype.start.apply(this, arguments);
+	document.getElementById(this.elem).appendChild(svg);
 };

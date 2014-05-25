@@ -5,14 +5,14 @@ function MultiSunblindUI(options) {
 MultiSunblindUI.prototype = Object.create(SunblindUI.prototype);
 
 MultiSunblindUI.prototype.start = function() {
-	SunblindUI.prototype.start.apply(this, arguments);
-
 	var sunblind = new MultiSunblind({elem: this.elem});
 	var svg = sunblind.paint();
-	document.getElementById(this.elem).appendChild(svg);
 
 	this.sunblind = sunblind;
 
+	SunblindUI.prototype.start.apply(this, arguments);
+	
+	document.getElementById(this.elem).appendChild(svg);
 	this.updateLayersComboBox();
 };
 

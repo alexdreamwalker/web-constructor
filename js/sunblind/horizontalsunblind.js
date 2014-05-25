@@ -5,6 +5,10 @@ function HorizontalSunblind(options) {
 	this.data = {
 		type: define.sunblind.ID_HORIZONTAL,
 		lamellaOrientation: define.sunblind.ID_HORIZONTAL,
+		placement: {
+			id: 7,
+			name: "На штапик"
+		},
 		width: 1000,
 		height: 1000,
 		layers: [
@@ -27,7 +31,13 @@ function HorizontalSunblind(options) {
 			size: 16,
 			width: 1000
 		},
-		complectation: []
+		complectation: [
+			{
+				id: 1,
+				name: "Стандартная",
+				price: 0
+			}
+		]
 	};
 
 	this.init();
@@ -40,6 +50,7 @@ HorizontalSunblind.prototype.init = function() {
 	this.lamellaOrientation = this.data.lamellaOrientation;
 	this.width = this.data.width;
 	this.height = this.data.height;
+	this.placement = this.data.placement;
 
 	var cornice = new Cornice(this.data.cornice);
 	this.setCornice(cornice);
@@ -50,6 +61,10 @@ HorizontalSunblind.prototype.init = function() {
 	for(var i = 0; i < this.data.layers.length; i++) {
 		var layer = new HorizontalLayer(this.data.layers[i]);
 		this.addLayer(layer);
+	}
+	for(var i = 0; i < this.data.complectation.length; i++) {
+		var complectation = new Complectation(this.data.complectation[i]);
+		this.addComplectation(complectation);
 	}
 };
 

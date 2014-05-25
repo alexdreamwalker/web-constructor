@@ -17,6 +17,7 @@ function Cornice(options) {
 }
 
 Cornice.prototype.paint = function(options) {
+	var self = this;
 	this.context = this.sunblind.element;
 	this.element = document.createElementNS(this.NS, "rect");
 
