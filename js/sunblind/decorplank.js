@@ -52,6 +52,8 @@ DecorPlank.prototype.setWidth = function(newWidth) {
 DecorPlank.prototype.setMaterial = function(material) {
 	this.material.url = material.url;
 	this.material.id = material.id;
+	var decor = (this.sunblind.type == define.sunblind.ID_VERTICAL) ?  define.sunblind.ID_DECOR_VERTICAL : define.sunblind.ID_DECOR_HORIZONTAL;
+	this.material.price = this.sunblind.complectations[decor].Price;
 	this.selected = false;
 	this.repaint();
 };
@@ -83,6 +85,6 @@ DecorPlank.prototype.toJSON = function() {
 	return {
 		width: this.width,
 		height: this.height,
-		price: this.isActive ? this.material.price : 0
+		price: this.isActive ? parseFloat(this.material.price) : 0
 	};
 };

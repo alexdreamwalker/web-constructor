@@ -10,7 +10,7 @@ Complectation.prototype.paint = function(options) {
 };
 
 Complectation.prototype.calculate = function(options) {
-	return this.price;
+	return parseFloat(this.price);
 };
 
 Complectation.prototype.toJSON = function() {

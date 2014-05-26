@@ -11,6 +11,7 @@ SunblindUI.prototype.elem = this.elem;
 SunblindUI.prototype.designer = this.designer;
 SunblindUI.prototype.designerActive = false;
 SunblindUI.prototype.designerObj = null;
+SunblindUI.prototype.activeColors = [];
 
 SunblindUI.prototype.start = function() {
 	document.getElementById(this.elem).innerHTML = "";
@@ -171,7 +172,7 @@ SunblindUI.prototype.getComplectation = function() {
 				label.appendChild(input);
 				label.appendChild(text);
 
-				label.addEventListener("click", function(e) {
+				input.addEventListener("change", function(e) {
 					self.sunblind.complectation = [];
 					var complects = container.querySelectorAll("input[type='checkbox']:checked");
 					for(var i = 0; i < complects.length; i++) {

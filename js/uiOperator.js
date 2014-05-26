@@ -178,6 +178,7 @@ function UIOperator(options) {
 	};
 
 	this.setPriceTable = function(table) {
+		var coeff = define.COEFF;
 		var tbody = document.querySelector("#moduleTable tbody");
 		tbody.innerHTML = "";
 		var total = 0;
@@ -185,12 +186,12 @@ function UIOperator(options) {
 			var caption = document.createElement("td");
 			caption.innerHTML = row;
 			var price = document.createElement("td");
-			price.innerHTML = table[row] + " р.";
+			price.innerHTML = parseInt(table[row] * coeff) + " р.";
 			var tr = document.createElement("tr");
 			tr.appendChild(caption);
 			tr.appendChild(price);
 			tbody.appendChild(tr);
-			total += table[row];
+			total += parseInt(table[row] * coeff);
 		}
 		this.setPrice(total);
 	};
