@@ -1,0 +1,43 @@
+<div style="height: 100%; width: 100%" id="mainWindowTable">
+	<table style="width: 100%; height: 100%; table-layout: fixed">
+		<tr id="mainWindowTopRow" style="height: 100%">
+			<td style="width: 34%">
+				<div class="panel panel-primary" style="height: 100%; overflow: auto">
+					<div class="panel-heading">Категории</div>
+					<div class="panel-body well" id="moduleCategories">
+					</div>
+				</div>
+			</td>
+			<td style="width: 64%">
+				<div class="panel panel-primary" style="height: 100%; overflow: auto" id="mainImage">
+					<div class="panel-heading">
+						Эскиз
+						<span class="glyphicon glyphicon-resize-full" style="float: right" onclick="uiOperator.requestFullImageScreen(true);"></span>
+						<span class="glyphicon glyphicon-resize-small" style="float: right; display: none" onclick="uiOperator.requestFullImageScreen(false);"></span>
+					</div>
+					<div class="panel-body well" id="moduleCanvas" style="height: 90%; padding: 0">
+						
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr style="height: 0%; display: none">
+			<td style="width: 65%">
+				<div class="panel panel-primary" style="height: 100%; overflow: auto">
+					<div class="panel-heading">Таблица</div>
+					<div class="panel-body" id="moduleTable">
+					</div>
+				</div>
+			</td>
+			<td style="width: 35%">
+				<div class="panel panel-primary" style="height: 100%; overflow: auto">
+					<div class="panel-heading">Итого</div>
+					<div class="panel-body" id="moduleSummary">		
+					</div>
+				</div>
+			</td>
+		</tr>
+	</table>
+	<div id="moduleEmbed"></div>
+	<div id="moduleModal"></div>
+</div>

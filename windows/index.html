@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Windows Constructor</title>
+		<meta charset="utf-8"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<!-- Mobile offline app mode -->
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-capable" content="yes">
+		<!-- Icons for offline app mode -->
+		<link rel="apple-touch-icon" href="images/icon.png">
+		<link rel="apple-touch-icon-precomposed" href="images/icon.png">
+		<!-- Styles -->
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<!-- Bootstrap 3.0 -->
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/bootstrap.js"></script>
+		<!-- Custom includes -->
+		<script type="text/javascript" src="js/define.js"></script>
+		<script type="text/javascript" src="js/cache.js"></script>
+		<script type="text/javascript" src="js/uiOperator.js"></script>
+		<script type="text/javascript" src="js/wsOperator.js"></script>
+		<script type="text/javascript" src="js/cppOperator.js"></script>
+		<script type="text/javascript" src="js/capabs.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" src="js/construction.js"></script>
+		<!-- windows -->
+		<script type="text/javascript" src="js/windows/multiwindowsui.js"></script>
+	</head>
+	<body onload="start();">
+		<div id="mainChecker" class="window alert alert-danger"></div>
+		<div id="mainMenu" class="window"></div>
+		<div id="mainWindow" class="window" ontouchmove="event.preventDefault();"></div>
+		<div id="mainOrder" class="window"></div>
+	</body>
+</html>
