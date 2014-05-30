@@ -45,3 +45,17 @@ div:-ms-fullscreen {
 div:fullscreen {
   width: 100% !important;
 }
+
+div.rangegroup {
+	padding: 20px;
+	display: block;
+}
+
+div.rangegroup input[type='range'] {
+	float: left;
+	width: 68%;
+}
+
+div.rangegroup input[type='number'] {
+	width: 28%;
+}

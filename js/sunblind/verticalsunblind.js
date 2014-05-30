@@ -24,7 +24,7 @@ function VerticalSunblind(options) {
 			size: 89
 		},
 		decorplank: {
-			isActive: true,
+			isActive: false,
 			color: null,
 			size: 89,
 			width: 2300

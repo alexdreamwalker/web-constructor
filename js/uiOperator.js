@@ -76,6 +76,10 @@ function UIOperator(options) {
 		$("#" + id).load(path, func);
 	};
 
+	this.loadMain = function() {
+		this.processWindows("mainMenu");
+	};
+
 
 	this.loadModule = function(options) {
 		var self = this;
@@ -105,6 +109,19 @@ function UIOperator(options) {
 				}
 			});
 		});	
+		this.processWindows("mainWindow");
+	};
+
+	this.loadService = function(options) {
+		var self = this;
+		var service = options.service;
+		this.loadWindow("mainWindow", "pages/services/" + service + "/index.html", function() {
+			document.getElementById("mainWindow").style.height = window.innerHeight + "px";
+			switch(service) {
+				case "sunblindgenerator": self.loadSunblindGenerator(); break;
+				default: break;
+			}
+		});
 		this.processWindows("mainWindow");
 	};
 
@@ -175,6 +192,17 @@ function UIOperator(options) {
 	this.loadOrder = function(options) {
 		this.loadWindow("mainOrder", "pages/mainOrder.html", function() {});
 		this.processWindows("mainOrder");
+	};
+
+	this.loadSunblindGenerator = function(options) {
+		var rangeGroups = document.querySelectorAll("div.rangegroup");
+		[].forEach.call(rangeGroups, function(rangeGroup) {
+			var range = rangeGroup.querySelector("input[type='range']");
+			var number = rangeGroup.querySelector("input[type='number']");
+			range.addEventListener("change", function(e) {
+				number.value = range.value;
+			}, false);
+		});
 	};
 
 	this.setPriceTable = function(table) {

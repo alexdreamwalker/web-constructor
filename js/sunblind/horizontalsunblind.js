@@ -26,7 +26,7 @@ function HorizontalSunblind(options) {
 			y: 0
 		},
 		decorplank: {
-			isActive: true,
+			isActive: false,
 			color: null,
 			size: 16,
 			width: 1000
@@ -78,4 +78,23 @@ HorizontalSunblind.prototype.changeHeight = function(newHeight) {
 	for(var i = 0; i < this.layers.length; i++)
 		this.layers[i].lamellas = [];
 	Sunblind.prototype.changeHeight.apply(this, arguments);
+};
+
+HorizontalSunblind.prototype.generate = function() {
+	var layers = [];
+	var layer = new HorizontalLayer;
+	var complectation = [];
+	for(var i = 0; i < this.complectation.length; i++)
+		complectation.push(this.complectation[i].toJSON());
+	var obj = {
+		type: this.type,
+		placement: this.placement,
+		width: this.width,
+		height: this.height,
+		cornice: this.cornice.toJSON(),
+		"layers": layers,
+		decorPlank: this.decorPlank.toJSON(),
+		"complectation": complectation
+	};
+	return obj;
 };

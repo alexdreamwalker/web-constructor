@@ -5,7 +5,7 @@ function DecorPlank(options) {
 	this.x = options.x || 0;
 	this.y = options.y || 0;
 	this.NS = global.NS;
-	this.isActive = options.isActive;
+	this.isActive = options.isActive || false;
 
 	this.selected = false;
 	this.hovered = false;
@@ -65,9 +65,8 @@ DecorPlank.prototype.repaint = function() {
 	this.element.setAttribute("y", coords.y);
 	this.element.setAttribute("width", coords.width);
 	this.element.setAttribute("height", coords.height);
-	this.element.setAttribute("style", "stroke: #000000; fill: none; stroke-width: 0.001px; stroke-dasharray: 0.005 0.005");
+	this.element.setAttribute("style", "stroke: #000000; fill: url(#pattern" + this.material.id + "); stroke-width: 0.001px; stroke-dasharray: 0.005 0.005");
 	this.element.setAttribute("opacity", "0.5");
-	this.element.setAttribute("fill", "url(#pattern" + this.material.id + ")");
 };
 
 DecorPlank.prototype.calculate = function(options) {

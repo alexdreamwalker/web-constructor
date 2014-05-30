@@ -191,7 +191,8 @@ SunblindUI.prototype.getComplectation = function() {
 
 SunblindUI.prototype.fillColors = function() {
 	var designerTable = document.getElementById(this.designer).querySelector("tbody");
-	designerTable.innerHTML = "";
+	var previousColors = designerTable.querySelectorAll("tr[data-type='lamella']");
+	for(var i = 0; i < previousColors.length; i++) previousColors[i].outerHTML = "";
 	this.colors = this.sunblind.colors;
 	for(var i = 0; i < this.colors.length; i++) {
 		var row = document.createElement("tr");
@@ -219,6 +220,8 @@ SunblindUI.prototype.fillColors = function() {
 
 SunblindUI.prototype.fillCornices = function() {
 	var designerTable = document.getElementById(this.designer).querySelector("tbody");
+	var previousColors = designerTable.querySelectorAll("tr[data-type='cornice']");
+	for(var i = 0; i < previousColors.length; i++) previousColors[i].outerHTML = "";
 	this.cornices = this.sunblind.cornices;
 	for(var i = 0; i < this.cornices.length; i++) {
 		var row = document.createElement("tr");
