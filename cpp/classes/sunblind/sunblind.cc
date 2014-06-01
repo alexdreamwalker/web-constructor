@@ -26,17 +26,23 @@ public:
     virtual std::map<std::string, float> calculate()
     {
         std::map<std::string, float> result;
+        result["total"] = 0;
         result["ламели"] = 0;
         for(int i = 0; i < layers.size(); i++) {
             Layer* layer = layers.at(i);
             float pr = layer->calculate();
             result["ламели"] += pr;
+            result["total"] += pr;
         }
         result["карниз"] = cornice.calculate();
+        result["total"] += result["карниз"];
         result["декоративная планка"] = decor.calculate();
+        result["total"] += result["декоративная планка"];
         result["комплектация"] = 0;
-        for(int i = 0; i < complectation.size(); i++)
+        for(int i = 0; i < complectation.size(); i++) {
             result["комплектация"] += (*complectation[i]).calculate();
+            result["total"] += (*complectation[i]).calculate();
+        }
         return result;
     }
 

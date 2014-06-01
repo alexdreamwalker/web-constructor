@@ -34,3 +34,47 @@ VerticalLayer.prototype.paint = function() {
 		}
 	this.context.appendChild(this.element);
 };
+
+VerticalLayer.prototype.generate = function(options) {
+	var lamellas = [];
+	var lamellaCount = options.width / options.lamellaSize;
+	for(var i = 0; i < lamellaCount; i++) {
+		var lamellaWidth = options.lamellaSize * 0.95;
+		var lamellaHeight = options.height - options.cornice.height * 2;
+		var pos = {
+			x: i * lamellaWidth * 1.05,
+			y: 0 + options.cornice.height * 2
+		};
+		var lamella = Lamella.prototype.generate.apply(this, {
+			width: lamellaWidth, 
+			height: lamellaHeight, 
+			x: pos.x, 
+			y: pos.y, 
+			generator: options.generator
+		});
+		lamellas.push(lamella);
+	}
+	return {
+		"lamellas": lamellas,
+		minLayerSquare: define.sunblind.MIN_LAYER_SQUARE,
+		width: options.width,
+		height: options.height
+	};
+};
+
+VerticalLayer.prototype.mutate = function(options) {
+	var lamellas = options.lamellas;
+	var lamellaCount = lamellas.length;
+	var chance = 0.1;
+	for(var i = 0; i < lamellaCount; i++)
+		if(Math.random() <= chance) {
+			lamellas[i].generator = options.generator;
+			lamellas[i] = Lamella.prototype.generate.apply(this, lamellas[i]);
+		}
+	return {
+		"lamellas": lamellas,
+		minLayerSquare: define.sunblind.MIN_LAYER_SQUARE,
+		width: options.width,
+		height: options.height
+	};
+};

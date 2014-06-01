@@ -38,7 +38,6 @@ SunblindUI.prototype.getData = function() {
 SunblindUI.prototype.getPlacement = function() {
 	var self = this;
 	return new Promise(function(resolve, reject) {
-		resolve();
 		wsOperator.postMessage({cmd: "getSunblindsPlacement", type: "db"}, function(response) {
 			var placements = JSON.parse(response);
 			self.sunblind.placements = placements;

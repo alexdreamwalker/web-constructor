@@ -57,6 +57,8 @@ Cornice.prototype.fromJSON = function(obj) {
 	this.width = obj.width;
 	this.height = obj.height;
 	this.material.price = obj.price;
+	this.material.id = obj.id;
+	this.material.url = obj.url;
 };
 
 Cornice.prototype.toJSON = function() {
@@ -64,6 +66,24 @@ Cornice.prototype.toJSON = function() {
 		width: this.width,
 		size: this.height,
 		price: this.material.price,
+		id: this.material.id,
+		url: this.material.url,
 		minCornLength: define.sunblind.MIN_CORNICE_LENGTH
 	};
+};
+
+Cornice.prototype.generate = function(options) {
+	var material = options.generator.generateCorniceMaterial();
+	return {
+		width: options.width,
+		size: options.height,
+		price: material.price,
+		id: material.id,
+		url: material.url,
+		minCornLength: define.sunblind.MIN_CORNICE_LENGTH
+	};
+};
+
+Cornice.prototype.mutate = function(options) {
+	return Cornice.prototype.generate.apply(this, arguments);
 };

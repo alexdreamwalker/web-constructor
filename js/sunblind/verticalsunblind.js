@@ -79,3 +79,81 @@ VerticalSunblind.prototype.changeHeight = function(newHeight) {
 		this.layers[i].lamellas = [];
 	Sunblind.prototype.changeHeight.apply(this, arguments);
 };
+
+VerticalSunblind.prototype.generate = function(options) {
+	var cornice = Cornice.prototype.generate.apply(this, {
+		width: options.width, 
+		height: options.lamellaSize, 
+		generator: options.generator
+	});
+
+	var layers = [];
+	var layer = VerticalLayer.prototype.generate.apply(this, {
+		width: options.width, 
+		height: options.height, 
+		generator: options.generator, 
+		"cornice": cornice, 
+		lamellaSize: options.lamellaSize
+	});
+	layers.push(layer);
+
+	var decorPlank = DecorPlank.prototype.generate.apply(this, {
+		width: options.width, 
+		height: options.lamellaSize, 
+		generator: options.generator
+	});
+
+	var complectation = [];
+	var compCount = Math.floor(getRandom(1, 3));
+	for(var i = 0; i < compCount; i++)
+		complectation.push(Complectation.prototype.generate.apply(this, {
+			generator: options.generator
+		}));
+
+	var obj = {
+		type: define.sunblind.ID_HORIZONTAL,
+		placement: options.placement,
+		width: options.width,
+		height: options.height,
+		"cornice": cornice,
+		"layers": layers,
+		"decorPlank": decorPlank,
+		"complectation": complectation
+	};
+	return obj;
+};
+
+VerticalSunblind.prototype.mutate = function(options) {
+	var obj = options.obj;
+
+	var cornice = obj.cornice;
+	obj.cornice = Cornice.prototype.mutate.apply(this, {
+		width: cornice.width, 
+		height: cornice.height, 
+		generator: obj.generator
+	});
+
+	var decorPlank = obj.decorPlank;
+	obj.decorPlank = DecorPlank.prototype.mutate.apply(this, {
+		width: decorPlank.width, 
+		height: decorPlank.height, 
+		generator: obj.generator
+	});
+
+	var layers = obj.layers;
+	for(var i = 0; i < layers.length; i++)
+		obj.layers[i] = VerticalLayer.prototype.mutate.apply(this, {
+			lamellas: layers[i].lamellas,
+			width: layers[i].width,
+			height: layers[i].height,
+			generator: obj.generator
+		});
+
+	var complectation = obj.complectation;
+	for(var i = 0; i < complectation.length; i++)
+		obj.complectation[i] = Complectation.prototype.mutate.apply(this, {
+			generator: obj.generator
+		});
+
+	return obj;
+};

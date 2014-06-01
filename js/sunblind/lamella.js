@@ -45,8 +45,8 @@ Lamella.prototype.paint = function(options) {
 Lamella.prototype.setPos = function(options) {
 	this.x = options.x;
 	this.y = options.y;
-	this.width = options.width;
-	this.height = options.height;
+	this.width = options.width || this.width;
+	this.height = options.height || this.height;
 
 	this.makeElement();	
 };
@@ -70,17 +70,40 @@ Lamella.prototype.makeElement = function() {
 };
 
 Lamella.prototype.fromJSON = function(obj) {
+	this.x = obj.x;
+	this.y = obj.y;
 	this.width = obj.width;
 	this.height = obj.height;
 	this.material.price = obj.price;
 	this.material.id = obj.id;
+	this.material.url = obj.url;
 };
 
 Lamella.prototype.toJSON = function() {
 	return {
+		x: this.x,
+		y: this.y,
 		width: this.width,
 		height: this.height,
 		price: this.material.price,
-		material: this.material.id
+		material: this.material.id,
+		url: this.material.url
 	};
+};
+
+Lamella.prototype.generate = function(options) {
+	var material = options.generator.generateLamellaMaterial();
+	return {
+		x: options.x,
+		y: options.y,
+		width: options.width,
+		height: options.height,
+		price: material.price,
+		"material": material.id,
+		url: material.url
+	}
+};
+
+Lamella.prototype.mutate = function(options) {
+	return Lamella.prototype.generate.apply(this, arguments);
 };

@@ -1,4 +1,4 @@
-function GenAlgorithm(options) {
+function GenAlg(options) {
 	var gens = options.gens;
 	var population = [];
 	var populationSize = options.populationSize || 100;
@@ -12,8 +12,7 @@ function GenAlgorithm(options) {
 	};
 
 	function countFitness() {
-		for(var i = 0; i < population.length; i++)
-			fitnessFunction(population[i]);
+		return fitnessFunction(this);
 	};
 
 	function checkResult() {
@@ -21,24 +20,30 @@ function GenAlgorithm(options) {
 	};
 
 	function selection() {
-
+		return new Promise(function(resolve, reject) {
+			resolve();
+		});
 	};
 
 	function crossingOver() {
-
+		return new Promise(function(resolve, reject) {
+			resolve();
+		});
 	};
 
 	function mutation() {
-
+		return new Promise(function(resolve, reject) {
+			resolve();
+		});
 	};
 
 	function mainLoop() {
 		makeBasicPopulation();
 		while(!checkResult) {
-			countFitness();
-			selection();
-			crossingOver();
-			mutation();
+			countFitness()
+				.then(function() { return selection(); })
+				.then(function() { return crossingOver(); })
+				.then(function() { return mutation(); })
 		}
 		return population;
 	};

@@ -80,21 +80,80 @@ HorizontalSunblind.prototype.changeHeight = function(newHeight) {
 	Sunblind.prototype.changeHeight.apply(this, arguments);
 };
 
-HorizontalSunblind.prototype.generate = function() {
+HorizontalSunblind.prototype.generate = function(options) {
+	var cornice = Cornice.prototype.generate.apply(this, {
+		width: options.width, 
+		height: options.lamellaSize, 
+		generator: options.generator
+	});
+
 	var layers = [];
-	var layer = new HorizontalLayer;
+	var layer = HorizontalLayer.prototype.generate.apply(this, {
+		width: options.width, 
+		height: options.height, 
+		generator: options.generator, 
+		"cornice": cornice, 
+		lamellaSize: options.lamellaSize
+	});
+	layers.push(layer);
+
+	var decorPlank = DecorPlank.prototype.generate.apply(this, {
+		width: options.width, 
+		height: options.lamellaSize, 
+		generator: options.generator
+	});
+
 	var complectation = [];
-	for(var i = 0; i < this.complectation.length; i++)
-		complectation.push(this.complectation[i].toJSON());
+	var compCount = Math.floor(getRandom(1, 3));
+	for(var i = 0; i < compCount; i++)
+		complectation.push(Complectation.prototype.generate.apply(this, {
+			generator: options.generator
+		}));
+
 	var obj = {
-		type: this.type,
-		placement: this.placement,
-		width: this.width,
-		height: this.height,
-		cornice: this.cornice.toJSON(),
+		type: define.sunblind.ID_HORIZONTAL,
+		placement: options.placement,
+		width: options.width,
+		height: options.height,
+		"cornice": cornice,
 		"layers": layers,
-		decorPlank: this.decorPlank.toJSON(),
+		"decorPlank": decorPlank,
 		"complectation": complectation
 	};
+	return obj;
+};
+
+HorizontalSunblind.prototype.mutate = function(options) {
+	var obj = options.obj;
+
+	var cornice = obj.cornice;
+	obj.cornice = Cornice.prototype.mutate.apply(this, {
+		width: cornice.width, 
+		height: cornice.height, 
+		generator: obj.generator
+	});
+
+	var decorPlank = obj.decorPlank;
+	obj.decorPlank = DecorPlank.prototype.mutate.apply(this, {
+		width: decorPlank.width, 
+		height: decorPlank.height, 
+		generator: obj.generator
+	});
+
+	var layers = obj.layers;
+	for(var i = 0; i < layers.length; i++)
+		obj.layers[i] = HorizontalLayer.prototype.mutate.apply(this, {
+			lamellas: layers[i].lamellas,
+			width: layers[i].width,
+			height: layers[i].height,
+			generator: obj.generator
+		});
+
+	var complectation = obj.complectation;
+	for(var i = 0; i < complectation.length; i++)
+		obj.complectation[i] = Complectation.prototype.mutate.apply(this, {
+			generator: obj.generator
+		});
+
 	return obj;
 };

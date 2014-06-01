@@ -51,3 +51,7 @@ Layer.prototype.toJSON = function() {
 		height: this.sunblind.height
 	};
 };
+
+Layer.prototype.generate = function() {
+
+};

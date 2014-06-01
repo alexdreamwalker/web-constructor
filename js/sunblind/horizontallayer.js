@@ -35,23 +35,46 @@ HorizontalLayer.prototype.paint = function() {
 	this.context.appendChild(this.element);
 };
 
-HorizontalLayer.prototype.generate = function() {
+HorizontalLayer.prototype.generate = function(options) {
 	var lamellas = [];
-	var lamellaCount = this.height / this.lamellaSize;
+	var lamellaCount = options.height / options.lamellaSize;
 	for(var i = 0; i < lamellaCount; i++) {
-		var lamellaWidth = this.width;
-		var lamellaHeight = this.lamellaSize * 0.95;
+		var lamellaWidth = options.width;
+		var lamellaHeight = options.lamellaSize * 0.95;
 		var pos = {
 			x: 0,
-			y: 0 + this.sunblind.cornice.height * 2 + i * lamellaHeight * 1.05
+			y: 0 + options.cornice.height * 2 + i * lamellaHeight * 1.05
 		};
-		var lamella = new Lamella({width: lamellaWidth, height: lamellaHeight, x: pos.x, y: pos.y});
-		this.addLamella(lamella);
+		var lamella = Lamella.prototype.generate.apply(this, {
+			width: lamellaWidth, 
+			height: lamellaHeight, 
+			x: pos.x, 
+			y: pos.y, 
+			generator: options.generator
+		});
+		lamellas.push(lamella);
 	}
 	return {
 		"lamellas": lamellas,
 		minLayerSquare: define.sunblind.MIN_LAYER_SQUARE,
-		width: this.sunblind.width,
-		height: this.sunblind.height
+		width: options.width,
+		height: options.height
+	};
+};
+
+HorizontalLayer.prototype.mutate = function(options) {
+	var lamellas = options.lamellas;
+	var lamellaCount = lamellas.length;
+	var chance = 0.1;
+	for(var i = 0; i < lamellaCount; i++)
+		if(Math.random() <= chance) {
+			lamellas[i].generator = options.generator;
+			lamellas[i] = Lamella.prototype.generate.apply(this, lamellas[i]);
+		}
+	return {
+		"lamellas": lamellas,
+		minLayerSquare: define.sunblind.MIN_LAYER_SQUARE,
+		width: options.width,
+		height: options.height
 	};
 };

@@ -30,6 +30,7 @@
 #include "../classes/sunblind/multifactory.cc"
 
 #define COUNT_SUNBLIND 1
+#define COUNT_BUNCH_SUNBLINDS 2
 
 #define VERTICAL_SUNBLIND 1
 #define HORIZONTAL_SUNBLIND 2
@@ -50,6 +51,7 @@ public:
   /// @param[in] instance the handle to the browser-side plugin instance.
 	explicit SunblindInstance(PP_Instance instance) : ConstructorInstance(instance) {
 		actions["countSunblinds"] = 1;
+		actions["countBunchSunblinds"] = 2;
 	}
 	virtual ~SunblindInstance() {}
 
@@ -68,57 +70,14 @@ public:
     // make task and get a response
 		int task = actions[action];
 		switch(task) {
-
-			case COUNT_SUNBLIND: {
-				int type = root["data"].get("type", 0).asInt();
-				switch(type) {
-					
-					case VERTICAL_SUNBLIND: {
-						Factory* factory = new VerticalFactory();
-						Construction* sunblind = factory->fromJSON(writer.write(root["data"]));
-						std::map<std::string, float> price = sunblind->calculate();
-
-						root["data"].clear();
-						for(std::map<std::string, float>::iterator it = price.begin(); it != price.end(); ++it) 
-							root["data"][it->first] = it->second; 
-						delete sunblind;
-						delete factory;
-						break;
-					}
-
-					case HORIZONTAL_SUNBLIND: {
-						Factory* factory = new HorizontalFactory();
-						Construction* sunblind = factory->fromJSON(writer.write(root["data"]));
-						std::map<std::string, float> price = sunblind->calculate();
-
-						root["data"].clear();
-						for(std::map<std::string, float>::iterator it = price.begin(); it != price.end(); ++it) 
-							root["data"][it->first] = it->second; 
-						delete sunblind;
-						delete factory;
-						break;
-					}
-
-					case MULTI_SUNBLIND: {
-						Factory* factory = new MultiFactory();
-						Construction* sunblind = factory->fromJSON(writer.write(root["data"]));
-						std::map<std::string, float> price = sunblind->calculate();
-
-						root["data"].clear();
-						for(std::map<std::string, float>::iterator it = price.begin(); it != price.end(); ++it) 
-							root["data"][it->first] = it->second; 
-						delete sunblind;
-						delete factory;
-						break;
-					}
-
-					default:
-					break;
-				}
+			case COUNT_SUNBLIND:
+				countSunblind();
 				break;
-			}
+			case COUNT_BUNCH_SUNBLINDS:
+				countButchSunblinds();
+				break;
 			default:
-			break;
+				break;
 		}
     // send a response
 		root["action"] = action;
@@ -126,6 +85,97 @@ public:
 		pp::Var var_reply;
 		var_reply = pp::Var(output);
 		PostMessage(var_reply);
+	}
+
+	void countSunblind() {
+		int type = root["data"].get("type", 0).asInt();
+		switch(type) {
+			case VERTICAL_SUNBLIND: {
+				Factory* factory = new VerticalFactory();
+				Construction* sunblind = factory->fromJSON(writer.write(root["data"]));
+				std::map<std::string, float> price = sunblind->calculate();
+
+				root["data"].clear();
+				for(std::map<std::string, float>::iterator it = price.begin(); it != price.end(); ++it) 
+					root["data"][it->first] = it->second; 
+				delete sunblind;
+				delete factory;
+				break;
+			}
+
+			case HORIZONTAL_SUNBLIND: {
+				Factory* factory = new HorizontalFactory();
+				Construction* sunblind = factory->fromJSON(writer.write(root["data"]));
+				std::map<std::string, float> price = sunblind->calculate();
+
+				root["data"].clear();
+				for(std::map<std::string, float>::iterator it = price.begin(); it != price.end(); ++it) 
+					root["data"][it->first] = it->second; 
+				delete sunblind;
+				delete factory;
+				break;
+			}
+
+			case MULTI_SUNBLIND: {
+				Factory* factory = new MultiFactory();
+				Construction* sunblind = factory->fromJSON(writer.write(root["data"]));
+				std::map<std::string, float> price = sunblind->calculate();
+
+				root["data"].clear();
+				for(std::map<std::string, float>::iterator it = price.begin(); it != price.end(); ++it) 
+					root["data"][it->first] = it->second; 
+				delete sunblind;
+				delete factory;
+				break;
+			}
+
+			default:
+			break;
+		}
+	}
+
+	void countButchSunblinds() {
+		const JSON::Value sunblinds = root["data"]["sunblinds"];
+		for(int i = 0; i < sunblinds.size(); i++) {
+			int type = sunblinds[i].get("type", 0).asInt();
+			switch(type) {
+				case VERTICAL_SUNBLIND: {
+					Factory* factory = new VerticalFactory();
+					Construction* sunblind = factory->fromJSON(writer.write(sunblinds[i]));
+					std::map<std::string, float> price = sunblind->calculate();
+
+					root["data"][i] = price["total"]; 
+					delete sunblind;
+					delete factory;
+					break;
+				}
+
+				case HORIZONTAL_SUNBLIND: {
+					Factory* factory = new HorizontalFactory();
+					Construction* sunblind = factory->fromJSON(writer.write(sunblinds[i]));
+					std::map<std::string, float> price = sunblind->calculate();
+
+					root["data"][i] = price["total"];  
+					delete sunblind;
+					delete factory;
+					break;
+				}
+
+				case MULTI_SUNBLIND: {
+					Factory* factory = new MultiFactory();
+					Construction* sunblind = factory->fromJSON(writer.write(sunblinds[i]));
+					std::map<std::string, float> price = sunblind->calculate();
+
+					root["data"][i] = price["total"]; 
+					delete sunblind;
+					delete factory;
+					break;
+				}
+
+				default:
+				break;
+			}
+		}
 	}
 };
 

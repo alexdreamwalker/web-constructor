@@ -20,3 +20,16 @@ Complectation.prototype.toJSON = function() {
 		price: this.calculate()
 	};
 };
+
+Complectation.prototype.generate = function(options) {
+	var comp = options.generator.generateComplectation();
+	return {
+		id: comp.id,
+		name: comp.name,
+		price: parseFloat(comp.price)
+	};
+};
+
+Complectation.prototype.mutate = function(options) {
+	return Complectation.prototype.generate.apply(this, arguments);
+};

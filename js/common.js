@@ -19,3 +19,7 @@ function getSelectValue(id) {
 	select = document.getElementById(id).options[select];
 	return select;
 };
+
+function getRandom(min, max) {
+	return Math.random() * (max - min) + min;
+};

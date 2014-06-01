@@ -78,12 +78,49 @@ DecorPlank.prototype.fromJSON = function(obj) {
 	this.width = obj.width;
 	this.height = obj.height;
 	this.material.price = obj.price;
+	this.material.id = obj.id;
+	this.material.url = obj.url;
 };
 
 DecorPlank.prototype.toJSON = function() {
 	return {
 		width: this.width,
 		height: this.height,
-		price: this.isActive ? parseFloat(this.material.price) : 0
+		price: this.isActive ? parseFloat(this.material.price) : 0,
+		id: this.isActive ? this.material.id : 0,
+		url: this.isActive ? this.material.url : ""
+	};
+};
+
+DecorPlank.prototype.generate = function(options) {
+	var material = options.generator.generateCorniceMaterial();
+	var isActive = Math.random() > 0.5 ? true : false;
+	var allowed = 500;
+	return {
+		width: Math.floor(getRandom(options.width, options.width + allowed)),
+		height: options.height,
+		price: isActive ? parseFloat(material.price) : 0
+		id: isActive ? material.id : 0,
+		url: isActive ? material.url : ""
+	};
+};
+
+DecorPlank.prototype.mutate = function(options) {
+	var material = options.material;
+	var isActive = options.isActive;
+	var allowed = 0;
+
+	var pm = Math.random();
+
+	if(pm >= 0 && pm <= 0.33)
+		material = options.generator.generateCorniceMaterial();
+	else if(pm > 0.33 && pm <= 0.66)
+		isActive = Math.random() > 0.5 ? true : false;
+	else
+		allowed = 500;
+	return {
+		width: Math.floor(getRandom(options.width, options.width + allowed)),
+		height: options.height,
+		price: isActive ? parseFloat(material.price) : 0
 	};
 };
