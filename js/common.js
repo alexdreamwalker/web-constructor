@@ -23,3 +23,9 @@ function getSelectValue(id) {
 function getRandom(min, max) {
 	return Math.random() * (max - min) + min;
 };
+
+function createDOMElement(type, inner) {
+	var el = document.createElement(type);
+	el.innerHTML = inner;
+	return el;
+};

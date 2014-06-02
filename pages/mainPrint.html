@@ -1,4 +1,3 @@
-<link rel="stylesheet" type="text/css" href="style.css">
 <div>
 	<div id="printOrderHeaderBlock">
 		<table>
@@ -87,32 +86,31 @@
 	</div>
 	<div id="printOrderContractBlock">
 		<br>
-		<h6 align="center";>ДОГОВОР № ###actNumber</h6>
+		<h6 align="center";>ДОГОВОР № <b id="contractNumber"></b></h6>
 		<table width="100%" border="0" cellspacing="0" cellpadding="4" margin-bottom>
 			<tr>
-				<td><p align="left">город ###city</p></td>
-				<td><p align="right">###date</p></td>
+				<td><p align="left">город <b id="contractCity"></b></p></td>
+				<td><p align="right"><b id="contractDate"></b></p></td>
 			</tr>
 		</table>
 		<br>
 		<p style="text-indent: 1cm;">
-			<b>###affilationLong</b>, именуемое в дальнейшем «Продавец», в
-			лице директора <span class="insert">###director</span>, действующего
-			на основании Устава, с одной стороны, и <b><span class="insert">###client</span>,
-		</b> именуемое в дальнейшем «Покупатель», с другой стороны, вместе в дальнейшем
-		именуемые «Стороны», заключили настоящий
-		договор (далее – Договор) о нижеследующем:</p>
-		<h6 align="center">ПРЕДМЕТ ДОГОВОРА</h6>
+			<b id="contractCompany"></b>, именуемое в дальнейшем «Продавец», в
+			лице директора <b id="contractCompanyDirector"></b>, действующего
+			на основании Устава, с одной стороны, и <b id="contractClient"></b> именуемое в дальнейшем «Покупатель», с другой стороны, вместе в дальнейшем
+			именуемые «Стороны», заключили настоящий
+			договор (далее – Договор) о нижеследующем:</p>
+		<h6 align="center">1. ПРЕДМЕТ ДОГОВОРА</h6>
 		<p style="text-indent: 1cm;">
 			1.1.Продавец обязуется передать в собственность Покупателя производимый или закупаемый им Товар в количестве и в сроки, предусмотренные Договором, а Покупатель обязуется принять Товар и оплатить его.
 		</p>
 		<p style="text-indent: 1cm;">
-			1.2.Товаром по Договору является: <span class="insert">###construction</span>(далее – Товар). Наименование, ассортимент, количество, а так же иные характеристики Товара указываются в бланке заказа, утверждаемом Покупателем по конструктивной части (Приложение к Договору).
+			1.2.Товаром по Договору является: <b id="contractConstructionDetail"></b>(далее – Товар). Наименование, ассортимент, количество, а так же иные характеристики Товара указываются в бланке заказа, утверждаемом Покупателем по конструктивной части (Приложение к Договору).
 		</p>
 
 		<h6 align="center">2. ЦЕНА РАБОТ И ПОРЯДОК РАСЧЕТОВ</h6>
 		<p style="text-indent: 1cm;">
-			2.1. Цена Договора составляет <span class="insert">###price</span>, в том числе НДС (18%) 
+			2.1. Цена Договора составляет <b id="contractTotalPrice"></b>, в том числе НДС (18%) 
 		</p>
 		<p style="text-indent: 1cm;">
 			2.2. Цена, указанная в п.2.1 Договора, включает стоимость доставки Товара, все иные необходимые расходы Продавца, связанные с исполнением Договора.
@@ -126,7 +124,7 @@
 		<p style="text-indent: 1cm;">
 			2.5. Расчет по Договору производится путем перечисления денежных средств на расчетный счет Продавца или путем внесения наличных денежных средств в кассу Продавца. Покупатель считается исполнившим обязанность по оплате в момент зачисления денежных средств на расчетный счет или поступления денежных средств в кассу Продавца.
 		</p>
-		<p6 align="center">3. ПОРЯДОК ПОСТАВКИ И ПРИЕМКИ ТОВАРА</p6>
+		<h6 align="center">3. ПОРЯДОК ПОСТАВКИ И ПРИЕМКИ ТОВАРА</h6>
 		<p style="text-indent: 1cm;">
 			3.1. Продавец обязан передать Покупателю Товар в срок не позднее ###daysCount рабочих дней с момента проведения предварительной оплаты. Продавец вправе передать Товар Покупателю досрочно.
 		</p>
@@ -272,20 +270,20 @@
 			<tr VALIGN="TOP">
 				<td border="1" bordercolor="black">
 					<p><b>Продавец:</b></p>
-					<p>###affilationLong</p>
-					<p>Юридический адрес: ###legalAddress</p>
-					<p>Почтовый адрес: ###centralOffice</p>
-					<p>ИНН ###inn КПП ###kpp ОГРН ###ogrn</p>
-					<p>р/с ###rs в ###bank</p>
-					<p>к/с ###ks БИК ###bik</p>
-					<p>тел.факс: ###officePhone</p>
+					<p><b id="contractTableCompany"></b></p>
+					<p>Юридический адрес: <b id="contractCompanyLegalAddress"></b></p>
+					<p>Почтовый адрес: <b id="contractCompanyAddress"></b></p>
+					<p>ИНН <b id="contractCompanyINN"></b> КПП <b id="contractCompanyKPP"></b> ОГРН <b id="contractCompanyOGRN"></b></p>
+					<p>р/с <b id="contractCompanyRS"></b> в <b id="contractCompanyBank"></b></p>
+					<p>к/с <b id="contractCompanyKS"></b> БИК <b id="contractCompanyBIK"></b></p>
+					<p>тел.факс: <b id="contractCompanyTelephone"></b></p>
 				</td>
 				<td border="1" bordercolor="black">
 					<p><b>Покупатель:</b></p>
-					<p>Гр. <u>###client</u></p>
-					<p>Паспорт: <u>###passportN</u></p>
-					<p>Выдан: <u>###passportG</u></p>
-					<p>Зарегистрирован по адресу: <u>###passportA</u></p>
+					<p>Гр. <u><b id="contractTableClient"></b></u></p>
+					<p>Паспорт: <u><b id="contractClientPassport"></b></u></p>
+					<p>Выдан: <u><b id="contractClientPassportInfo"></b></u></p>
+					<p>Зарегистрирован по адресу: <u><b id="contractClientAddress"></b></u></p>
 				</td>
 			</tr>
 			<tr VALIGN="TOP">

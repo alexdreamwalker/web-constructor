@@ -209,7 +209,7 @@ function UIOperator(options) {
 		var coeff = define.COEFF;
 		var tbody = document.querySelector("#moduleTable tbody");
 		tbody.innerHTML = "";
-		var total = 0;
+		var total = parseInt(table["total"]) * coeff;
 		for(var row in table) {
 			var caption = document.createElement("td");
 			caption.innerHTML = row;
@@ -219,7 +219,6 @@ function UIOperator(options) {
 			tr.appendChild(caption);
 			tr.appendChild(price);
 			tbody.appendChild(tr);
-			total += parseInt(table[row] * coeff);
 		}
 		this.setPrice(total);
 	};
@@ -250,14 +249,11 @@ function UIOperator(options) {
 			var mywindow = window.open("", "my div", "fullscreen=yes");
 			mywindow.document.write("<html><head><title>my div</title>");
 			mywindow.document.write("<meta charset='utf-8'>");
-			mywindow.document.write("<link rel='stylesheet' href='bootstrap/css/style.css' type='text/css' />");
+			mywindow.document.write("<link rel='stylesheet' href='css/print.css' type='text/css' />");
 			mywindow.document.write("</head><body >");
 			mywindow.document.write(document.getElementById("mainPrint").innerHTML);
 			mywindow.document.write("</body></html>");
 			mywindow.print();
-
-
-    		return true;
     	});
 	};
 };
