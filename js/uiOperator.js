@@ -244,4 +244,20 @@ function UIOperator(options) {
 		inputs[4].value = withoutDiscount;
 		inputs[5].value = withDiscount;
 	};
+
+	this.printOrder = function() {
+		this.loadWindow("mainPrint", "pages/mainPrint.html", function() {
+			var mywindow = window.open("", "my div", "fullscreen=yes");
+			mywindow.document.write("<html><head><title>my div</title>");
+			mywindow.document.write("<meta charset='utf-8'>");
+			mywindow.document.write("<link rel='stylesheet' href='bootstrap/css/style.css' type='text/css' />");
+			mywindow.document.write("</head><body >");
+			mywindow.document.write(document.getElementById("mainPrint").innerHTML);
+			mywindow.document.write("</body></html>");
+			mywindow.print();
+
+
+    		return true;
+    	});
+	};
 };

@@ -135,7 +135,7 @@ public:
 	}
 
 	void countButchSunblinds() {
-		const JSON::Value sunblinds = root["data"]["sunblinds"];
+		const Json::Value sunblinds = root["data"]["sunblinds"];
 		for(int i = 0; i < sunblinds.size(); i++) {
 			int type = sunblinds[i].get("type", 0).asInt();
 			switch(type) {

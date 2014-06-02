@@ -99,7 +99,7 @@ DecorPlank.prototype.generate = function(options) {
 	return {
 		width: Math.floor(getRandom(options.width, options.width + allowed)),
 		height: options.height,
-		price: isActive ? parseFloat(material.price) : 0
+		price: isActive ? parseFloat(material.price) : 0,
 		id: isActive ? material.id : 0,
 		url: isActive ? material.url : ""
 	};

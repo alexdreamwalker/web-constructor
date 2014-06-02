@@ -59,3 +59,11 @@ div.rangegroup input[type='range'] {
 div.rangegroup input[type='number'] {
 	width: 28%;
 }
+
+#mainPrint table {
+	width: 100%;
+}
+
+#printHeaderBlock p {
+	text-align: center;
+}
