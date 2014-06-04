@@ -2,6 +2,7 @@ function Layer(options) {
 	var self = this;
 	this.element = null;
 	this.lamellas = [];
+	this.materials = [];
 	this.context = this.sunblind.element;
 
 	this.init();
@@ -25,6 +26,16 @@ Layer.prototype.calculate = function(options) {
 	var result = 0;
 	return result;
 };
+
+Layer.prototype.addMaterial = function(material) {
+	for(var i = 0; i < this.materials.length; i++)
+		if(this.materials[i].id == material.id) {
+			this.materials[i].count++; 
+			return;
+		}
+	material.count = 1;
+	this.materials.push(material);
+}
 
 Layer.prototype.addLamella = function(lamella) {
 	lamella.layer = this;

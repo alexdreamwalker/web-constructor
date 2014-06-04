@@ -54,9 +54,9 @@ SunblindOrder.prototype.generateMainBlock = function() {
 				tr.appendChild(createDOMElement("td", layers[j].height));
 				tr.appendChild(createDOMElement("td", ""));
 				tr.appendChild(createDOMElement("td", ""));
-				tr.appendChild(createDOMElement("td", parseInt(construction.priceTable[layers[j].materials[z].name])));
+				tr.appendChild(createDOMElement("td", parseInt(layers[j].materials[z].price]));
 				tr.appendChild(createDOMElement("td", construction.count));
-				tr.appendChild(createDOMElement("td", parseInt(construction.priceTable[layers[j].materials[z].name]) * construction.count));
+				tr.appendChild(createDOMElement("td", parseInt(layers[j].materials[z].price) * construction.count));
 				tbody.appendChild(tr);
 			}
 
@@ -70,9 +70,8 @@ SunblindOrder.prototype.generateMainBlock = function() {
 		tr.appendChild(createDOMElement("td", construction.control.length));
 		tr.appendChild(createDOMElement("td", construction.control.type));
 		tr.appendChild(createDOMElement("td", cornice.material.price));
-		tr.appendChild(createDOMElement("td", construction.priceTable[cornice.material.name]));
 		tr.appendChild(createDOMElement("td", construction.count));
-		tr.appendChild(createDOMElement("td", construction.count * parseInt(construction.priceTable[cornice.material.name])));
+		tr.appendChild(createDOMElement("td", construction.count * cornice.material.price));
 		tbody.appendChild(tr);
 
 
@@ -85,9 +84,9 @@ SunblindOrder.prototype.generateMainBlock = function() {
 			tr.appendChild(createDOMElement("td", construction.height));
 			tr.appendChild(createDOMElement("td", ""));
 			tr.appendChild(createDOMElement("td", ""));
-			tr.appendChild(createDOMElement("td", parseInt(construction.priceTable[complectation.name])));
+			tr.appendChild(createDOMElement("td", complectation.price)));
 			tr.appendChild(createDOMElement("td", construction.count));
-			tr.appendChild(createDOMElement("td", parseInt(construction.priceTable[complectation.name]) * construction.count));
+			tr.appendChild(createDOMElement("td", complectation.price * construction.count));
 			tbody.appendChild(tr);
 		}
 	}

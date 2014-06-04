@@ -1,4 +1,3 @@
-
 function UIOperator(options) {
 
 	this.makeChecks = function() {
@@ -233,6 +232,9 @@ function UIOperator(options) {
 		var per1 = inputs[0].value;
 		var per2 = inputs[1].value;
 		var per3 = inputs[2].value;
+		global.order.firstDiscount = per1;
+		global.order.secondDiscount = per2;
+		global.order.thirdDiscount = per3;
 		var count = inputs[3].value;
 		var price = inputs[6].value;
 		var withoutDiscount = price * count;

@@ -11,7 +11,12 @@ var global = {
 		script.onload = func;
 		document.head.appendChild(script);
 	},
-	ui: null	
+	ui: null,
+	order: null	
+};
+
+function gid(id) {
+	return document.getElementById(id);
 };
 
 function getSelectValue(id) {
