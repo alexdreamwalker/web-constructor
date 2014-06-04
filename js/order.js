@@ -51,7 +51,41 @@ Order.prototype.addConstruction = function(construction) {
 };
 
 Order.prototype.updateInfo = function() {
-	
+	this.additionalService = [];
+	this.companyLogo = "";
+	this.payType = "";
+	this.clientType = "";
+	this.clientFIO = "";
+	this.clientAddress = "";
+	this.clientTelephone = "";
+	this.clientPassport = "";
+	this.clientPassportInfo = "";
+	this.number = "";
+	this.city = "";
+	this.company = "";
+	this.companyAddress = "";
+	this.companyLegalAddress = "";
+	this.companyDirector = "";
+	this.companyINN = "";
+	this.companyKPP = "";
+	this.companyOGRN = "";
+	this.companyRS = "";
+	this.companyBank = "";
+	this.companyKS = "";
+	this.companyBIK = "";
+	this.companyTelephone = "";
+	this.id = "";
+	this.pagesCount = 1;
+	this.meter = "";
+	this.dateMeasure = "";
+	this.countCoeff = define.COEFF;
+	this.counterFIO = "";
+	this.userFIO = "";
+	this.dateMontage = "";
+	this.dateOrder = "";
+	this.firstDiscount = "";
+	this.secondDiscount = "";
+	this.thirdDiscount = "";
 };
 
 Order.prototype.fillFields = function() {

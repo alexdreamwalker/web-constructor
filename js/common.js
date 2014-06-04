@@ -12,7 +12,8 @@ var global = {
 		document.head.appendChild(script);
 	},
 	ui: null,
-	order: null	
+	order: null,
+	userInfo: null	
 };
 
 function gid(id) {
