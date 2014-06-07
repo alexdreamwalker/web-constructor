@@ -3,6 +3,8 @@ function Sunblind(options) {
 	this.defs = document.createElementNS(this.NS, "defs");
 	this.element = document.createElementNS(this.NS, "g");
 	this.elem = options.elem;
+	Construction.apply(this, arguments);
+	global.order = new SunblindOrder();
 }
 
 Sunblind.prototype = Object.create(Construction.prototype);
@@ -15,6 +17,7 @@ Sunblind.prototype.sizes = [];
 Sunblind.prototype.sizeLimits = [];
 Sunblind.prototype.complectations = [];
 
+Sunblind.prototype.activeLayer = 0;
 Sunblind.prototype.placement = null;
 Sunblind.prototype.width = 0;
 Sunblind.prototype.height = 0;

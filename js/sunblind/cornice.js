@@ -14,6 +14,11 @@ function Cornice(options) {
 		id: 0,
 		price: 0
 	};
+
+	this.control = {
+		length: this.width,
+		type: "В разные стороны"
+	};
 }
 
 Cornice.prototype.paint = function(options) {

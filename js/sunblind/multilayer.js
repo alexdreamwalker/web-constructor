@@ -1,5 +1,6 @@
 function MultiLayer(options) {
 	var self = this;
+	Layer.apply(this, arguments);
 	this.element = null;
 	this.NS = global.NS;
 	this.width = options.width;

@@ -189,6 +189,7 @@ function UIOperator(options) {
 	};
 
 	this.loadOrder = function(options) {
+		global.order.addConstruction(global.construction);
 		this.loadWindow("mainOrder", "pages/mainOrder.html", function() {});
 		this.processWindows("mainOrder");
 	};
@@ -205,6 +206,7 @@ function UIOperator(options) {
 	};
 
 	this.setPriceTable = function(table) {
+		global.construction.priceTable = table;
 		var coeff = define.COEFF;
 		var tbody = document.querySelector("#moduleTable tbody");
 		tbody.innerHTML = "";
@@ -236,6 +238,7 @@ function UIOperator(options) {
 		global.order.secondDiscount = per2;
 		global.order.thirdDiscount = per3;
 		var count = inputs[3].value;
+		global.construction.count = count;
 		var price = inputs[6].value;
 		var withoutDiscount = price * count;
 		var withDiscount = withoutDiscount;
@@ -246,8 +249,33 @@ function UIOperator(options) {
 		inputs[5].value = withDiscount;
 	};
 
+	this.getOrderInfoFromForm = function() {
+		var opts = {};
+
+		opts.additionalService = [];
+		opts.payType = "наличный";
+		opts.clientType = gid("orderClient").dataset.type;
+		opts.clientFIO = gid("orderClient").value;
+		opts.clientAddress = [gid("orderCity").value, "ул. " + gid("orderStreet").value + " " + gid("orderHouse").value, "дом " + gid("orderFlat").value].join(", ");
+		opts.clientTelephone = gid("orderTelephone").value;
+		opts.clientPassport = gid("orderPassSerial").value + " " + gid("orderPassNumber").value;
+		opts.clientPassportInfo = "нет данных";
+		opts.number = "10096785";
+		opts.id = "10096785";
+		opts.meter = gid("orderMeter").value;
+		opts.dateMeasure = gid("orderMeasureDate").value;
+		opts.dateMontage = gid("orderMontageDate").value;
+		opts.dateOrder = new Date();
+
+		global.order.updateInfo(opts);
+	};
+
 	this.printOrder = function() {
+		var self = this;
 		this.loadWindow("mainPrint", "pages/mainPrint.html", function() {
+			self.getOrderInfoFromForm();
+			global.order.process();
+			
 			var mywindow = window.open("", "my div", "fullscreen=yes");
 			mywindow.document.write("<html><head><title>my div</title>");
 			mywindow.document.write("<meta charset='utf-8'>");

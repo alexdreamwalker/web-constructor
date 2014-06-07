@@ -45,7 +45,7 @@ SunblindOrder.prototype.generateMainBlock = function() {
 		var construction = this.constructions[i];
 
 		var layers = construction.layers;
-		for(int j = 0; j < layers.length; j++)
+		for(var j = 0; j < layers.length; j++)
 			for(var z = 0; z < layers[j].materials.length; z++) {
 				var tr = document.createElement("tr");
 				tr.appendChild(createDOMElement("td", i + 1));
@@ -54,7 +54,7 @@ SunblindOrder.prototype.generateMainBlock = function() {
 				tr.appendChild(createDOMElement("td", layers[j].height));
 				tr.appendChild(createDOMElement("td", ""));
 				tr.appendChild(createDOMElement("td", ""));
-				tr.appendChild(createDOMElement("td", parseInt(layers[j].materials[z].price]));
+				tr.appendChild(createDOMElement("td", parseInt(layers[j].materials[z].price)));
 				tr.appendChild(createDOMElement("td", construction.count));
 				tr.appendChild(createDOMElement("td", parseInt(layers[j].materials[z].price) * construction.count));
 				tbody.appendChild(tr);
@@ -66,9 +66,9 @@ SunblindOrder.prototype.generateMainBlock = function() {
 		tr.appendChild(createDOMElement("td", cornice.material.name));
 		tr.appendChild(createDOMElement("td", cornice.material.width));
 		tr.appendChild(createDOMElement("td", construction.height));
-		tr.appendChild(createDOMElement("td", construction.control.type));
-		tr.appendChild(createDOMElement("td", construction.control.length));
-		tr.appendChild(createDOMElement("td", construction.control.type));
+		tr.appendChild(createDOMElement("td", cornice.control.type));
+		tr.appendChild(createDOMElement("td", cornice.control.length));
+		tr.appendChild(createDOMElement("td", cornice.control.type));
 		tr.appendChild(createDOMElement("td", cornice.material.price));
 		tr.appendChild(createDOMElement("td", construction.count));
 		tr.appendChild(createDOMElement("td", construction.count * cornice.material.price));
@@ -80,11 +80,11 @@ SunblindOrder.prototype.generateMainBlock = function() {
 			var tr = document.createElement("tr");
 			tr.appendChild(createDOMElement("td", i + 1));
 			tr.appendChild(createDOMElement("td", complectation.name));
-			tr.appendChild(createDOMElement("td", construction.width)));
+			tr.appendChild(createDOMElement("td", construction.width));
 			tr.appendChild(createDOMElement("td", construction.height));
 			tr.appendChild(createDOMElement("td", ""));
 			tr.appendChild(createDOMElement("td", ""));
-			tr.appendChild(createDOMElement("td", complectation.price)));
+			tr.appendChild(createDOMElement("td", complectation.price));
 			tr.appendChild(createDOMElement("td", construction.count));
 			tr.appendChild(createDOMElement("td", complectation.price * construction.count));
 			tbody.appendChild(tr);

@@ -37,9 +37,9 @@ Order.prototype.counterFIO = "";
 Order.prototype.userFIO = "";
 Order.prototype.dateMontage = "";
 Order.prototype.dateOrder = "";
-Order.prototype.firstDiscount = "";
-Order.prototype.secondDiscount = "";
-Order.prototype.thirdDiscount = "";
+Order.prototype.firstDiscount = 0;
+Order.prototype.secondDiscount = 0;
+Order.prototype.thirdDiscount = 0;
 
 Order.prototype.clearConstructions = function() {
 	this.constructions = [];
@@ -51,17 +51,7 @@ Order.prototype.addConstruction = function(construction) {
 };
 
 Order.prototype.updateInfo = function(options) {
-	this.additionalService = [];
 	this.companyLogo = global.userInfo.companyLogo;
-	this.payType = "наличный";
-	this.clientType = gid("client").dataset.isLegal ? "юр." : "физ.";
-	this.clientFIO = gid("client").value;
-	this.clientAddress = "";
-	this.clientTelephone = "";
-	this.clientPassport = "";
-	this.clientPassportInfo = "";
-	this.number = "";
-	this.city = "";
 	this.company = global.userInfo.company;
 	this.companyAddress = global.userInfo.companyAddress;
 	this.companyLegalAddress = global.userInfo.companyLegalAddress;
@@ -74,18 +64,14 @@ Order.prototype.updateInfo = function(options) {
 	this.companyKS = global.userInfo.companyKS;
 	this.companyBIK = global.userInfo.companyBIK;
 	this.companyTelephone = global.userInfo.companyTelephone;
-	this.id = options.id;
 	this.pagesCount = 1;
-	this.meter = "";
-	this.dateMeasure = "";
 	this.countCoeff = define.COEFF;
-	this.counterFIO = "";
-	this.userFIO = "";
-	this.dateMontage = "";
-	this.dateOrder = "";
-	this.firstDiscount = "";
-	this.secondDiscount = "";
-	this.thirdDiscount = "";
+	this.userFIO = global.userInfo.FIO;
+	this.counterFIO = global.userInfo.FIO;
+	this.city = global.userInfo.city;
+
+	for(var option in options)
+		this[option] = options[option];
 };
 
 Order.prototype.fillFields = function() {
@@ -98,6 +84,7 @@ Order.prototype.fillFields = function() {
 	gid("printOrderOrderNumber").innerHTML = this.number;
 	gid("printOrderCity").innerHTML = this.city;
 	gid("printOrderCompany").innerHTML = this.company;
+	gid("printOrderCompanyLogo").src = this.companyLogo;
 	gid("printOrderCompanyAddress").innerHTML = this.companyAddress;
 	gid("printOrderCompanyLegalAddress").innerHTML = this.companyLegalAddress;
 	gid("printOrderConstructionDetail").innerHTML = this.constructionDetail;
@@ -105,22 +92,22 @@ Order.prototype.fillFields = function() {
 	gid("printOrderClientTelephone").innerHTML = this.clientTelephone;
 	gid("printOrderPagesCount").innerHTML = this.pagesCount;
 	gid("printOrderMeter").innerHTML = this.meter;
-	gid("printOrderConstructionsCount").innerHTML = function() {
+	gid("printOrderConstructionsCount").innerHTML = (function() {
 		var count = 0;
 		for(var i = 0; i < self.constructions.length; i++)
 			count += self.constructions[i].count;
 		return count;
-	}();
+	})();
 	gid("printOrderDateMeasure").innerHTML = this.dateMeasure;
 	gid("printOrderCountCoeff").innerHTML = define.COEFF;
 	gid("printOrderCounterFIO").innerHTML = this.counterFIO;
 	gid("printOrderUserFIO").innerHTML = this.userFIO;
-	gid("printOrderAdditionalService") = function() {
+	gid("printOrderAdditionalService").innerHTML = (function() {
 		var result = "";
 		for(var i = 0; i < self.additionalService.length; i++)
 			result += self.additionalService[i].name + " ";
 		return result;
-	}();
+	})();
 	gid("printOrderDateMontage").innerHTML = this.dateMontage;
 	gid("printOrderDateOrder").innerHTML = this.dateOrder;
 	gid("printOrderConstructionsPrice").innerHTML =  this.calculateConstructionsString();
@@ -147,7 +134,7 @@ Order.prototype.fillFields = function() {
 	gid("contractTableClient").innerHTML = this.client;
 	gid("contractClientPassport").innerHTML = this.clientPassport;
 	gid("contractClientPassportInfo").innerHTML = this.clientPassportInfo;
-	gid("contactClientAddress").innerHTML = this.clientAddress;
+	gid("contractClientAddress").innerHTML = this.clientAddress;
 };
 
 Order.prototype.calculateConstructionsPrice = function() {
@@ -181,7 +168,7 @@ Order.prototype.calculateConstructionsString = function() {
 	var coeff = define.COEFF;
 	var total = this.calculateConstructionsPrice();
 	var percentTotal = this.calculateConstructionsPercentPrice();
-	return total * coeff + " - " + self.firstDiscount + "%" + " - " + this.secondDiscount + "%" + " - " + this.thirdDiscount + "%" + " = " percentTotal * coeff + " р.";
+	return total * coeff + " - " + self.firstDiscount + "%" + " - " + this.secondDiscount + "%" + " - " + this.thirdDiscount + "%" + " = " + percentTotal * coeff + " р.";
 };
 
 Order.prototype.generateMainBlock = function() {

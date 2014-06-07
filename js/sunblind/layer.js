@@ -3,9 +3,7 @@ function Layer(options) {
 	this.element = null;
 	this.lamellas = [];
 	this.materials = [];
-	this.context = this.sunblind.element;
-
-	this.init();
+	this.context = null;
 }
 
 Layer.prototype.init = function() {

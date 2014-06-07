@@ -2,6 +2,29 @@ table {
 	width: 100%;
 }
 
-#printOrderHeaderBlock p {
+#printOrderMainBlock {
 	text-align: center;
+}
+
+#printOrderMainBlock table {
+	width: 80%;
+	border-collapse: collapse;
+}
+
+#printOrderMainBlock td, #printOrderMainBlock th {
+	border: 1px solid black;
+	text-align: center;
+}
+
+#printOrderMainBlock td {
+	text-align: center;
+}
+
+#printOrderHeaderBlock p, #printOrderHeaderBlock td {
+	text-align: center;
+}
+
+#printOrderHeaderBlock img {
+	width: 150px;
+	height: 100px;
 }

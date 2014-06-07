@@ -261,6 +261,7 @@ SunblindUI.prototype.hideDesigner = function(e) {
 };
 
 SunblindUI.prototype.addSVGColor = function(material) {
+	this.sunblind.layers[this.sunblind.activeLayer].addMaterial(material);
 	if(this.activeColors.indexOf(material.id) == -1) {
 		this.activeColors.push(material.id);
 		var pattern = document.createElementNS(global.NS, "pattern");

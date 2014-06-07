@@ -37,8 +37,7 @@ function MultiSunblind(options) {
 			}
 		]
 	};
-
-	this.activeLayer = 0;
+	
 	this.init();
 }
 

@@ -6,16 +6,15 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Клиент</label>
 					<div class="col-sm-6">
-						<input id="client" type="text" class="form-control" placeholder="Введите фамилию клиента" onkeyup="uiOperator.fillClientField('client','client', 'clientTd');">
+						<input id="orderClient" type="text" class="form-control" data-type="физ" value="Слинкин Вячеслав Александрович" placeholder="Введите фамилию клиента" onkeyup="uiOperator.fillClientField();">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Замерщик</label>
 					<div class="col-sm-6">
-						<select id="meter" onchange="noMeter();" class="form-control">
+						<select id="orderMeter"class="form-control">
 							<option selected disabled>Замерщик</option>
 						</select>
-						<input style="display: none" class="form-control" id="inputMeter" type="text" placeholder="Фамилия Имя Отчество" onblur="uiOperator.addMeter('inputMeter', 'meter');"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -26,50 +25,54 @@
 				</div>
 			</form>
 			<h2>Адрес доставки:</h2>
-			<form class="form-horizontal" role="form" id="clientDetails">
+			<form class="form-horizontal" role="form" id="orderClientDetails">
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Область:</label>
 					<div class="col-sm-6">
-						<select id="orderArea" class="form-control" onchange="uiOperator.startFillCities('orderCity', 'orderArea');"></select>
+						<select id="orderArea" class="form-control" onchange="uiOperator.startFillCities('orderCity', 'orderArea');">
+							<option selected>Тюменская</option>
+						</select>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Город:</label>
 					<div class="col-sm-6">
-						<select id="orderCity" class="form-control"></select>
+						<select id="orderCity" class="form-control">
+							<option selected>Тюмень</option>
+						</select>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Улица</label>
 					<div class="col-sm-6">
-						<input type="text" class="form-control" placeholder="Улица" id="orderStreet">
+						<input type="text" class="form-control" placeholder="Улица" id="orderStreet" value="Широтная">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Дом, корпус, квартира</label>
 					<div class="col-sm-2">
-						<input type="text" class="form-control" placeholder="Дом" id="orderHouse">
+						<input type="text" class="form-control" placeholder="Дом" id="orderHouse" value="35">
 					</div>
 					<div class="col-sm-2">
-						<input type="text" class="form-control" placeholder="Корпус" id="orderBlock">
+						<input type="text" class="form-control" placeholder="Корпус" id="orderBlock" value="2">
 					</div>
 					<div class="col-sm-2">
-						<input type="text" class="form-control" placeholder="Квартира" id="orderFlat">
+						<input type="text" class="form-control" placeholder="Квартира" id="orderFlat" value="56">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Телефон</label>
 					<div class="col-sm-6">
-						<input type="text" class="form-control" placeholder="Телефон" id="orderTelephone">
+						<input type="text" class="form-control" placeholder="Телефон" id="orderTelephone" value="9876445885">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Паспорт</label>
 					<div class="col-sm-3">
-						<input type="text" class="form-control" placeholder="Серия" id="orderPassSerial">
+						<input type="text" class="form-control" placeholder="Серия" id="orderPassSerial" value="7111">
 					</div>
 					<div class="col-sm-3">
-						<input type="text" class="form-control" placeholder="Номер" id="orderPassNumber">
+						<input type="text" class="form-control" placeholder="Номер" id="orderPassNumber" value="926766">
 					</div>
 				</div>
 			</form>
@@ -88,13 +91,13 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Дата замера</label>
 					<div class="col-sm-2">
-						<input type="date" id="metureDate" class="form-control">
+						<input type="date" id="orderMeasureDate" class="form-control" value="24.06.2014">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">Дата начала монтажа</label>
 					<div class="col-sm-2">
-						<input type="date" id="montageDate" class="form-control">
+						<input type="date" id="orderMontageDate" class="form-control" value="24.06.2014">
 					</div>
 				</div>
 				<div class="form-group">
