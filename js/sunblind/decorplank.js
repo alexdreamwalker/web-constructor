@@ -13,6 +13,7 @@ function DecorPlank(options) {
 
 	this.material = {
 		url: "",
+		name: "",
 		id: 0,
 		price: 0
 	};

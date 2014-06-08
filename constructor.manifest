@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#07.06.2014 - 27
+#08.06.2014 - 38
 
 # main file 
 index.html
@@ -52,6 +52,7 @@ css/bootstrap.min.css
 css/bootstrap-theme.css
 css/bootstrap-theme.min.css
 css/style.css
+css/typeaheadjs.css
 
 # fonts
 fonts/glyphicons-halflings-regular.eot
@@ -79,6 +80,7 @@ js/bootstrap.js
 js/cache.js
 js/capabs.js
 js/jquery.js
+js/typeahead.js
 js/uiOperator.js
 js/webSocket.js
 js/wsOperator.js

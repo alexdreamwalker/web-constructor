@@ -95,7 +95,7 @@ Order.prototype.fillFields = function() {
 	gid("printOrderConstructionsCount").innerHTML = (function() {
 		var count = 0;
 		for(var i = 0; i < self.constructions.length; i++)
-			count += self.constructions[i].count;
+			count += parseInt(self.constructions[i].count);
 		return count;
 	})();
 	gid("printOrderDateMeasure").innerHTML = this.dateMeasure;
@@ -111,8 +111,8 @@ Order.prototype.fillFields = function() {
 	gid("printOrderDateMontage").innerHTML = this.dateMontage;
 	gid("printOrderDateOrder").innerHTML = this.dateOrder;
 	gid("printOrderConstructionsPrice").innerHTML =  this.calculateConstructionsString();
-	gid("printOrderServicePrice").innerHTML = this.calculateServicePrice() * coeff + " р.";
-	gid("printOrderTotalPrice").innerHTML = this.calculateConstructionsPrice() + this.calculateServicePrice() + " р.";
+	gid("printOrderServicePrice").innerHTML = this.calculateServicePrice() + " р.";
+	gid("printOrderTotalPrice").innerHTML = this.calculateConstructionsPercentPrice() * coeff + this.calculateServicePrice() + " р.";
 
 	gid("contractNumber").innerHTML = this.number;
 	gid("contractCity").innerHTML = this.city;
@@ -120,7 +120,7 @@ Order.prototype.fillFields = function() {
 	gid("contractCompanyDirector").innerHTML = this.companyDirector;
 	gid("contractClient").innerHTML = this.clientFIO;
 	gid("contractConstructionDetail").innerHTML = this.constructionDetail;
-	gid("contractTotalPrice").innerHTML = (this.calculateConstructionsPercentPrice() + this.calculateServicePrice()) * coeff;
+	gid("contractTotalPrice").innerHTML = (this.calculateConstructionsPercentPrice() * coeff + this.calculateServicePrice());
 	gid("contractTableCompany").innerHTML = this.company;
 	gid("contractCompanyLegalAddress").innerHTML = this.companyLegalAddress;
 	gid("contractCompanyAddress").innerHTML = this.companyAddress;
@@ -141,7 +141,7 @@ Order.prototype.calculateConstructionsPrice = function() {
 	var self = this;
 	var total = 0;
 	for(var i = 0; i < self.constructions.length; i++)
-		total += self.constructions[i].total;
+		total += parseInt(self.constructions[i].priceTable.total) * self.constructions[i].count;
 	return total; 
 };
 
@@ -149,7 +149,7 @@ Order.prototype.calculateServicePrice = function() {
 	var self = this;
 	var result = 0;
 	for(var i = 0; i < self.additionalService.length; i++)
-		result += self.additionalService[i].price;
+		result += parseInt(self.additionalService[i].price);
 	return result;
 };
 

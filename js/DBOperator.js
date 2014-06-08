@@ -12,7 +12,7 @@ function DBOperator() //class for database manipulations. Get the UIOperator obj
 	this.dataType = "application/x-www-form-urlencoded; charset=UTF-8";
 }
 
-DBOperator.prototype.sendFilailRequest = function(action, request, array) //send 'array' of data with seted 'action' and run 'request'
+DBOperator.prototype.sendFilialRequest = function(action, request, array) //send 'array' of data with seted 'action' and run 'request'
 {
 	var postString = "action=" + action;
 	if(array != 'null') for(var key in array)

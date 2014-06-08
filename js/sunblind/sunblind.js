@@ -36,7 +36,9 @@ Sunblind.prototype.addLayer = function(layer) {
 };
 
 Sunblind.prototype.addComplectation = function(complectation) {
-	if(this.complectation.indexOf(complectation) != -1) return;
+	for(var i = 0; i < this.complectation.length; i++)
+		if(this.complectation[i].id == complectation.id)
+			return;
 	complectation.sunblind = this;
 	this.complectation.push(complectation);
 	this.sendToCalculate();

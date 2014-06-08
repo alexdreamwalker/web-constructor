@@ -189,9 +189,81 @@ function UIOperator(options) {
 	};
 
 	this.loadOrder = function(options) {
+		var self = this;
 		global.order.addConstruction(global.construction);
-		this.loadWindow("mainOrder", "pages/mainOrder.html", function() {});
+		this.loadWindow("mainOrder", "pages/mainOrder.html", function() {
+			self.typeaheadOrderClient();
+		});
 		this.processWindows("mainOrder");
+	};
+
+	this.typeaheadOrderClient = function() {
+		dbOperator.sendFilialRequest("searchClient", function(response) {
+			response = {
+				"clients": [
+				{
+					"id": "344",
+					"surname": "Кундин",
+					"firstname": "Ярослав",
+					"birthDate": "1991-04-09",
+					"seriesOfPassport": 1252,
+					"numberOfPassport": 734567,
+					"patronymic": "Сергеевич",
+					"name": "Тюмень",
+					"prepayment": "1900.00",
+					"limit": 1000,
+					"interval": 50,
+					"flagDept": 0
+				},
+				{
+					"id": "1388",
+					"surname": "Якунина",
+					"firstname": "Людмила",
+					"birthDate": "0000-00-00",
+					"seriesOfPassport": 6702,
+					"numberOfPassport": 907613,
+					"patronymic": "Васильевна",
+					"name": "Тюмень",
+					"prepayment": null,
+					"limit": null,
+					"interval": null,
+					"flagDept": 0
+				},
+				{
+					"id": "1448",
+					"surname": "Горкуненко",
+					"firstname": "Владимир",
+					"birthDate": "0000-00-00",
+					"seriesOfPassport": 7108,
+					"numberOfPassport": 618370,
+					"patronymic": "Николаевич",
+					"name": "Тюмень",
+					"prepayment": null,
+					"limit": null,
+					"interval": null,
+					"flagDept": 0
+				}
+				]
+			};
+			for(var name in response.clients)
+				response.clients[name].fio = [response.clients[name].surname, response.clients[name].firstname, response.clients[name].patronymic].join(" ");
+			var names = new Bloodhound({
+				datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.surname); },
+				queryTokenizer: Bloodhound.tokenizers.whitespace,
+				local: response.clients
+			});
+			names.initialize();
+
+			$("#orderClient").typeahead(null, {
+				displayKey: "fio",
+				source: names.ttAdapter()
+			});
+
+			$("#orderClient").on("typeahead:selected", function(e, datum) {
+				console.log(datum);
+			});
+
+		}, {"name": gid("orderClient").value, "searchParameter": "name"});
 	};
 
 	this.loadSunblindGenerator = function(options) {
@@ -253,6 +325,20 @@ function UIOperator(options) {
 		var opts = {};
 
 		opts.additionalService = [];
+		var services = document.querySelectorAll("#orderAdditionalService div");
+		for(var i = 0; i < services.length; i++) {
+			if(services[i].dataset.name == null)
+				continue;
+			var isSelected = services[i].querySelector("input[type='checkbox']");
+			if(!isSelected.checked)
+				continue;
+			var service = {
+				name: services[i].dataset.name,
+				price: services[i].querySelector("input[type='number']").value
+			};
+			opts.additionalService.push(service);
+		}
+
 		opts.payType = "наличный";
 		opts.clientType = gid("orderClient").dataset.type;
 		opts.clientFIO = gid("orderClient").value;

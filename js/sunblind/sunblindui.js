@@ -199,6 +199,7 @@ SunblindUI.prototype.fillColors = function() {
 		row.dataset.url = this.colors[i].Color;
 		row.dataset.price = this.colors[i].Price;
 		row.dataset.type = "lamella";
+		row.dataset.name = this.colors[i].Name;
 		var imgTd = document.createElement("td");
 		var img = document.createElement("img");
 		img.src = this.colors[i].Color;
@@ -227,6 +228,7 @@ SunblindUI.prototype.fillCornices = function() {
 		row.dataset.id = this.cornices[i].ID;
 		row.dataset.url = this.cornices[i].Color;
 		row.dataset.price = this.cornices[i].Price;
+		row.dataset.name = this.cornices[i].Name;
 		row.dataset.type = "cornice";
 		var imgTd = document.createElement("td");
 		var img = document.createElement("img");
@@ -261,7 +263,9 @@ SunblindUI.prototype.hideDesigner = function(e) {
 };
 
 SunblindUI.prototype.addSVGColor = function(material) {
-	this.sunblind.layers[this.sunblind.activeLayer].addMaterial(material);
+	if(material.type == "lamella")
+		this.sunblind.layers[this.sunblind.activeLayer].addMaterial(material);
+
 	if(this.activeColors.indexOf(material.id) == -1) {
 		this.activeColors.push(material.id);
 		var pattern = document.createElementNS(global.NS, "pattern");

@@ -50,7 +50,7 @@ SunblindOrder.prototype.generateMainBlock = function() {
 				var tr = document.createElement("tr");
 				tr.appendChild(createDOMElement("td", i + 1));
 				tr.appendChild(createDOMElement("td", layers[j].materials[z].name));
-				tr.appendChild(createDOMElement("td", layers[j].width * (layers[j].materials[z].count / layers[j].lamellas.length)));
+				tr.appendChild(createDOMElement("td", parseInt(layers[j].width * (layers[j].materials[z].count / layers[j].lamellas.length))));
 				tr.appendChild(createDOMElement("td", layers[j].height));
 				tr.appendChild(createDOMElement("td", ""));
 				tr.appendChild(createDOMElement("td", ""));
@@ -64,19 +64,33 @@ SunblindOrder.prototype.generateMainBlock = function() {
 		var tr = document.createElement("tr");
 		tr.appendChild(createDOMElement("td", i + 1));
 		tr.appendChild(createDOMElement("td", cornice.material.name));
-		tr.appendChild(createDOMElement("td", cornice.material.width));
+		tr.appendChild(createDOMElement("td", construction.width));
 		tr.appendChild(createDOMElement("td", construction.height));
 		tr.appendChild(createDOMElement("td", cornice.control.type));
 		tr.appendChild(createDOMElement("td", cornice.control.length));
-		tr.appendChild(createDOMElement("td", cornice.control.type));
-		tr.appendChild(createDOMElement("td", cornice.material.price));
+		tr.appendChild(createDOMElement("td", parseInt(cornice.material.price)));
 		tr.appendChild(createDOMElement("td", construction.count));
-		tr.appendChild(createDOMElement("td", construction.count * cornice.material.price));
+		tr.appendChild(createDOMElement("td", construction.count * parseInt(cornice.material.price)));
 		tbody.appendChild(tr);
 
+		if(construction.decorPlank.isActive) {
+			var decorPlank = construction.decorPlank;
+			var tr = document.createElement("tr");
+			tr.appendChild(createDOMElement("td", i + 1));
+			tr.appendChild(createDOMElement("td", "Декор. планка: " + decorPlank.material.name));
+			tr.appendChild(createDOMElement("td", decorPlank.width));
+			tr.appendChild(createDOMElement("td", decorPlank.height));
+			tr.appendChild(createDOMElement("td", ""));
+			tr.appendChild(createDOMElement("td", ""));
+			tr.appendChild(createDOMElement("td", parseInt(decorPlank.material.price)));
+			tr.appendChild(createDOMElement("td", construction.count));
+			tr.appendChild(createDOMElement("td", construction.count * parseInt(decorPlank.material.price)));
+			tbody.appendChild(tr);
+		}
 
-		for(var j = 0; j < construction.complectations.length; j++) {
-			var complectation = construction.complectations[j];
+
+		for(var j = 0; j < construction.complectation.length; j++) {
+			var complectation = construction.complectation[j];
 			var tr = document.createElement("tr");
 			tr.appendChild(createDOMElement("td", i + 1));
 			tr.appendChild(createDOMElement("td", complectation.name));
@@ -84,9 +98,9 @@ SunblindOrder.prototype.generateMainBlock = function() {
 			tr.appendChild(createDOMElement("td", construction.height));
 			tr.appendChild(createDOMElement("td", ""));
 			tr.appendChild(createDOMElement("td", ""));
-			tr.appendChild(createDOMElement("td", complectation.price));
+			tr.appendChild(createDOMElement("td", parseInt(complectation.price)));
 			tr.appendChild(createDOMElement("td", construction.count));
-			tr.appendChild(createDOMElement("td", complectation.price * construction.count));
+			tr.appendChild(createDOMElement("td", parseInt(complectation.price) * construction.count));
 			tbody.appendChild(tr);
 		}
 	}

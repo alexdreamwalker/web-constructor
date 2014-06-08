@@ -27,6 +27,8 @@ public:
             price = s * mediumPrice / 2;
         else price = s * mediumPrice;
 
+        result = price;
+
         return result;
     }
 };
