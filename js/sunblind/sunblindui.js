@@ -251,6 +251,17 @@ SunblindUI.prototype.fillCornices = function() {
 SunblindUI.prototype.switchDecorPlank = function(e) {
 	var isActive = e.checked;
 	this.sunblind.showDecorPlank(isActive);
+	this.sunblind.sendToCalculate();
+};
+
+SunblindUI.prototype.setDecorPlankLength = function(e) {
+	if(e.value < this.sunblind.width) {
+		e.value = this.sunblind.width;
+		alert("Ширина планки не может быть меньше ширины изделия");
+		return;
+	}
+	this.sunblind.decorPlank.setLength(e.value);
+	this.sunblind.sendToCalculate();
 };
 
 SunblindUI.prototype.showDesigner = function(type) {

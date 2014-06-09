@@ -160,7 +160,7 @@ Order.prototype.calculateConstructionsPercentPrice = function() {
 	percentTotal = percentTotal - percentTotal / 100 * self.firstDiscount;
 	percentTotal = percentTotal - percentTotal / 100 * self.secondDiscount;
 	percentTotal = percentTotal - percentTotal / 100 * self.thirdDiscount;
-	return percentTotal;
+	return parseInt(percentTotal);
 };
 
 Order.prototype.calculateConstructionsString = function() {

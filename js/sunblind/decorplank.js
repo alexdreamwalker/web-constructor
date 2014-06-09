@@ -45,14 +45,13 @@ DecorPlank.prototype.setActive = function(isActive) {
 		this.element.style.display = "none";
 };
 
-DecorPlank.prototype.setWidth = function(newWidth) {
-	this.width = newWidth;
+DecorPlank.prototype.setLength = function(length) {
+	this.width = parseInt(length);
 	this.repaint();
 };
 
 DecorPlank.prototype.setMaterial = function(material) {
-	this.material.url = material.url;
-	this.material.id = material.id;
+	this.material = material;
 	var decor = (this.sunblind.type == define.sunblind.ID_VERTICAL) ?  define.sunblind.ID_DECOR_VERTICAL : define.sunblind.ID_DECOR_HORIZONTAL;
 	this.material.price = this.sunblind.complectations[decor].Price;
 	this.selected = false;

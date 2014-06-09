@@ -318,7 +318,7 @@ function UIOperator(options) {
 		withDiscount -= withDiscount / 100 * per2;
 		withDiscount -= withDiscount / 100 * per3;
 		inputs[4].value = withoutDiscount;
-		inputs[5].value = withDiscount;
+		inputs[5].value = parseInt(withDiscount);
 	};
 
 	this.getOrderInfoFromForm = function() {

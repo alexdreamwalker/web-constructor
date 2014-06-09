@@ -29,6 +29,7 @@ Sunblind.prototype.complectation = [];
 Sunblind.prototype.NS = global.NS;
 Sunblind.prototype.type = 0;
 Sunblind.prototype.lamellaOrientation = 0;
+Sunblind.prototype.lesVer = null;
 
 Sunblind.prototype.addLayer = function(layer) {
 	layer.sunblind = this;
@@ -82,6 +83,7 @@ Sunblind.prototype.paint = function(options) {
 Sunblind.prototype.repaint = function(options) {
 	this.element.innerHTML = "";
 	this.cornice.paint();
+	this.decorPlank.paint();
 	for(var i = 0; i < this.layers.length; i++)
 		this.layers[i].paint();
 	for(var i = 0; i < this.complectation.length; i++)

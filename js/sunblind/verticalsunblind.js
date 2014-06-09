@@ -67,6 +67,10 @@ VerticalSunblind.prototype.init = function() {
 	}
 };
 
+VerticalSunblind.prototype.setLesVer = function(lesVer) {
+	lesVer.sunblind = this;
+	this.lesVer = lesVer;
+};
 
 VerticalSunblind.prototype.changeWidth = function(newWidth) {
 	for(var i = 0; i < this.layers.length; i++)

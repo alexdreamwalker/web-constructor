@@ -18,6 +18,7 @@ MultiSunblindUI.prototype.start = function() {
 
 MultiSunblindUI.prototype.applyBezierLayers = function() {
 	this.sunblind.applyBezier();
+	this.sunblind.sendToCalculate();
 };
 
 MultiSunblindUI.prototype.addLayer = function() {

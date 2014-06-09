@@ -6,7 +6,7 @@
 					<div class="panel-heading">Параметры</div>
 					<div class="panel-body well">
 						<h2>Тип жалюзи</h2>
-						<div class="btn-group btn-group-justified">
+						<div class="btn-group btn-group-justified" id="sunGenAlgType">
   							<div class="btn-group">
     							<button type="button" class="btn btn-default" data-id="1">Горизонтальные</button>
   							</div>
@@ -22,29 +22,29 @@
 					<div>
 						<div class="rangegroup">
 							<input type="range">
-							<input type="number" readonly>
+							<input type="number" readonly id="sunGenAlgBottomPrice">
 						</div>
 						<div class="rangegroup">
 							<input type="range">
-							<input type="number" readonly>
+							<input type="number" readonly id="sunGenAlgTopPrice">
 						</div>
 					</div>
 					<h2>Размер популяции</h2>
 					<div class="rangegroup">
 						<input type="range">
-						<input type="number" readonly>
+						<input type="number" readonly id="sunGenAlgPopulationSize">
 					</div>
 					<h2>Вероятность мутации</h2>
 					<div class="rangegroup">
 						<input type="range">
-						<input type="number" readonly>
+						<input type="number" readonly id="sunGenAlgMutationChance">
 					</div>
 					<h2>Точность поиска</h2>
 					<div class="rangegroup">
 						<input type="range">
-						<input type="number" readonly>
+						<input type="number" readonly id="sunGenAlgEps">
 					</div>
-					<button type="button" class="btn btn-success" style="float: right; margin: 10px">Поиск</button>
+					<button type="button" class="btn btn-success" style="float: right; margin: 10px" id="sunGenAlgGo">Поиск</button>
 				</div>
 			</td>
 			<td style="width: 64%">
