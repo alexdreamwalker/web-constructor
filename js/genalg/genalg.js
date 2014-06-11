@@ -1,52 +1,34 @@
-function GenAlg(options) {
-	var population = options.population;
-	var populationSize = options.populationSize || 100;
-	var fitnessFunction = options.fitnessFunction;
-	var expectedResult = options.expectedResult;
-	var eps = options.eps;
-	var difference = options.difference;
-	var mutationFunction = options.mutation;
-	var crossingOverFunction = options.crossingOver;
-	var selectionFunction = options.selection;
+function GenAlg() {}
 
-	function countFitness() {
-		return fitnessFunction(this);
-	};
+GenAlg.prototype.population = [];
+GenAlg.prototype.populationSize = 0;
+GenAlg.prototype.fitness = function() {};
+GenAlg.prototype.expectedResult = [];
+GenAlg.prototype.eps = 0;
+GenAlg.prototype.difference = function() {};
+GenAlg.prototype.mutation = function() {};
+GenAlg.prototype.crossingOver = function() {};
+GenAlg.prototype.selection = function() {};
 
-	function checkResult() {
-		return (difference(population, expectedResult) <= eps);
-	};
+GenAlg.prototype.mainLoop = function() {
+	var self = this;
+	console.log("basic population: ");
+	console.log(this.population);
+	while(this.difference(this.population, this.expectedResult) >= this.eps) {
+		console.log("population: ");
+		console.log(this.population);
 
-	function selection() {
-		return new Promise(function(resolve, reject) {
-			selectionFunction(population);
-			resolve();
-		});
-	};
+		self.fitness()
+		.then(function() {
+			return self.selection();
+		})
+		.then(function() {
+			return self.crossingOver();
+		})
+		.then(function() {
+			return self.mutation();
+		})
+	}
 
-	function crossingOver() {
-		return new Promise(function(resolve, reject) {
-			crossingOverFunction(population);
-			resolve();
-		});
-	};
-
-	function mutation() {
-		return new Promise(function(resolve, reject) {
-			mutationFunction(population);
-			resolve();
-		});
-	};
-
-	function mainLoop() {
-		while(!checkResult) {
-			countFitness()
-			.then(function() { return selection(); })
-			.then(function() { return crossingOver(); })
-			.then(function() { return mutation(); })
-		}
-		return population;
-	};
-
-	return mainLoop();
+	return self.population;
 };

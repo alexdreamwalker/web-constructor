@@ -25,16 +25,7 @@ function UIOperator(options) {
 	};
 
 	this.addMainMenuListeners = function() {
-		var featurets = document.querySelectorAll("#mainMenu div.featurette");
-		[].forEach.call(featurets, function(featurete) {
-			var button = featurete.querySelector("button");
-			var imgs = featurete.querySelectorAll("div.menu-category img");
-			[].forEach.call(imgs, function(img) {
-				img.addEventListener("mouseenter", function(e) {
-					button.innerHTML = e.target.dataset.description;
-				}, false);
-			});
-		});
+
 	};
 
 	this.processConnection = function(data) {
@@ -275,6 +266,8 @@ function UIOperator(options) {
 				number.value = range.value;
 			}, false);
 		});
+		var sunblindGenAlg = new SunblindGenAlg();
+		sunblindGenAlg.start();
 	};
 
 	this.setPriceTable = function(table) {

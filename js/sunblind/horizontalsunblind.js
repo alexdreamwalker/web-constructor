@@ -81,14 +81,14 @@ HorizontalSunblind.prototype.changeHeight = function(newHeight) {
 };
 
 HorizontalSunblind.prototype.generate = function(options) {
-	var cornice = Cornice.prototype.generate.apply(this, {
+	var cornice = Cornice.prototype.generate.call(this, {
 		width: options.width, 
 		height: options.lamellaSize, 
 		generator: options.generator
 	});
 
 	var layers = [];
-	var layer = HorizontalLayer.prototype.generate.apply(this, {
+	var layer = HorizontalLayer.prototype.generate.call(this, {
 		width: options.width, 
 		height: options.height, 
 		generator: options.generator, 
@@ -97,7 +97,7 @@ HorizontalSunblind.prototype.generate = function(options) {
 	});
 	layers.push(layer);
 
-	var decorPlank = DecorPlank.prototype.generate.apply(this, {
+	var decorPlank = DecorPlank.prototype.generate.call(this, {
 		width: options.width, 
 		height: options.lamellaSize, 
 		generator: options.generator
@@ -106,7 +106,7 @@ HorizontalSunblind.prototype.generate = function(options) {
 	var complectation = [];
 	var compCount = Math.floor(getRandom(1, 3));
 	for(var i = 0; i < compCount; i++)
-		complectation.push(Complectation.prototype.generate.apply(this, {
+		complectation.push(Complectation.prototype.generate.call(this, {
 			generator: options.generator
 		}));
 
@@ -127,14 +127,14 @@ HorizontalSunblind.prototype.mutate = function(options) {
 	var obj = options.obj;
 
 	var cornice = obj.cornice;
-	obj.cornice = Cornice.prototype.mutate.apply(this, {
+	obj.cornice = Cornice.prototype.mutate.call(this, {
 		width: cornice.width, 
 		height: cornice.height, 
 		generator: obj.generator
 	});
 
 	var decorPlank = obj.decorPlank;
-	obj.decorPlank = DecorPlank.prototype.mutate.apply(this, {
+	obj.decorPlank = DecorPlank.prototype.mutate.call(this, {
 		width: decorPlank.width, 
 		height: decorPlank.height, 
 		generator: obj.generator
@@ -142,7 +142,7 @@ HorizontalSunblind.prototype.mutate = function(options) {
 
 	var layers = obj.layers;
 	for(var i = 0; i < layers.length; i++)
-		obj.layers[i] = HorizontalLayer.prototype.mutate.apply(this, {
+		obj.layers[i] = HorizontalLayer.prototype.mutate.call(this, {
 			lamellas: layers[i].lamellas,
 			width: layers[i].width,
 			height: layers[i].height,
@@ -151,7 +151,7 @@ HorizontalSunblind.prototype.mutate = function(options) {
 
 	var complectation = obj.complectation;
 	for(var i = 0; i < complectation.length; i++)
-		obj.complectation[i] = Complectation.prototype.mutate.apply(this, {
+		obj.complectation[i] = Complectation.prototype.mutate.call(this, {
 			generator: obj.generator
 		});
 

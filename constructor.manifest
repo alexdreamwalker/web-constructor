@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#09.06.2014 - 07
+#12.06.2014 - 18
 
 # main file 
 index.html
@@ -70,6 +70,7 @@ images/menu/sunblinds/horizontal.png
 images/menu/sunblinds/multi.jpg
 images/menu/sunblinds/roll.jpg
 images/menu/sunblinds/vertical.png
+images/menu/sunblinds/genalg.jpg
 images/menu/windows/multi.jpg
 
 # js
@@ -120,6 +121,10 @@ js/sunblind/horizontallayer.js
 js/sunblind/multisunblind.js
 js/sunblind/multisunblindui.js
 js/sunblind/multilayer.js
+
+# js - genalg
+js/genalg/genalg.js
+js/genalg/sunblindgenalg.js
 
 # cpp - NaCl
 cpp/instance/sunblindinstance.nmf

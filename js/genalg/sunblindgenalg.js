@@ -1,8 +1,6 @@
-function SunblindGenAlg(options) {
-	this.bottomPrice = 0;
-	this.topPrice = 0;
-	this.type = 0;
-};
+function SunblindGenAlg(options) {}
+
+SunblindGenAlg.prototype = Object.create(GenAlg.prototype);
 
 SunblindGenAlg.prototype.placements = [];
 SunblindGenAlg.prototype.materials = [];
@@ -13,6 +11,7 @@ SunblindGenAlg.prototype.sizeLimits = [];
 SunblindGenAlg.prototype.complectations = [];
 
 SunblindGenAlg.prototype.start = function() {
+	var self = this;
 	cppOperator.setSource("sunblindListener", function() {
 		self.getData();
 		gid("sunGenAlgGo").addEventListener("click", function() {
@@ -91,7 +90,7 @@ SunblindGenAlg.prototype.getSizeLimits = function() {
 SunblindGenAlg.prototype.getColors = function() {
 	var self = this;
 	return new Promise(function(resolve, reject) {
-		wsOperator.postMessage({cmd: "getSunblindsColors", type: "db", params: {}}, function(response) {
+		wsOperator.postMessage({cmd: "getSunblindsColors", type: "db", params: {type: self.type}}, function(response) {
 			var colors = JSON.parse(response);
 			self.colors = colors;
 			resolve();
@@ -106,7 +105,7 @@ SunblindGenAlg.prototype.generateLamellaMaterial = function() {
 SunblindGenAlg.prototype.getCorniceColors = function() {
 	var self = this;
 	return new Promise(function(resolve, reject) {
-		wsOperator.postMessage({cmd: "getSunblindsCorniceColors", type: "db", params: {}}, function(response) {
+		wsOperator.postMessage({cmd: "getSunblindsCorniceColors", type: "db", params: {type: self.type}}, function(response) {
 			var colors = JSON.parse(response);
 			self.cornices = colors;
 			resolve();
@@ -145,26 +144,27 @@ SunblindGenAlg.prototype.calculate = function(data) {
 	});	
 };
 
-SunblindGenAlg.prototype.fitness = function(data) {
-	return this.calculate(data.population);
+SunblindGenAlg.prototype.fitness = function() {
+	return this.calculate(this.population);
 };
 
-SunblindGenAlg.prototype.difference = function(current, expected) {
-	if(current.length > expected.length)
+SunblindGenAlg.prototype.difference = function() {
+	if(this.population.length > this.expectedResult.length)
 		return null;
 	var max = 0;
-	for(var i = 0; i < current.length; i++)
-		if(Math.abs(current[i].fitness - expected[i].fitness) > max)
-			max = Math.abs(current[i].fitness - expected[i].fitness);
+	for(var i = 0; i < this.population.length; i++)
+		if(Math.abs(this.population[i].fitness - this.expectedResult[i].fitness) > max)
+			max = Math.abs(this.population[i].fitness - this.expectedResult[i].fitness);
 	return max;
 };
 
-SunblindGenAlg.prototype.generateBasicPopulation = function(size) {
+SunblindGenAlg.prototype.generateBasicPopulation = function() {
+	var size = this.populationSize;
 	var result = [];
 	switch(this.type) {
 		case define.sunblind.ID_VERTICAL:
 			for(var i = 0; i < size; i++) {
-				var sunblind = VerticalSunblind.prototype.generate.apply(this, {
+				var sunblind = VerticalSunblind.prototype.generate.call(this, {
 					generator: this,
 					width: 2000,
 					height: 2000,
@@ -174,8 +174,9 @@ SunblindGenAlg.prototype.generateBasicPopulation = function(size) {
 			}
 			break;
 		case define.sunblind.ID_HORIZONTAL:
+			alert("Horizontal");
 			for(var i = 0; i < size; i++) {
-				var sunblind = HorizontalSunblind.prototype.generate.apply(this, {
+				var sunblind = HorizontalSunblind.prototype.generate.call(this, {
 					generator: this,
 					width: 2000,
 					height: 2000,
@@ -185,8 +186,9 @@ SunblindGenAlg.prototype.generateBasicPopulation = function(size) {
 			}
 			break;
 		case define.sunblind.ID_MULTI:
+			alert("multi");
 			for(var i = 0; i < size; i++) {
-				var sunblind = MultiSunblind.prototype.generate.apply(this, {
+				var sunblind = MultiSunblind.prototype.generate.call(this, {
 					generator: this,
 					width: 2000,
 					height: 2000,
@@ -200,35 +202,37 @@ SunblindGenAlg.prototype.generateBasicPopulation = function(size) {
 	return result;
 };
 
-SunblindGenAlg.prototype.generateExpectedResult = function(size) {
+SunblindGenAlg.prototype.generateExpectedResult = function() {
 	var result = [];
-	for(var i = 0; i < size; i++) {
-		var ideal = {fitness: (this.topPrice + this.bottomPrice) / 2};
+	for(var i = 0; i < this.populationSize; i++) {
+		var ideal = {
+			fitness: (this.topPrice + this.bottomPrice) / 2
+		};
 		result.push(ideal);
 	}
 	return result;
 };
 
-SunblindGenAlg.prototype.mutation = function(population) {
+SunblindGenAlg.prototype.mutation = function() {
 	switch(this.type) {
 		case define.sunblind.ID_VERTICAL:
-			for(var i = 0; i < population.length; i++)
-				population[i] = VerticalSunblind.prototype.mutate.apply(this, {
-					obj: population[i],
+			for(var i = 0; i < this.population.length; i++)
+				this.population[i] = VerticalSunblind.prototype.mutate.call(this, {
+					obj: this.population[i],
 					generator: this
 				});
 			break;
 		case define.sunblind.ID_HORIZONTAL:
-			for(var i = 0; i < population.length; i++)
-				population[i] = HorizontalSunblind.prototype.mutate.apply(this, {
-					obj: population[i],
+			for(var i = 0; i < this.population.length; i++)
+				this.population[i] = HorizontalSunblind.prototype.mutate.call(this, {
+					obj: this.population[i],
 					generator: this
 				});
 			break;
 		case define.sunblind.ID_MULTI:
-			for(var i = 0; i < population.length; i++)
-				population[i] = MultiSunblind.prototype.mutate.apply(this, {
-					obj: population[i],
+			for(var i = 0; i < this.population.length; i++)
+				this.population[i] = MultiSunblind.prototype.mutate.call(this, {
+					obj: this.population[i],
 					generator: this
 				});
 			break;
@@ -244,23 +248,16 @@ SunblindGenAlg.prototype.crossingOver = function(population) {
 };
 
 SunblindGenAlg.prototype.generate = function() {
-	this.topPrice = gid("sunGenAlgTopPrice").value;
-	this.bottomPrice = gid("sunGenAlgBottomPrice").value;
-	this.type = document.querySelector("#sunGenAlgType button:focus").dataset.id;
-	alert(this.type);
+	this.topPrice = parseInt(gid("sunGenAlgTopPrice").value);
+	this.bottomPrice = parseInt(gid("sunGenAlgBottomPrice").value);
+	this.type = parseInt(document.querySelector("#sunGenAlgType label.active input").dataset.id);
 
-	var opts = {};
-	opts.populationSize = gid("sunGenAlgPopulationSize").value;
-	opts.mutationChance = gid("sunGenAlgMutationChance").value;
-	opts.eps = gid("sunGenAlgEps").value;
+	this.populationSize = parseInt(gid("sunGenAlgPopulationSize").value);
+	this.mutationChance = parseInt(gid("sunGenAlgMutationChance").value);
+	this.eps = parseInt(gid("sunGenAlgEps").value);
 
-	opts.population = this.generateBasicPopulation(opts.populationSize);
-	opts.fitnessFunction = this.fitness;
-	opts.expectedResult = this.generateExpectedResult(opts.populationSize);
-	opts.difference = this.difference;
-	opts.mutation = this.mutation;
-	opts.selection = this.selection;
-	opts.crossingOver = this.crossingOver;
+	this.population = this.generateBasicPopulation();
+	this.expectedResult = this.generateExpectedResult();
 
-	var result = new GenAlg(opts);
+	var result = this.mainLoop();
 };

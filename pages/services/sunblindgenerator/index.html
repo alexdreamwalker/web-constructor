@@ -6,42 +6,42 @@
 					<div class="panel-heading">Параметры</div>
 					<div class="panel-body well">
 						<h2>Тип жалюзи</h2>
-						<div class="btn-group btn-group-justified" id="sunGenAlgType">
-  							<div class="btn-group">
-    							<button type="button" class="btn btn-default" data-id="1">Горизонтальные</button>
-  							</div>
- 							<div class="btn-group">
-    							<button type="button" class="btn btn-default" data-id="2">Вертикальные</button>
-  							</div>
-  							<div class="btn-group">
-    							<button type="button" class="btn btn-default" data-id="3">Мультифактурные</button>
-  							</div>
+						<div class="btn-group btn-group-justified" data-toggle="buttons" id="sunGenAlgType">
+  							<label class="btn btn-primary">
+    							<input type="radio" name="sunGenAlgTypeOpts" data-id="1">Горизонтальные</button>
+  							</label>
+ 							<label class="btn btn-primary">
+    							<input type="radio" name="sunGenAlgTypeOpts" data-id="2">Вертикальные</button>
+  							</label>
+  							<label class="btn btn-primary">
+    							<input type="radio" name="sunGenAlgTypeOpts" data-id="3">Мультифактурные</button>
+  							</label>
 						</div>
 					</div>
 					<h2>Границы стоимости</h2>
 					<div>
 						<div class="rangegroup">
-							<input type="range">
+							<input type="range" min="0" max="10000">
 							<input type="number" readonly id="sunGenAlgBottomPrice">
 						</div>
 						<div class="rangegroup">
-							<input type="range">
+							<input type="range" min="0" max="10000">
 							<input type="number" readonly id="sunGenAlgTopPrice">
 						</div>
 					</div>
 					<h2>Размер популяции</h2>
 					<div class="rangegroup">
-						<input type="range">
+						<input type="range" min="0" max="100">
 						<input type="number" readonly id="sunGenAlgPopulationSize">
 					</div>
 					<h2>Вероятность мутации</h2>
 					<div class="rangegroup">
-						<input type="range">
+						<input type="range" min="0" max="100">
 						<input type="number" readonly id="sunGenAlgMutationChance">
 					</div>
 					<h2>Точность поиска</h2>
 					<div class="rangegroup">
-						<input type="range">
+						<input type="range" min="0" max="100">
 						<input type="number" readonly id="sunGenAlgEps">
 					</div>
 					<button type="button" class="btn btn-success" style="float: right; margin: 10px" id="sunGenAlgGo">Поиск</button>
@@ -59,4 +59,7 @@
 			</td>
 		</tr>
 	</table>
+	<div id="sunblindListener">
+		<embed id="sunblindModule" width="0" height="0" src="cpp/instance/sunblindinstance.nmf" type="application/x-pnacl" />
+	</div>
 </div>
