@@ -192,6 +192,7 @@ Sunblind.prototype.changeHeight = function(newHeight) {
 };
 
 Sunblind.prototype.checkSizeLimits = function(width, height) {
+	return true;
 	var limit = this.getSizeArray()[0];
 	if(limit != null)
 		return (width >= limit.MinWidth) && (width <= limit.MaxWidth) && (height >= limit.MinHeight) && (height <= limit.MaxHeight);
