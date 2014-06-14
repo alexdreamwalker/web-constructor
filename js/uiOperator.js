@@ -267,6 +267,7 @@ function UIOperator(options) {
 			}, false);
 		});
 		var sunblindGenAlg = new SunblindGenAlg();
+		global.genAlg = sunblindGenAlg;
 		sunblindGenAlg.start();
 	};
 

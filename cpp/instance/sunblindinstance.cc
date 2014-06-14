@@ -74,7 +74,7 @@ public:
 				countSunblind();
 				break;
 			case COUNT_BUNCH_SUNBLINDS:
-				countButchSunblinds();
+				countBunchSunblinds();
 				break;
 			default:
 				break;
@@ -134,8 +134,8 @@ public:
 		}
 	}
 
-	void countButchSunblinds() {
-		const Json::Value sunblinds = root["data"]["sunblinds"];
+	void countBunchSunblinds() {
+		const Json::Value sunblinds = root["data"];
 		for(int i = 0; i < sunblinds.size(); i++) {
 			int type = sunblinds[i].get("type", 0).asInt();
 			switch(type) {

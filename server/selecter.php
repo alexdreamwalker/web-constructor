@@ -76,10 +76,12 @@
 
 		public function getSunblindsColors($type, $material, $size)
 		{
-			if(empty($type) || empty($material) || empty($size))
+			if(empty($material)) {
 				$stmt = $this->mysqli->prepare("SELECT colors.*, pricelamellas.Price from colors 
-												INNER JOIN pricelamellas ON colors.ID = pricelamellas.IDColor");
-			else {
+												INNER JOIN pricelamellas ON colors.ID = pricelamellas.IDColor
+												WHERE TypeID = ? AND Size = ?");
+				$stmt->bind_param('dd', $type, $size);
+			} else {
 				$stmt = $this->mysqli->prepare("SELECT colors.*, pricelamellas.Price from colors 
 												INNER JOIN pricelamellas ON colors.ID = pricelamellas.IDColor 
 												WHERE MaterialID = ? AND TypeID = ? AND Size = ?");

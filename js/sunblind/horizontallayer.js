@@ -46,7 +46,7 @@ HorizontalLayer.prototype.generate = function(options) {
 			x: 0,
 			y: 0 + options.cornice.height * 2 + i * lamellaHeight * 1.05
 		};
-		var lamella = Lamella.prototype.generate.apply(this, {
+		var lamella = Lamella.prototype.generate.call(this, {
 			width: lamellaWidth, 
 			height: lamellaHeight, 
 			x: pos.x, 
@@ -64,18 +64,5 @@ HorizontalLayer.prototype.generate = function(options) {
 };
 
 HorizontalLayer.prototype.mutate = function(options) {
-	var lamellas = options.lamellas;
-	var lamellaCount = lamellas.length;
-	var chance = 0.1;
-	for(var i = 0; i < lamellaCount; i++)
-		if(Math.random() <= chance) {
-			lamellas[i].generator = options.generator;
-			lamellas[i] = Lamella.prototype.generate.apply(this, lamellas[i]);
-		}
-	return {
-		"lamellas": lamellas,
-		minLayerSquare: define.sunblind.MIN_LAYER_SQUARE,
-		width: options.width,
-		height: options.height
-	};
+	return HorizontalLayer.prototype.generate.call(this, options);
 };

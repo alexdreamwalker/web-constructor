@@ -83,13 +83,13 @@ Cornice.prototype.generate = function(options) {
 	return {
 		width: options.width,
 		size: options.height,
-		price: material.price,
-		id: material.id,
-		url: material.url,
+		price: material.Price,
+		id: material.ID,
+		url: material.Color,
 		minCornLength: define.sunblind.MIN_CORNICE_LENGTH
 	};
 };
 
 Cornice.prototype.mutate = function(options) {
-	return Cornice.prototype.generate.apply(this, arguments);
+	return Cornice.prototype.generate.call(this, options);
 };

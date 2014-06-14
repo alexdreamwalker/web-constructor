@@ -9,13 +9,23 @@ SunblindGenAlg.prototype.colors = [];
 SunblindGenAlg.prototype.sizes = [];
 SunblindGenAlg.prototype.sizeLimits = [];
 SunblindGenAlg.prototype.complectations = [];
+SunblindGenAlg.prototype.hasData = false;
+
+SunblindGenAlg.prototype.type = 0;
+SunblindGenAlg.prototype.topPrice = 0;
+SunblindGenAlg.prototype.bottomPrice = 0;
+SunblindGenAlg.prototype.topSize = 0;
+SunblindGenAlg.prototype.bottomSize = 0;
+SunblindGenAlg.prototype.lamellaSize = 0;
 
 SunblindGenAlg.prototype.start = function() {
 	var self = this;
 	cppOperator.setSource("sunblindListener", function() {
-		self.getData();
-		gid("sunGenAlgGo").addEventListener("click", function() {
+		gid("sunGenAlgGetData").addEventListener("click", function() {
 			self.generate();
+		}, false);
+		gid("sunGenAlgGo").addEventListener("click", function() {
+			self.continueGeneration();
 		}, false);
 	});
 };
@@ -90,7 +100,14 @@ SunblindGenAlg.prototype.getSizeLimits = function() {
 SunblindGenAlg.prototype.getColors = function() {
 	var self = this;
 	return new Promise(function(resolve, reject) {
-		wsOperator.postMessage({cmd: "getSunblindsColors", type: "db", params: {type: self.type}}, function(response) {
+		wsOperator.postMessage({
+			cmd: "getSunblindsColors", 
+			type: "db", 
+			params: {
+				idType: self.type, 
+				size: self.lamellaSize
+			}
+		}, function(response) {
 			var colors = JSON.parse(response);
 			self.colors = colors;
 			resolve();
@@ -105,7 +122,14 @@ SunblindGenAlg.prototype.generateLamellaMaterial = function() {
 SunblindGenAlg.prototype.getCorniceColors = function() {
 	var self = this;
 	return new Promise(function(resolve, reject) {
-		wsOperator.postMessage({cmd: "getSunblindsCorniceColors", type: "db", params: {type: self.type}}, function(response) {
+		wsOperator.postMessage({
+			cmd: "getSunblindsCorniceColors", 
+			type: "db", 
+			params: {
+				idType: self.type, 
+				size: self.lamellaSize
+			}
+		}, function(response) {
 			var colors = JSON.parse(response);
 			self.cornices = colors;
 			resolve();
@@ -138,7 +162,7 @@ SunblindGenAlg.prototype.calculate = function(data) {
 		cppOperator.postMessage("countBunchSunblinds", {"data": data}, function(response) {
 			var result = JSON.parse(response).data;
 			for(var i = 0; i < result.length; i++)
-				data[i].fitness = result[i];
+				data[i].fitness = parseInt(result[i] * define.COEFF);
 			resolve();
 		});
 	});	
@@ -151,11 +175,17 @@ SunblindGenAlg.prototype.fitness = function() {
 SunblindGenAlg.prototype.difference = function() {
 	if(this.population.length > this.expectedResult.length)
 		return null;
-	var max = 0;
-	for(var i = 0; i < this.population.length; i++)
-		if(Math.abs(this.population[i].fitness - this.expectedResult[i].fitness) > max)
-			max = Math.abs(this.population[i].fitness - this.expectedResult[i].fitness);
-	return max;
+	var result = 0;
+	for(var i = 0; i < this.population.length; i++) {
+		var min = Math.abs(this.population[i].fitness - this.expectedResult[i].fitness);
+		var fitness = this.population[i].fitness;
+		for(var j = 0; j < this.expectedResult.length; j++)
+			if(Math.abs(this.population[i].fitness - this.expectedResult[j].fitness) < min)
+				min = Math.abs(this.population[i].fitness - this.expectedResult[j].fitness);
+		result += min;
+	}
+		
+	return parseInt(result / this.population.length);
 };
 
 SunblindGenAlg.prototype.generateBasicPopulation = function() {
@@ -164,36 +194,45 @@ SunblindGenAlg.prototype.generateBasicPopulation = function() {
 	switch(this.type) {
 		case define.sunblind.ID_VERTICAL:
 			for(var i = 0; i < size; i++) {
+				var width = parseInt(getRandom(this.bottomSize, this.topSize));
+				var height = parseInt(getRandom(this.bottomSize, this.topSize));
 				var sunblind = VerticalSunblind.prototype.generate.call(this, {
 					generator: this,
-					width: 2000,
-					height: 2000,
-					lamellaSize: 89
+					"width": width,
+					"height": height,
+					lamellaSize: this.lamellaSize
 				});
+				sunblind.fitness = 0;
 				result.push(sunblind);
 			}
 			break;
 		case define.sunblind.ID_HORIZONTAL:
 			alert("Horizontal");
 			for(var i = 0; i < size; i++) {
+				var width = parseInt(getRandom(this.bottomSize, this.topSize));
+				var height = parseInt(getRandom(this.bottomSize, this.topSize));
 				var sunblind = HorizontalSunblind.prototype.generate.call(this, {
 					generator: this,
-					width: 2000,
-					height: 2000,
-					lamellaSize: 16
+					"width": width,
+					"height": height,
+					lamellaSize: this.lamellaSize
 				});
+				sunblind.fitness = 0;
 				result.push(sunblind);
 			}
 			break;
 		case define.sunblind.ID_MULTI:
 			alert("multi");
 			for(var i = 0; i < size; i++) {
+				var width = parseInt(getRandom(this.bottomSize, this.topSize));
+				var height = parseInt(getRandom(this.bottomSize, this.topSize));
 				var sunblind = MultiSunblind.prototype.generate.call(this, {
 					generator: this,
-					width: 2000,
-					height: 2000,
-					lamellaSize: 89
+					"width": width,
+					"height": height,
+					lamellaSize: this.lamellaSize
 				});
+				sunblind.fitness = 0;
 				result.push(sunblind);
 			}
 			break;
@@ -206,7 +245,7 @@ SunblindGenAlg.prototype.generateExpectedResult = function() {
 	var result = [];
 	for(var i = 0; i < this.populationSize; i++) {
 		var ideal = {
-			fitness: (this.topPrice + this.bottomPrice) / 2
+			fitness: parseInt(getRandom(this.bottomPrice, this.topPrice))
 		};
 		result.push(ideal);
 	}
@@ -214,50 +253,139 @@ SunblindGenAlg.prototype.generateExpectedResult = function() {
 };
 
 SunblindGenAlg.prototype.mutation = function() {
-	switch(this.type) {
+	var self = this;
+	return new Promise(function(resolve, reject) {
+		self.mutationDebug();
+		resolve();
+	});
+};
+
+SunblindGenAlg.prototype.mutationDebug = function() {
+	var self = this;
+	console.log("mutation");
+	switch(self.type) {
 		case define.sunblind.ID_VERTICAL:
-			for(var i = 0; i < this.population.length; i++)
-				this.population[i] = VerticalSunblind.prototype.mutate.call(this, {
-					obj: this.population[i],
-					generator: this
-				});
-			break;
+		for(var i = 0; i < self.population.length; i++) {
+			if(getRandom(0, 100) >= this.mutationChance)
+				continue;
+			var width = parseInt(getRandom(this.bottomSize, this.topSize));
+			var height = parseInt(getRandom(this.bottomSize, this.topSize));
+			self.population[i] = VerticalSunblind.prototype.mutate.call(self, {
+				"width": width,
+				"height": height,
+				obj: self.population[i],
+				generator: self
+			});
+		}
+		break;
 		case define.sunblind.ID_HORIZONTAL:
-			for(var i = 0; i < this.population.length; i++)
-				this.population[i] = HorizontalSunblind.prototype.mutate.call(this, {
-					obj: this.population[i],
-					generator: this
-				});
-			break;
+		for(var i = 0; i < self.population.length; i++) {
+			if(getRandom(0, 100) >= this.mutationChance)
+				continue;
+			var width = parseInt(getRandom(this.bottomSize, this.topSize));
+			var height = parseInt(getRandom(this.bottomSize, this.topSize));
+			self.population[i] = HorizontalSunblind.prototype.mutate.call(self, {
+				"width": width,
+				"height": height,
+				obj: self.population[i],
+				generator: self
+			});
+		}
+		break;
 		case define.sunblind.ID_MULTI:
-			for(var i = 0; i < this.population.length; i++)
-				this.population[i] = MultiSunblind.prototype.mutate.call(this, {
-					obj: this.population[i],
-					generator: this
-				});
-			break;
+		for(var i = 0; i < self.population.length; i++) {
+			if(getRandom(0, 100) >= this.mutationChance)
+				continue;
+			var width = parseInt(getRandom(this.bottomSize, this.topSize));
+			var height = parseInt(getRandom(this.bottomSize, this.topSize));
+			self.population[i] = MultiSunblind.prototype.mutate.call(self, {
+				"width": width,
+				"height": height,
+				obj: self.population[i],
+				generator: self
+			});
+		}
+		break;
 	}
+	console.log("mutation finished");
 };
 
 SunblindGenAlg.prototype.selection = function(population) {
-	// body...
+	var self = this;
+	return new Promise(function(resolve, reject) {
+		console.log("selection");
+		resolve();
+	});
 };
 
 SunblindGenAlg.prototype.crossingOver = function(population) {
-
+	var self = this;
+	return new Promise(function(resolve, reject) {
+		console.log("crossingOver");
+		resolve();
+	});
 };
 
 SunblindGenAlg.prototype.generate = function() {
 	this.topPrice = parseInt(gid("sunGenAlgTopPrice").value);
 	this.bottomPrice = parseInt(gid("sunGenAlgBottomPrice").value);
+	this.topSize = parseInt(gid("sunGenAlgTopSize").value);
+	this.bottomSize = parseInt(gid("sunGenAlgBottomSize").value);
 	this.type = parseInt(document.querySelector("#sunGenAlgType label.active input").dataset.id);
+	this.lamellaSize = parseInt(document.querySelector("#sunGenAlgLamSize label.active input").dataset.id);
 
 	this.populationSize = parseInt(gid("sunGenAlgPopulationSize").value);
 	this.mutationChance = parseInt(gid("sunGenAlgMutationChance").value);
 	this.eps = parseInt(gid("sunGenAlgEps").value);
 
-	this.population = this.generateBasicPopulation();
-	this.expectedResult = this.generateExpectedResult();
+	this.getData();
+};
 
-	var result = this.mainLoop();
+SunblindGenAlg.prototype.continueGeneration = function() {
+	var self = this;
+	var result = null;
+	self.population = self.generateBasicPopulation();
+	self.expectedResult = self.generateExpectedResult();
+	result = self.mainLoop();
+};
+
+SunblindGenAlg.prototype.showPopultation = function() {
+	var self = this;
+	var mainContainer = gid("sunGenAlgResult");
+	if(this.generationNumber == 1)
+		mainContainer.innerHTML = "";
+
+	var panel = document.createElement("div");
+	panel.className = "panel panel-info";
+	var caption = document.createElement("div");
+	caption.className = "panel-heading";
+	caption.innerHTML = "Поколение №" + styleStrong(this.generationNumber) + " , пригодность: " + styleStrong(parseInt(this.difference(this.population, this.expectedResult)));
+	var container = document.createElement("div");
+	container.className = "panel-body";
+
+	for(var i = 0; i < this.population.length; i++) {
+		var unit = document.createElement("div");
+		unit.className = "alert alert-info";
+		unit.style.width = "10%";
+		unit.style.float = "left";
+		unit.style.margin = "10px";
+		unit.innerHTML = "Особь №" + (i + 1) + " , пригодность: " + styleStrong(this.population[i].fitness);
+		container.appendChild(unit);
+	}
+
+	var p = document.createElement("p");
+	p.style.float = "right";
+	var nextBtn = document.createElement("button");
+	nextBtn.type = "button";
+	nextBtn.className = "btn btn-info";
+	nextBtn.innerHTML = "Дальше >>";
+	nextBtn.addEventListener("click", function() {
+		self.mainLoop();
+	}, false);
+	p.appendChild(nextBtn);
+
+	panel.appendChild(caption);
+	panel.appendChild(container);
+	mainContainer.appendChild(panel);
+	mainContainer.appendChild(p);
 };

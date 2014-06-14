@@ -114,7 +114,7 @@ MultiLayer.prototype.generate = function(options) {
 			x: i * lamellaWidth * 1.05,
 			y: 0 + options.cornice.height * 2
 		};
-		var lamella = Lamella.prototype.generate.apply(this, {
+		var lamella = Lamella.prototype.generate.call(this, {
 			width: lamellaWidth, 
 			height: lamellaHeight, 
 			x: pos.x, 
@@ -132,19 +132,5 @@ MultiLayer.prototype.generate = function(options) {
 };
 
 MultiLayer.prototype.mutate = function(options) {
-	var lamellas = options.lamellas;
-	var lamellaCount = lamellas.length;
-	var chance = 0.1;
-	for(var i = 0; i < lamellaCount; i++) 
-		if(Math.random() <= chance) {
-			var lamellaHeight = options.height - options.cornice.height * 2;
-			lamellaHeight = Math.floor(getRandom(0, lamellaHeight));
-			lamellas[i] = Lamella.prototype.mutate.apply(this, {width: lamellas[i].width, height: lamellaHeight, x: lamellas[i].x, y: lamellas[i].y, generator: options.generator});
-		}
-	return {
-		"lamellas": lamellas,
-		minLayerSquare: define.sunblind.MIN_LAYER_SQUARE,
-		width: options.width,
-		height: options.height
-	};
+	return MultiLayer.prototype.generate.call(this, options);
 };

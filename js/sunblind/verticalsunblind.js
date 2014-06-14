@@ -122,7 +122,8 @@ VerticalSunblind.prototype.generate = function(options) {
 		"cornice": cornice,
 		"layers": layers,
 		"decorPlank": decorPlank,
-		"complectation": complectation
+		"complectation": complectation,
+		"lamellaSize": options.lamellaSize
 	};
 	return obj;
 };
@@ -132,31 +133,33 @@ VerticalSunblind.prototype.mutate = function(options) {
 
 	var cornice = obj.cornice;
 	obj.cornice = Cornice.prototype.mutate.call(this, {
-		width: cornice.width, 
-		height: cornice.height, 
-		generator: obj.generator
+		width: options.width, 
+		height: cornice.size, 
+		generator: options.generator
 	});
 
 	var decorPlank = obj.decorPlank;
 	obj.decorPlank = DecorPlank.prototype.mutate.call(this, {
-		width: decorPlank.width, 
+		width: options.width, 
 		height: decorPlank.height, 
-		generator: obj.generator
+		generator: options.generator
 	});
 
 	var layers = obj.layers;
 	for(var i = 0; i < layers.length; i++)
 		obj.layers[i] = VerticalLayer.prototype.mutate.call(this, {
 			lamellas: layers[i].lamellas,
-			width: layers[i].width,
-			height: layers[i].height,
-			generator: obj.generator
+			width: options.width,
+			height: options.height,
+			generator: options.generator,
+			lamellaSize: obj.lamellaSize,
+			"cornice": obj.cornice
 		});
 
 	var complectation = obj.complectation;
 	for(var i = 0; i < complectation.length; i++)
 		obj.complectation[i] = Complectation.prototype.mutate.call(this, {
-			generator: obj.generator
+			generator: options.generator
 		});
 
 	return obj;

@@ -24,12 +24,12 @@ Complectation.prototype.toJSON = function() {
 Complectation.prototype.generate = function(options) {
 	var comp = options.generator.generateComplectation();
 	return {
-		id: comp.id,
-		name: comp.name,
-		price: parseFloat(comp.price)
+		id: comp.ID,
+		name: comp.Name,
+		price: parseFloat(comp.Price)
 	};
 };
 
 Complectation.prototype.mutate = function(options) {
-	return Complectation.prototype.generate.apply(this, arguments);
+	return Complectation.prototype.generate.call(this, options);
 };

@@ -8,14 +8,40 @@
 						<h2>Тип жалюзи</h2>
 						<div class="btn-group btn-group-justified" data-toggle="buttons" id="sunGenAlgType">
   							<label class="btn btn-primary">
-    							<input type="radio" name="sunGenAlgTypeOpts" data-id="1">Горизонтальные</button>
+    							<input type="radio" name="sunGenAlgTypeOpts" data-id="2">Горизонтальные
   							</label>
  							<label class="btn btn-primary">
-    							<input type="radio" name="sunGenAlgTypeOpts" data-id="2">Вертикальные</button>
+    							<input type="radio" name="sunGenAlgTypeOpts" data-id="1">Вертикальные
   							</label>
   							<label class="btn btn-primary">
-    							<input type="radio" name="sunGenAlgTypeOpts" data-id="3">Мультифактурные</button>
+    							<input type="radio" name="sunGenAlgTypeOpts" data-id="3">Мультифактурные
   							</label>
+						</div>
+						<h2>Размер ламели</h2>
+						<div class="btn-group btn-group-justified" data-toggle="buttons" id="sunGenAlgLamSize">
+  							<label class="btn btn-primary">
+    							<input type="radio" name="sunGenAlgLamSizeOpts" data-id="16">16
+  							</label>
+ 							<label class="btn btn-primary">
+    							<input type="radio" name="sunGenAlgLamSizeOpts" data-id="25">25
+  							</label>
+  							<label class="btn btn-primary">
+    							<input type="radio" name="sunGenAlgLamSizeOpts" data-id="50">50
+  							</label>
+  							<label class="btn btn-primary">
+    							<input type="radio" name="sunGenAlgLamSizeOpts" data-id="89">89
+  							</label>
+						</div>
+					</div>
+					<h2>Границы размеров</h2>
+					<div>
+						<div class="rangegroup">
+							<input type="range" min="0" max="10000">
+							<input type="number" readonly id="sunGenAlgBottomSize">
+						</div>
+						<div class="rangegroup">
+							<input type="range" min="0" max="10000">
+							<input type="number" readonly id="sunGenAlgTopSize">
 						</div>
 					</div>
 					<h2>Границы стоимости</h2>
@@ -44,6 +70,7 @@
 						<input type="range" min="0" max="100">
 						<input type="number" readonly id="sunGenAlgEps">
 					</div>
+					<button type="button" class="btn btn-primary" style="float: right; margin: 10px" id="sunGenAlgGetData">Получить данные</button>
 					<button type="button" class="btn btn-success" style="float: right; margin: 10px" id="sunGenAlgGo">Поиск</button>
 				</div>
 			</td>
@@ -52,7 +79,7 @@
 					<div class="panel-heading">
 						Решение
 					</div>
-					<div class="panel-body well" style="height: 90%; padding: 0">
+					<div class="panel-body well" style="height: 90%; padding: 0" id="sunGenAlgResult">
 						
 					</div>
 				</div>

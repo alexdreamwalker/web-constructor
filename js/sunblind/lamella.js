@@ -99,12 +99,12 @@ Lamella.prototype.generate = function(options) {
 		y: options.y,
 		width: options.width,
 		height: options.height,
-		price: material.price,
-		"material": material.id,
-		url: material.url
+		price: material.Price,
+		"material": material.ID,
+		url: material.Color
 	}
 };
 
 Lamella.prototype.mutate = function(options) {
-	return Lamella.prototype.generate.apply(this, arguments);
+	return Lamella.prototype.generate.call(this, options);
 };

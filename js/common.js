@@ -53,3 +53,9 @@ function createDOMElement(type, inner) {
 	el.innerHTML = inner;
 	return el;
 };
+
+function styleStrong(inner) {
+	var el = document.createElement("strong");
+	el.innerHTML = inner;
+	return el.outerHTML;
+};
