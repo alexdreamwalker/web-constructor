@@ -263,68 +263,53 @@ SunblindGenAlg.prototype.mutation = function() {
 SunblindGenAlg.prototype.mutationDebug = function() {
 	var self = this;
 	console.log("mutation");
-	switch(self.type) {
-		case define.sunblind.ID_VERTICAL:
-		for(var i = 0; i < self.population.length; i++) {
-			if(getRandom(0, 100) >= this.mutationChance)
-				continue;
-			var width = parseInt(getRandom(this.bottomSize, this.topSize));
-			var height = parseInt(getRandom(this.bottomSize, this.topSize));
-			self.population[i] = VerticalSunblind.prototype.mutate.call(self, {
-				"width": width,
-				"height": height,
-				obj: self.population[i],
-				generator: self
-			});
+
+	var t = self.generationNumber;
+	var T = self.generationMaxNumber;
+
+	for(var i = 0; i < self.population.length; i++) {
+		if(getRandom(0, 100) >= self.mutationChance)
+			continue;
+
+		var q = (Math.random() > 0.5) ? 1 : 0;
+		if(q == 0) {
+			var width = parseInt(self.population[i].width + (self.topSize - self.population[i].width) * (1 - Math.pow(r, (1 - t / T))));
+			var height = parseInt(self.population[i].height + (self.topSize - self.population[i].height) * (1 - Math.pow(r, (1 - t / T))));
+		} else {
+			var width = parseInt(self.population[i].width - (self.population[i].width - self.bottomSize) * (1 - Math.pow(r, (1 - t / T))));
+			var height = parseInt(self.population[i].height - (self.population[i].height - self.bottomSize) * (1 - Math.pow(r, (1 - t / T))));
 		}
-		break;
-		case define.sunblind.ID_HORIZONTAL:
-		for(var i = 0; i < self.population.length; i++) {
-			if(getRandom(0, 100) >= this.mutationChance)
-				continue;
-			var width = parseInt(getRandom(this.bottomSize, this.topSize));
-			var height = parseInt(getRandom(this.bottomSize, this.topSize));
-			self.population[i] = HorizontalSunblind.prototype.mutate.call(self, {
-				"width": width,
-				"height": height,
-				obj: self.population[i],
-				generator: self
-			});
+
+		switch(self.type) {
+			case define.sunblind.ID_VERTICAL:
+				self.population[i] = VerticalSunblind.prototype.mutate.call(self, {
+					"width": width,
+					"height": height,
+					obj: self.population[i],
+					generator: self
+				});
+				break;
+			case define.sunblind.ID_HORIZONTAL:
+				self.population[i] = HorizontalSunblind.prototype.mutate.call(self, {
+					"width": width,
+					"height": height,
+					obj: self.population[i],
+					generator: self
+				});
+				break;
+			case define.sunblind.ID_MULTI:
+				self.population[i] = MultiSunblind.prototype.mutate.call(self, {
+					"width": width,
+					"height": height,
+					obj: self.population[i],
+					generator: self
+				});
+				break;
 		}
-		break;
-		case define.sunblind.ID_MULTI:
-		for(var i = 0; i < self.population.length; i++) {
-			if(getRandom(0, 100) >= this.mutationChance)
-				continue;
-			var width = parseInt(getRandom(this.bottomSize, this.topSize));
-			var height = parseInt(getRandom(this.bottomSize, this.topSize));
-			self.population[i] = MultiSunblind.prototype.mutate.call(self, {
-				"width": width,
-				"height": height,
-				obj: self.population[i],
-				generator: self
-			});
-		}
-		break;
 	}
+
 	console.log("mutation finished");
-};
-
-SunblindGenAlg.prototype.selection = function(population) {
-	var self = this;
-	return new Promise(function(resolve, reject) {
-		console.log("selection");
-		resolve();
-	});
-};
-
-SunblindGenAlg.prototype.crossingOver = function(population) {
-	var self = this;
-	return new Promise(function(resolve, reject) {
-		console.log("crossingOver");
-		resolve();
-	});
-};
+};	
 
 SunblindGenAlg.prototype.generate = function() {
 	this.topPrice = parseInt(gid("sunGenAlgTopPrice").value);
