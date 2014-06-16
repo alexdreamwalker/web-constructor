@@ -45,6 +45,18 @@ GenAlg.prototype.checkResult = function() {
 	});
 };
 
+GenAlg.prototype.mutation = function() {
+	var self = this;
+	return new Promise(function(resolve, reject) {
+		self.mutationDebug();
+		resolve();
+	});
+};
+
+GenAlg.prototype.mutationDebug = function() {
+
+};	
+
 GenAlg.prototype.selection = function() {
 	var self = this;
 	return new Promise(function(resolve, reject) {

@@ -119,7 +119,8 @@ HorizontalSunblind.prototype.generate = function(options) {
 		"layers": layers,
 		"decorPlank": decorPlank,
 		"complectation": complectation,
-		"lamellaSize": options.lamellaSize
+		"lamellaSize": options.lamellaSize,
+		mutate: this.mutate
 	};
 	return obj;
 };
