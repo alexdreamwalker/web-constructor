@@ -16,7 +16,7 @@ THIS_MAKEFILE := $(abspath $(lastword $(MAKEFILE_LIST)))
 NACL_SDK_ROOT ?= $(abspath $(dir $(THIS_MAKEFILE))../..)
 
 # Project Build flags
-WARNINGS := -Wno-long-long -Wall -Wswitch-enum -pedantic -Werror
+WARNINGS := -Wno-long-long -Wall -Wswitch-enum -pedantic -Werror -DGL_GLEXT_PROTOTYPES
 CXXFLAGS := -pthread -std=gnu++11 $(WARNINGS)
 
 # Path
@@ -38,9 +38,8 @@ EMS_CXX := /home/butch/Documents/Work/nacl_sdk/pepper_31/pepper.js/emscripten/em
 PNACL_AR := $(PNACL_TC_PATH)/bin/pnacl-ar
 PNACL_RANLIB := $(PNACL_TC_PATH)/bin/pnacl-ranlib
 PNACL_FINALIZE := $(PNACL_TC_PATH)/bin/pnacl-finalize
-CXXFLAGS := -I$(NACL_SDK_ROOT)/include
-#-I$(NACL_SDK_ROOT)/toolchain/linux_pnacl/usr/include
-LDFLAGS := -L$(NACL_SDK_ROOT)/lib/pnacl/Release -lppapi_cpp -lppapi -ljsoncpp -lppapi_gles2 -lpthread
+CXXFLAGS := -I$(NACL_SDK_ROOT)/include -I$(NACL_SDK_ROOT)/toolchain/linux_pnacl/usr/local/include
+LDFLAGS := -L$(NACL_SDK_ROOT)/lib/pnacl/Release -lppapi_cpp -lppapi -ljsoncpp -lpthread -lppapi_gles2 -lOSMesa
 LDFLAGSEMS := -L$(NACL_SDK_ROOT)/lib/emscripten/Release -lppapi_cpp -lppapi -lppapi_gles2
 
 #
