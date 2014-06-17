@@ -17,7 +17,10 @@ NACL_SDK_ROOT ?= $(abspath $(dir $(THIS_MAKEFILE))../..)
 
 # Project Build flags
 WARNINGS := -Wno-long-long -Wall -Wswitch-enum -pedantic -Werror
-CXXFLAGS := -pthread -std=gnu++11 -stdlib=libc++ $(WARNINGS)
+CXXFLAGS := -pthread -std=gnu++11 $(WARNINGS)
+
+# Path
+PATHPNACL = ../instance
 
 #
 # Compute tool paths
@@ -31,12 +34,14 @@ PNACL_TC_PATH := $(abspath $(NACL_SDK_ROOT)/toolchain/$(OSNAME)_pnacl)
 PNACL_CXX := $(PNACL_TC_PATH)/bin/pnacl-clang++
 GCC_CXX := g++
 CLANG_CXX := clang++
-EMS_CXX := /home/dreamer/Student/nacl_sdk/pepper.js/emscripten/emcc
+EMS_CXX := /home/butch/Documents/Work/nacl_sdk/pepper_31/pepper.js/emscripten/emcc
 PNACL_AR := $(PNACL_TC_PATH)/bin/pnacl-ar
 PNACL_RANLIB := $(PNACL_TC_PATH)/bin/pnacl-ranlib
 PNACL_FINALIZE := $(PNACL_TC_PATH)/bin/pnacl-finalize
 CXXFLAGS := -I$(NACL_SDK_ROOT)/include
-LDFLAGS := -L$(NACL_SDK_ROOT)/lib/pnacl/Release -lppapi_cpp -lppapi -ljsoncpp -lsunblind
+#-I$(NACL_SDK_ROOT)/toolchain/linux_pnacl/usr/include
+LDFLAGS := -L$(NACL_SDK_ROOT)/lib/pnacl/Release -lppapi_cpp -lppapi -ljsoncpp -lppapi_gles2 -lpthread
+LDFLAGSEMS := -L$(NACL_SDK_ROOT)/lib/emscripten/Release -lppapi_cpp -lppapi -lppapi_gles2
 
 #
 # Disable DOS PATH warning when using Cygwin based tools Windows
@@ -53,57 +58,22 @@ all:
 clean: 
 	rm -rf *.o
 	rm -rf *.a
-	rm test-gcc
-	rm test-clang
-	rm test-nacl.pexe
-	rm test-ems.js
-
-
-
-# Declare the ALL target first, to make the 'all' target the default build
-
-complectation.o: complectation.cc
-	$(PNACL_CXX) complectation.cc -c -o complectation.o
-
-construction.o: construction.cc
-	$(PNACL_CXX) construction.cc -c -o construction.o
-
-# sunblind
-
-cornice.o: sunblind/cornice.cc 
-	$(PNACL_CXX) -c sunblind/cornice.cc -o cornice.o
-
-lamella.o: sunblind/lamella.cc
-	$(PNACL_CXX) -c sunblind/lamella.cc -o lamella.o
-
-layer.o: sunblind/layer.cc
-	$(PNACL_CXX) -c sunblind/layer.cc -o layer.o
-
-verticallayer.o: sunblind/verticallayer.cc
-	$(PNACL_CXX) -c sunblind/verticallayer.cc -o verticallayer.o
-
-sunblind.o: sunblind/sunblind.cc
-	$(PNACL_CXX) -c sunblind/sunblind.cc -o sunblind.o
-
-verticalsunblind.o: sunblind/verticalsunblind.cc 
-	$(PNACL_CXX) -c sunblind/verticalsunblind.cc -o verticalsunblind.o
-
-libsunblind.a: cornice.o lamella.o layer.o verticallayer.o sunblind.o verticalsunblind.o
-	$(PNACL_AR) cr libsunblind.a cornice.o lamella.o layer.o verticallayer.o sunblind.o verticalsunblind.o
-	$(PNACL_RANLIB) libsunblind.a
+	rm $(PATHPNACL)/windows-nacl.bc
+	rm $(PATHPNACL)/windows-nacl.pexe
 
 # test
 
-test-nacl: test.cc libsunblind.a
-	$(PNACL_CXX) test.cc -o test-nacl.pexe $(CXXFLAGS) $(LDFLAGS)
+#windows-ems: InitApp.cc
+#	$(EMS_CXX) InitApp.cc -o windows-ems.js $(CXXFLAGS) $(LDFLAGSEMS)
 
-test-gcc: test.cc libsunblind.a
-	$(GCC_CXX) test.cc -o test-gcc
+#windows-ems-html: InitApp.cc
+#	$(EMS_CXX) InitApp.cc -o windows-ems.html $(CXXFLAGS) $(LDFLAGSEMS)
 
-test-clang: test.cc libsunblind.a
-	$(CLANG_CXX) test.cc -o test-clang
+windows-nacl.bc: CreateModule.cc
+	$(PNACL_CXX) -o $(PATHPNACL)/$@ $< -O2 $(CXXFLAGS) $(LDFLAGS)
 
-test-ems: test.cc libsunblind.a
-	$(EMS_CXX) test.cc -o test-ems.js
+windows-nacl.pexe: windows-nacl.bc
+	$(PNACL_FINALIZE) -o $(PATHPNACL)/$@ $(PATHPNACL)/$<
 
-test: test-nacl test-clang test-gcc test-ems
+#windows: windows-nacl windows-clang windows-gcc windows-ems
+windows: windows-nacl.pexe

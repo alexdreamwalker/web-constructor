@@ -4,7 +4,8 @@ function MultiWindowsUI(options) {
 };
 
 MultiWindowsUI.prototype.start = function() {
-	alert("ready");	
+	console.log("ready");
+	cppOperator.setSource("listener", initCallBack);
 	//cppOperator.setSource("sunblindListener", function() {
 	//	self.getData();
 	//});

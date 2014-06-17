@@ -47,3 +47,117 @@ div:-ms-fullscreen {
 div:fullscreen {
   width: 100% !important;
 }
+
+#canvas
+{
+	width:						500px;
+	height:						500px;
+	border-style:				solid;
+	border-color: 				#e54401;
+	border-width:				2px;
+}
+
+#listener
+{
+	width:						70%;
+	height:						600px;
+	border-style:				solid;
+	border-color: 				#e54401;
+	border-width:				2px;
+}
+
+.panelIco
+{
+	width:						50px;
+	height: 					50px;
+}
+
+#panelElement
+{
+	text-align: 				center;
+	margin-top:					10px;
+}
+
+.designElem
+{
+	/*margin: 				-10px, -10px, -10px, -10px;*/
+	font-size: 				10.5pt; 
+	margin-left: 			10px;
+	margin-right: 			50px;
+	/*margin: 				5px, 5px, 5px, 5px;*/
+}
+
+.listElem
+{
+	color: 					rgb(0,0,0);
+	width: 					100px;
+}
+
+.btnStyle
+{
+	margin: 				5px, 5px, 5px, 5px;
+	color: 					rgb(0,0,0);
+}
+
+#listener
+{
+	min-width: 				100%;
+	min-height:	 			100%;
+	position: 				relative;
+}
+
+#embed
+{
+	min-width: 				100%;
+	min-height:	 			100%;
+	position: 				relative;
+}
+
+.tableInfoBoject
+{
+
+}
+
+table.hovertable
+{
+	font-family: 			verdana,arial,sans-serif;
+	font-size:				11px;
+	color:					#333333;
+	border-width: 			1px;
+	border-color: 			#999999;
+	border-collapse: 		collapse;
+}
+
+table.hovertable th
+{
+	background-color:		#c3dde0;
+	border-width: 			1px;
+	padding: 				8px;
+	border-style: 			solid;
+	border-color:		 	#a9c6c9;
+}
+
+table.hovertable tr
+{
+	background-color:		#d4e3e5;
+}
+
+table.hovertable tr:hover
+{
+	background-color:		#ffff66;
+}
+
+table.hovertable td
+{
+	border-width: 			1px;
+	padding: 				8px;
+	border-style: 			solid;
+	border-color:	 		#a9c6c9;
+}
+
+.selectElem
+{
+	color: 					rgb(0,0,0);
+	width: 					200px;
+	margin:					10px 10px 10px 10px;
+}

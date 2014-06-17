@@ -1,17 +1,188 @@
 <!-- Nav tabs -->
 <ul class="nav nav-tabs">
-	<li class="active"><a href="#windowsProfile" data-toggle="tab">Профиль</a></li>
+	<li class="active"><a href="#designPanel" data-toggle="tab">Инструменты</a></li>
+	<li><a href="#viewSetting" data-toggle="tab">Настройки отображения</a></li>
+	<li><a href="#windowsProfile" data-toggle="tab">Профиль</a></li>
 	<li><a href="#windowsUnder" data-toggle="tab">Подоконник</a></li>
-	<li><a href="#windowsLow" data-toggle="tab">Нижний отлив</a></li>
-	<li><a href="#windowsTop" data-toggle="tab">Верхний отлив</a></li>
 	<li><a href="#windowsComplect" data-toggle="tab">Комплектация</a></li>
 	<li><a href="#windowsFurniture" data-toggle="tab">Фурнитура</a></li>
-	<li><a href="#windowsAdditional" data-toggle="tab">Доп. профиля</a></li>
 </ul>
 
 <!-- Tab panes -->
 <div class="tab-content">
-	<div class="tab-pane active" id="windowsProfile">
+	<div class="tab-pane active" id="designPanel">
+		<form class="form-horizontal" role="form" style="width: 500px">
+			<h4>Дизайнер объектов:</h4>
+			<div class="form-group">
+			<h5>Точки:</h5>
+				<p class="designElem">
+					<select class="listElem" multiple id="listPoints" name="listPoints" ondblclick="clickElem('listPointsDblClick')" onchange="clickElem('listPointsChange')">
+				    </select multiple id="listPoints" name="listPoints">
+
+					<select class="listElem" multiple id="listPointsForSet" name="listPointsSet">
+					</select>
+
+					<p class="designElem">
+						<button type="button" class="btnStyle" alt="Показать/скрыть набор" id="btnClearPoints" name="btnClearPoints" onclick="clickElem(name)">
+						<i class="glyphicon glyphicon-remove-sign"></i>
+						Очистить</button>
+					</p>
+
+				</p>
+
+				<h5>Наборы (сеты):</h5>
+				<p class="designElem">
+					<select class="listElem" multiple id="listSet" name="listSet" ondblclick="clickElem('listSetDblClick')" onchange="clickElem(name)">
+					</select>
+
+					<select class="listElem" multiple id="listSetForObject" name="listSetForObject" onchange="clickElem(name)">
+					</select>
+				</p>
+
+				<button type="button" class="btnStyle" alt="Показать/скрыть набор" id="btnHideSets" name="btnHideSets" onclick="clickElem(name)">
+				<i class="glyphicon glyphicon-eye-open"></i>
+				Скрыть</button>
+
+				<button type="button" class="btnStyle" alt="Удалить выбранный набор" id="btnDeleteSet" name="btnDeleteSet" onclick="clickElem(name)">
+					<i class="glyphicon glyphicon-trash"></i>
+					Удалить Набор</button>
+
+				<button type="button" class="btnStyle" alt="Очистить список" id="btnClearSetForObject" name="btnClearSetForObject" onclick="clickElem(name)">
+					<i class="glyphicon glyphicon-remove-sign"></i>
+					Очистить</button>
+
+				<h5>Объекты:</h5>
+
+				<p class="designElem">
+					Тип объекта:
+					<select class="selectElem" id="comboTypeObject">
+						<option IDType="1" price="2000">Gealan S 3000</option>
+						<option IDType="2" price="3000">Gealan S 8000 IQ</option>
+						<option IDType="3" price="2500">WARM LINE WL 62</option>
+						<option IDType="4" price="3600">WARM LINE WL 74</option>
+						<option IDType="5" price="2000">AL "Холодный</option>
+						<option IDType="6" price="2400">AL "Тёплый"</option>
+						<option IDType="7" price="3000">Стеклопакет 1-х камерный</option>
+						<option IDType="8" price="3700">Стеклопакет 2-х камерный</option>
+						<option IDType="9" price="5350">Стеклопакет 3-х камерный</option>
+					</select>
+				</p>
+
+				<p class="designElem">
+					<p class="designElem">
+					<table>
+						<tr>
+							<td>
+								<select class="listElem" multiple id="listObject" name="listObject">
+				      			</select>
+				      		</td>
+				      		<td>
+								<table class="hovertable" id="tableObjectInfo">
+				      				<tr>
+				      					<th>Объект</th>
+				      					<th>Цвет</th>
+				      					<th>Ширина</th>
+				      					<th>Высота</th>
+				      					<th>Цена</th>
+				      					<th>Стоимость</th>
+				      				</tr>
+				      			</table>
+				      		</td>
+		      			</tr>
+					</table>
+		      		</p>
+
+		      		<input class="btnStyle" id="objectColor" type="color" name="favcolor"
+      					onchange="changeColor(document.getElementById('objectColor').value)">
+	      			
+	      			<button type="button" class="btnStyle" alt="Объединить выбранные сеты в объект" id="btnCreateObject" name="btnCreateObject" onclick="clickElem(name)">
+					<i class="glyphicon glyphicon-plus"></i>
+					Создать объект</button>
+
+					<button type="button" class="btnStyle" alt="Удалить выбранный объект" id="btnDeleteObject" name="btnDeleteObject" onclick="clickElem(name)">
+					<i class="glyphicon glyphicon-trash"></i>
+					Удалить объект</button>
+				</p>
+			</div>
+
+			<div class="form-group">	
+				<p>
+					<h4>Тип интерполяции:</h4>
+	      			<div class="radio">
+						<label>
+							<input type="radio" name="radioSpline" id="cubicSpline" value="2" checked>
+							Кубический сплайн
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="radioSpline" id="akimaSpline" value="3">
+							Сплайн Акима
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="radioSpline" id="curve" value="4">
+							Дуга
+						</label>
+					</div>
+				</p>
+      			
+      			<p>
+					<label class="designElem">Ориентация:</label>
+					<div class="radio">
+						<label>
+							<input type="radio" name="radioPos" id="horizontal" value="0" checked>
+							Горизонтальная
+						</label>
+					</div>
+					<div class="radio">
+						<label>
+							<input type="radio" name="radioPos" id="vertical" value="1">
+							Вертикальная
+						</label>
+					</div>
+        		</p>
+
+        		<p>
+		        	<button type="button" class="btnStyle" alt="Построить сплайн" id="btnBuildSpline" name="btnBuildSpline" onclick="clickElem(name)">
+						<i class="glyphicon glyphicon-random"></i>
+						Построить сплайн
+					</button>
+				</p>
+
+				<p>
+					<button type="button" class="btnStyle" alt="Построить полигон" id="btnBuildPolygon" name="btnBuildPolygon" onclick="clickElem(name)">
+						<span class="glyphicon glyphicon-flag"></span>
+						Построить полигон
+					</button>
+				</p>
+			</div>
+		</form>
+	</div>
+
+	<div class="tab-pane" id="viewSetting">
+      	<div class="form-group">
+        	<label class="designElem">Шаг сетки (от 20 до 50 см.):</label>
+        	<input type="number" id="gridStep" value="20" min="20" max="50" onchange="paintGrid()"/>
+        	
+        	<p>
+        		<label class="designElem">Округлять:</label>
+        		<input type="checkbox" id="btnSetRoundForGrid" name="btnSetRoundForGrid"  checked="checked" onchange="clickElem(name)"/>
+        	</p>
+        	<p>
+	        	<label class="designElem">Скрыть сетку:</label>
+	       		<input type="checkbox" id="btnHideGrid" name="btnHideGrid" onchange="clickElem(btnHideSets)"/>
+        	</p>
+
+        	<p>
+	        	<label class="designElem">Скрыть точки:</label>
+	        	<input type="checkbox" id="btnHidePoints" name="btnHidePoints" onchange="clickElem(btnHideSets)"/>
+        	</p>
+		</div>
+	</div>
+
+	<div class="tab-pane" id="windowsProfile">
 		<form class="form-horizontal" role="form" style="width: 500px">
 			<div class="form-group">
 				<label class="col-xs-5 control-label">Профиль:</label>
@@ -62,6 +233,7 @@
 			</div>
 		</form>
 	</div>
+
 	<div class="tab-pane" id="windowsUnder">
 		<form class="form-horizontal" role="form" style="width: 500px">
 			<legend>Подоконник</legend>
@@ -165,84 +337,6 @@
 						<option>Коричневый</option>
 						<option>Белый</option>
 					</select>
-				</div>
-			</div>
-		</form>
-	</div>
-	<div class="tab-pane" id="windowsLow">
-		<form class="form-horizontal" role="form" style="width: 500px">
-			<div class="form-group">
-				<label class="col-xs-2 control-label">Ширина:</label>
-				<div class="col-xs-3">
-					<select class="form-control input-sm">
-						<option>110</option>
-						<option>130</option>
-						<option>150</option>
-						<option>180</option>
-						<option>210</option>
-						<option>240</option>
-						<option>250</option>
-						<option>280</option>
-						<option>300</option>
-						<option>320</option>
-						<option>360</option>
-					</select>
-				</div>
-				<label class="col-xs-2 control-label">Цвет:</label>
-				<div class="col-xs-3">
-					<select class="form-control input-sm">
-						<option>Белый</option>
-						<option>RAL</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-2 control-label">Длина:</label>
-				<div class="col-xs-3">
-					<input type="number" class="form-control input-sm" value="1320">
-				</div>
-				<label class="col-xs-4 control-label">Количество:</label>
-				<div class="col-xs-3">
-					<input type="number" class="form-control input-sm" value="1">
-				</div>
-			</div>
-		</form>
-	</div>
-	<div class="tab-pane" id="windowsTop">
-		<form class="form-horizontal" role="form" style="width: 500px">
-			<div class="form-group">
-				<label class="col-xs-2 control-label">Ширина:</label>
-				<div class="col-xs-3">
-					<select class="form-control input-sm">
-						<option>110</option>
-						<option>130</option>
-						<option>150</option>
-						<option>180</option>
-						<option>210</option>
-						<option>240</option>
-						<option>250</option>
-						<option>280</option>
-						<option>300</option>
-						<option>320</option>
-						<option>360</option>
-					</select>
-				</div>
-				<label class="col-xs-2 control-label">Цвет:</label>
-				<div class="col-xs-3">
-					<select class="form-control input-sm">
-						<option>Белый</option>
-						<option>RAL</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-2 control-label">Длина:</label>
-				<div class="col-xs-3">
-					<input type="number" class="form-control input-sm" value="1320">
-				</div>
-				<label class="col-xs-4 control-label">Количество:</label>
-				<div class="col-xs-3">
-					<input type="number" class="form-control input-sm" value="1">
 				</div>
 			</div>
 		</form>
@@ -360,80 +454,5 @@
 				<input type="checkbox" name="furnitureRadio" value="0"> Противовзломная
 			</label>
 		</div>
-	</div>
-	<div class="tab-pane" id="windowsAdditional">
-		<form class="form-horizontal" role="form" style="width: 500px">
-			<legend>Наличник</legend>
-			<div class="form-group">
-				<label class="col-xs-2 control-label">Ширина:</label>
-				<div class="col-xs-2">
-					<select class="form-control input-sm">
-						<option>50</option>
-						<option>60</option>
-						<option>90</option>
-					</select>
-				</div>
-				<label class="col-xs-2 control-label">Цвет:</label>
-				<div class="col-xs-4">
-					<select class="form-control input-sm">
-						<option>Белый</option>
-						<option>Мореный дуб</option>
-						<option>Орегон</option>
-						<option>Рустикатный дуб</option>
-						<option>Натуральный дуб</option>
-						<option>Махагон</option>
-						<option>Золотой дуб</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-2 control-label">Длина:</label>
-				<div class="col-xs-3">
-					<input type="number" class="form-control input-sm" value="1320">
-				</div>
-				<label class="col-xs-4 control-label">Количество:</label>
-				<div class="col-xs-3">
-					<input type="number" class="form-control input-sm" value="1">
-				</div>
-			</div>
-			<legend>Дождевая планка</legend>
-			<div class="form-group">
-				<label class="col-xs-2 control-label">Цвет:</label>
-				<div class="col-xs-4">
-					<select class="form-control input-sm">
-						<option>Белый</option>
-						<option>Мореный дуб</option>
-						<option>Орегон</option>
-						<option>Рустикатный дуб</option>
-						<option>Натуральный дуб</option>
-						<option>Махагон</option>
-						<option>Золотой дуб</option>
-					</select>
-				</div>
-				<label class="col-xs-2 control-label">Длина:</label>
-				<div class="col-xs-3">
-					<input type="number" class="form-control input-sm" value="1320">
-				</div>
-			</div>
-			<legend>Заглушка паза штапика</legend>
-			<div class="form-group">
-				<label class="col-xs-2 control-label">Цвет:</label>
-				<div class="col-xs-4">
-					<select class="form-control input-sm">
-						<option>Белый</option>
-						<option>Мореный дуб</option>
-						<option>Орегон</option>
-						<option>Рустикатный дуб</option>
-						<option>Натуральный дуб</option>
-						<option>Махагон</option>
-						<option>Золотой дуб</option>
-					</select>
-				</div>
-				<label class="col-xs-2 control-label">Длина:</label>
-				<div class="col-xs-3">
-					<input type="number" class="form-control input-sm" value="1320">
-				</div>
-			</div>
-		</form>
 	</div>
 </div>

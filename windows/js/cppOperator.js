@@ -7,7 +7,7 @@ function CPPOperator(options) {
     function startWork() {
         var listener = document.getElementById(elem);
         listener.addEventListener("load", function() {
-            alert("Модуль " + elem + " готов к работе");
+            console.log("Модуль " + elem + " готов к работе");
             embed = listener.querySelector("embed");
             listener.addEventListener('message', handleMessage, true);
             onLoadCallback();
