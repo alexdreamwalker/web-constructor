@@ -3,7 +3,8 @@
 
 #define GL_GLEXT_PROTOTYPES
 
-#include <GL/gl2.h>
+#include <GL/gl.h>
+#define __gl2_h_ //костыль, чтобы Pepper не делал лишних замен
 
 #include "ppapi/cpp/graphics_3d.h"
 #include "ppapi/cpp/rect.h"
