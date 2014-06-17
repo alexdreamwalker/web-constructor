@@ -1,11 +1,9 @@
 function FSOperator(options) {
 	this.fs = null;
-	this.dataSize = 5;
+	this.dataSize = options.dataSize || 5;
 	this.fileName = options.fileName || "data/data.json";
 	this.hasData = null;
 	this.data = null;
-
-	window.requestFileSystem(window.TEMPORARY, this.dataSize * 1024 * 1024, this.onInit, this.onError);
 }
 
 FSOperator.prototype.onInit = function(fs) {
@@ -15,23 +13,27 @@ FSOperator.prototype.onInit = function(fs) {
 
 FSOperator.prototype.getData = function(callback) {
 	var self = this;
-	this.fs.root.getFile(this.fileName, {}, function(fileEntry) {
-		fileEntry.file(function(file) {
-			var reader = new FileReader();
-			reader.onloadend = function(e) {
-				try {
-					self.data = JSON.parse(this.result);
-					self.hasData = true;
-					callback(self.data);
-				} catch(err) {
-					console.error("JSON parsing error :", err);
-					self.hasData = false;
-				}
-			};
 
-			reader.readAsText(file);
-		}, this.noData);
-	}, this.noData);
+	window.webKitRequestFileSystem(window.TEMPORARY, this.dataSize * 1024 * 1024, function(fs) {
+		fs.root.getFile(self.fileName, {}, function(fileEntry) {
+			fileEntry.file(function(file) {
+				var reader = new FileReader();
+				reader.onloadend = function(e) {
+					try {
+						self.data = JSON.parse(this.result);
+						self.hasData = true;
+						callback(self.data);
+					} catch(err) {
+						console.error("JSON parsing error :", err);
+						self.hasData = false;
+					}
+				};
+
+				reader.readAsText(file);
+			}, self.noData);
+		}, self.noData);
+	}, this.onError);
+
 	return this.hasData;
 };
 
@@ -45,22 +47,25 @@ FSOperator.prototype.setData = function(data) {
 	this.data = data;
 	this.hasData = false;
 
-	this.fs.root.getFile(this.fileName, {create: true}, function(fileEntry) {
-		fileEntry.createWriter(function(fileWriter) {
-			fileWriter.onwriteend = function(e) {
-				console.log("Write completed.");
-				self.hasData = true;
-			};
-			fileWriter.onerror = function(e) {
-				console.log("Write failed: " + e.toString());
-				self.hasData = false;
-			};
+	window.webKitRequestFileSystem(window.TEMPORARY, this.dataSize * 1024 * 1024, function(fs) {
+		fs.root.getFile(self.fileName, {create: true}, function(fileEntry) {
+			fileEntry.createWriter(function(fileWriter) {
+				fileWriter.onwriteend = function(e) {
+					console.log("Write completed.");
+					self.hasData = true;
+				};
+				fileWriter.onerror = function(e) {
+					console.log("Write failed: " + e.toString());
+					self.hasData = false;
+				};
 
-			var bb = new BlobBuilder();
-			bb.append(JSON.stringify(data));
-			fileWriter.write(bb.getBlob("text/plain"));
-		}, this.onError);
+				var bb = new BlobBuilder();
+				bb.append(JSON.stringify(data));
+				fileWriter.write(bb.getBlob("text/plain"));
+			}, self.onError);
+		}, self.onError);
 	}, this.onError);
+
 	return this.hasData;
 };
 
