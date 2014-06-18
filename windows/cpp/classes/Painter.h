@@ -60,7 +60,7 @@ public:
 	std::string printBufferInfo(int indexBuffer);
 	Json::Value getJsonBuffer(int indexBuffer);
 	Json::Value getJsonBuffers();
-	Buffer getBuffer(int indexBuffer);
+	Buffer* getBuffer(int indexBuffer);
 	//Json::Value getJsonObjects();
 
 	int getWidth();
@@ -615,16 +615,16 @@ void Painter::drawCircle(Point p, float r)
 
 void Painter::printText()
 {
-	//glMatrixMode(GL_PROJECTION);
-  	//glGenLists(5);
+	glMatrixMode(GL_PROJECTION);
+  	glGenLists(5);
 	//glMatrixMode(0x1701);
 	//double *matrix = new double[16];
 	//glGetDoublev(0x0BA7, matrix);
 }
 
-Buffer Painter::getBuffer(int indexBuffer)
+Buffer* Painter::getBuffer(int indexBuffer)
 {
-	return buffers[indexBuffer];
+	return &buffers[indexBuffer];
 }
 
 bool Painter::checkClosedFigure(std::vector<int> bufferIndices)

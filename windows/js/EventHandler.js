@@ -210,6 +210,7 @@ function fillListSet(response)
 
 function fillListObject(response)
 {
+    var table = document.getElementById("tableObjectInfo");
     response = JSON.parse(response);
     //console.log(response);
     var arrSet = response["data"];
@@ -218,6 +219,7 @@ function fillListObject(response)
     //console.log(arrSet); return;
 
     clearListBox(select);
+    clearTable(table);
     for (var i = 0; i < arrSet.length; i++)
     {
         var opt = "Object " + arrSet[i]["index"];
@@ -313,4 +315,12 @@ function getDataSelectedTypeObject()
     //alert(res);
     //return {"type" : type, "price" : price};
     return [parseInt(type), parseInt(price)];
+}
+
+function clearTable(table)
+{
+    while (table.rows.length > 1)
+    {
+        table.deleteRow(1);
+    }
 }

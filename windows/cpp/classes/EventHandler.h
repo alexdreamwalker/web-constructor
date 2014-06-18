@@ -223,7 +223,7 @@ class EventHandler : public ConstructorInstance
           //if(!painter.checkClosedFigure(indicesVector))
           //  break;
           int type = root["1"][0].asInt();
-          int price = root["1"][0].asInt();
+          int price = root["1"][1].asInt();
           painter.construction.createObject(indicesVector, &painter, type, price);
           sendMessage("objects", painter.construction.getJsonObjects());        
           break;

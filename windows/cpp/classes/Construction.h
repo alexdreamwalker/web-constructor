@@ -4,7 +4,7 @@ public:
 	Construction(){};
 	~Construction(){};
 
-	std::vector<Object> objects;
+	std::vector<Object*> objects;
 
 	int checkRestrictions();	// return -1 if no errors, else index object
 	float getPrice();			// get price for construction
@@ -73,7 +73,7 @@ bool Construction::checkConvexPolygon(std::vector<Point> points)
 
 void Construction::createObject(std::vector<int> bufferIndices, Painter* painter, int type, int price)
 {
-	objects.push_back(Object(bufferIndices, painter, objects.size()));
+	objects.push_back(Glass(bufferIndices, painter, objects.size()));
 	objects[objects.size() - 1].setPrice(price);
 }
 
@@ -114,7 +114,7 @@ void Construction::setColorObject(std::vector<int> objectIndices, Color color)
 
 	for (int i = 0; i < n; ++i)
 	{
-		objects[objectIndices[i]].setColor(objectIndices, color);
+		objects[objectIndices[i]].setColor(color);
 	}
 }
 

@@ -29,9 +29,9 @@ public:
 	Json::Value getJsonInfo();
 	int searchBuffer(int indexBuffer);
 	std::vector<int> getIndicesBuffer();
-	void setColor(std::vector<int> objectIndices, Color color);
+	void setColor(Color color);
 
-	int checkRestriction();
+	virtual int checkRestriction() const = 0;
 };
 
 #include "Construction.h"
@@ -96,21 +96,21 @@ void Object::defineBorderObject()
 
 	for (int i = 0; i < n; ++i)
 	{
-		int nPoints = painter->getBuffer(this->bufferIndices[i]).vertices.size();
+		int nPoints = painter->getBuffer(this->bufferIndices[i])->vertices.size();
 
 		for (int j = 0; j < nPoints; ++j)
 		{
-				if(painter->getBuffer(this->bufferIndices[i]).vertices[j].x > borderPoints[1])
-					borderPoints[1] = painter->getBuffer(this->bufferIndices[i]).vertices[j].x;
+				if(painter->getBuffer(this->bufferIndices[i])->vertices[j].x > borderPoints[1])
+					borderPoints[1] = painter->getBuffer(this->bufferIndices[i])->vertices[j].x;
 
-				if(painter->getBuffer(this->bufferIndices[i]).vertices[j].x < borderPoints[3])
-					borderPoints[3] = painter->getBuffer(this->bufferIndices[i]).vertices[j].x;
+				if(painter->getBuffer(this->bufferIndices[i])->vertices[j].x < borderPoints[3])
+					borderPoints[3] = painter->getBuffer(this->bufferIndices[i])->vertices[j].x;
 
-				if(painter->getBuffer(this->bufferIndices[i]).vertices[j].y < borderPoints[2])
-					borderPoints[2] = painter->getBuffer(this->bufferIndices[i]).vertices[j].y;
+				if(painter->getBuffer(this->bufferIndices[i])->vertices[j].y < borderPoints[2])
+					borderPoints[2] = painter->getBuffer(this->bufferIndices[i])->vertices[j].y;
 
-				if(painter->getBuffer(this->bufferIndices[i]).vertices[j].y > borderPoints[0])
-					borderPoints[0] = painter->getBuffer(this->bufferIndices[i]).vertices[j].y;
+				if(painter->getBuffer(this->bufferIndices[i])->vertices[j].y > borderPoints[0])
+					borderPoints[0] = painter->getBuffer(this->bufferIndices[i])->vertices[j].y;
 		}
 	}
 }
@@ -172,19 +172,14 @@ std::vector<int> Object::getIndicesBuffer()
 	return bufferIndices;
 }
 
-int Object::checkRestriction()
-{
-	return -1;
-}
-
-void Object::setColor(std::vector<int> objectIndices, Color color)
+void Object::setColor(Color color)
 {
 	int nBuffer = bufferIndices.size();
 
 	for (int j = 0; j < nBuffer; ++j)
 	{
 		int index = bufferIndices[j];
-		painter->getBuffer(index).colors.clear();
-		painter->getBuffer(index).colors = std::vector<Color>(painter->getBuffer(index).vertices.size() * 2, color);
+		painter->getBuffer(index)->colors.clear();
+		painter->getBuffer(index)->colors = std::vector<Color>(painter->getBuffer(index)->vertices.size() * 2, color);
 	}
 }
