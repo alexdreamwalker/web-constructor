@@ -106,7 +106,7 @@ Painter::Painter(GLuint programValue, GLint atrPosValue, GLint atrColorValue, in
 void Painter::Clear()
 {
 	glClearColor(1.0, 1.0, 1.0, 1);
-	glClearDepthf(1.0f);
+	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 }
