@@ -38,8 +38,8 @@ EMS_CXX := /home/butch/Documents/Work/nacl_sdk/pepper_31/pepper.js/emscripten/em
 PNACL_AR := $(PNACL_TC_PATH)/bin/pnacl-ar
 PNACL_RANLIB := $(PNACL_TC_PATH)/bin/pnacl-ranlib
 PNACL_FINALIZE := $(PNACL_TC_PATH)/bin/pnacl-finalize
-CXXFLAGS := -I$(NACL_SDK_ROOT)/include -I$(NACL_SDK_ROOT)/toolchain/linux_pnacl/usr/local/include
-LDFLAGS := -L$(NACL_SDK_ROOT)/lib/pnacl/Release -lppapi_cpp -lppapi -ljsoncpp -lpthread -lppapi_gles2 -lOSMesa
+CXXFLAGS := -I$(NACL_SDK_ROOT)/include -I$(NACL_SDK_ROOT)/toolchain/linux_pnacl/usr/local/include/freetype2
+LDFLAGS := -L$(NACL_SDK_ROOT)/lib/pnacl/Release -lppapi_cpp -lppapi -ljsoncpp -lpthread -lppapi_gles2 -lfreetype -lz
 LDFLAGSEMS := -L$(NACL_SDK_ROOT)/lib/emscripten/Release -lppapi_cpp -lppapi -lppapi_gles2
 
 #

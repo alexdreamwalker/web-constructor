@@ -1,11 +1,6 @@
 #ifndef CREATEMODULE
 #define CREATEMODULE
 
-#define GL_GLEXT_PROTOTYPES
-
-#include <GL/gl.h>
-#define __gl2_h_ //костыль, чтобы Pepper не делал лишних замен
-
 #include "ppapi/cpp/graphics_3d.h"
 #include "ppapi/cpp/rect.h"
 #include "ppapi/cpp/view.h"
@@ -23,9 +18,9 @@
 #include "ppapi/lib/gl/gles2/gl2ext_ppapi.h"
 #include "ppapi/utility/completion_callback_factory.h"
 
-//#include <GL/glext.h>
-//#include <GL/osmesa.h>
-//#include <GLES2/gl2.h>
+#include <GLES2/gl2.h>
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -106,7 +106,7 @@ Painter::Painter(GLuint programValue, GLint atrPosValue, GLint atrColorValue, in
 void Painter::Clear()
 {
 	glClearColor(1.0, 1.0, 1.0, 1);
-	glClearDepth(1.0);
+	glClearDepthf(1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 }
@@ -615,8 +615,8 @@ void Painter::drawCircle(Point p, float r)
 
 void Painter::printText()
 {
-	glMatrixMode(GL_PROJECTION);
-  	glGenLists(5);
+	//glMatrixMode(GL_PROJECTION);
+  	//glGenLists(5);
 	//glMatrixMode(0x1701);
 	//double *matrix = new double[16];
 	//glGetDoublev(0x0BA7, matrix);
