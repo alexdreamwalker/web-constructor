@@ -32,3 +32,7 @@ table {
 #printOrderFooterBlock {
 	page-break-after: always;
 }
+
+#printOrderContractBlock {
+	page-break-after: always;
+}

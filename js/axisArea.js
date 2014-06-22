@@ -42,6 +42,10 @@ AxisArea.prototype.init = function() {
 	// insert svg
 };
 
+AxisArea.prototype.getOuter = function() {
+	return this.root.outerHTML;
+};
+
 AxisArea.prototype.addConstruction = function(construction) {
 	this.constructions.push(construction);
 };

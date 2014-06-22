@@ -31,6 +31,12 @@ Sunblind.prototype.type = 0;
 Sunblind.prototype.lamellaOrientation = 0;
 Sunblind.prototype.lesVer = null;
 
+Sunblind.prototype.sketch = null;
+
+Sunblind.prototype.complete = function() {
+	this.sketch = global.axisArea.getOuter();
+};
+
 Sunblind.prototype.addLayer = function(layer) {
 	layer.sunblind = this;
 	this.layers.push(layer);

@@ -67,3 +67,8 @@ div.rangegroup input[type='number'] {
 #printHeaderBlock p {
 	text-align: center;
 }
+
+#classVisualizer div {
+	background: white;
+	border: 2px solid #428bca;
+}

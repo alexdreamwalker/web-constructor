@@ -109,6 +109,7 @@ function UIOperator(options) {
 			document.getElementById("mainWindow").style.height = window.innerHeight + "px";
 			switch(service) {
 				case "sunblindgenerator": self.loadSunblindGenerator(); break;
+				case "classvisualizer": self.loadClassVisualizer(); break;
 				default: break;
 			}
 		});
@@ -181,6 +182,7 @@ function UIOperator(options) {
 
 	this.loadOrder = function(options) {
 		var self = this;
+		global.construction.complete();
 		global.order.addConstruction(global.construction);
 		this.loadWindow("mainOrder", "pages/mainOrder.html", function() {
 			self.typeaheadOrderClient();
@@ -269,6 +271,10 @@ function UIOperator(options) {
 		var sunblindGenAlg = new SunblindGenAlg();
 		global.genAlg = sunblindGenAlg;
 		sunblindGenAlg.start();
+	};
+
+	this.loadClassVisualizer = function(options) {
+		global.cv = new ClassVisualizer("classVisualizer");
 	};
 
 	this.setPriceTable = function(table) {

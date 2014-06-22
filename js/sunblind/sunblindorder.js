@@ -110,3 +110,12 @@ SunblindOrder.prototype.generateMainBlock = function() {
 	div.appendChild(table);
 	return div;
 };
+
+SunblindOrder.prototype.generateAdditionalPage = function() {
+	var svg = "";
+	for(var i = 0; i < this.constructions.length; i++)
+		svg += this.constructions[i].sketch;
+	var div = document.createElement("div");
+	div.innerHTML = svg;
+	return div;
+};
