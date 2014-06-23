@@ -192,6 +192,16 @@ class ConstructorInstance : public pp::Instance
 		  }
 
 		  glSetCurrentContextPPAPI(context.pp_resource());
+
+		  // init FreeType library
+
+		  FT_Library ft;
+
+		  if(FT_Init_FreeType(&ft)) 
+		  	printLog("Could not init freetype library\n");
+		  else
+		  	printLog("FreeType library inited successfully!");
+
 		  return true;
 		}
 

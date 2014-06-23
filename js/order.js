@@ -175,9 +175,15 @@ Order.prototype.generateMainBlock = function() {
 
 };
 
+Order.prototype.generateAdditionalPage = function() {
+
+};
+
 Order.prototype.process = function() {
 	//insert values
 	this.fillFields();
 	document.getElementById("printOrderMainBlock").innerHTML = "";
 	document.getElementById("printOrderMainBlock").appendChild(this.generateMainBlock());
+	document.getElementById("printOrderAdditionalBlock").innerHTML = "";
+	document.getElementById("printOrderAdditionalBlock").appendChild(this.generateAdditionalPage());
 };
