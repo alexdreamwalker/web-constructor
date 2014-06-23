@@ -195,12 +195,12 @@ class ConstructorInstance : public pp::Instance
 
 		  // init FreeType library
 
-		  FT_Library ft;
+		  /*FT_Library ft;
 
 		  if(FT_Init_FreeType(&ft)) 
 		  	printLog("Could not init freetype library\n");
 		  else
-		  	printLog("FreeType library inited successfully!");
+		  	printLog("FreeType library inited successfully!");*/
 
 		  return true;
 		}

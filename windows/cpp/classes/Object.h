@@ -6,6 +6,7 @@ class Object
 protected:
 	int index;
 	std::vector<int> bufferIndices;
+	std::vector<float> scales;
 	int typeObject;
 	int detailObject;
 	float price;
@@ -83,7 +84,16 @@ float Object::getPrice()
 
 float Object::getTotalPrice()
 {
-	return getArea() * price;
+	float areaObj = getArea();
+	int n = scales.size();
+	float res = areaObj * price;
+
+	for (int i = 0; i < n; ++i)
+	{
+		res += res * scales[i];
+	}
+	
+	return res;
 }
 
 void Object::defineBorderObject()

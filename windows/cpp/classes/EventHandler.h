@@ -107,9 +107,9 @@ class EventHandler : public ConstructorInstance
             //std::string dataImg(reinterpret_cast<char const*>(img));
             //data[0] = 1;
            // printLog("after init");
-            glReadBuffer(GL_FRONT);
-            glReadPixels(0, 0, viewWidth, viewHeight, GL_RGB, GL_UNSIGNED_BYTE, img);
-            int n = 0;
+            //glReadBuffer(GL_FRONT);
+            //glReadPixels(0, 0, viewWidth, viewHeight, GL_RGB, GL_UNSIGNED_BYTE, img);
+            /*int n = 0;
             for (n; img != 0; ++n)
             {
                printLog("n = " + converter.numberToString(n));
@@ -118,15 +118,15 @@ class EventHandler : public ConstructorInstance
             if(img)
               printLog("NULL");
             else
-              printLog("NOT NULL");
+              printLog("NOT NULL");*/
 
             //printLog(converter.numberToString(char(img[0])));
             //data["0"] = img[0];
             //sendMessage("img", data);
-            sendMessage(converter.numberToString(ACTION_GET_IMG), data);
+            //sendMessage(converter.numberToString(ACTION_GET_IMG), data);
             //printLog("afterSend");
 
-            free(img);
+            //free(img);
             break;
           }
 
