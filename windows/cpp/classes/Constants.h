@@ -34,7 +34,8 @@ std::vector<Color> colors(arrColor, arrColor + sizeof(arrColor) / sizeof(Color))
 #define ACTION_DELETE_OBJECT 11
 #define ACTION_HIDE_SETS 12
 #define ACTION_AREA_REC 13
-//#define ACTION_GET_SCALE 14
+#define ACTION_ERROR_ANALYSIS 14
+#define ACTION_GET_IMG 15
 
 //	define mouse buttons
 
@@ -61,6 +62,9 @@ GLuint typeLines[] = {POLYGON_TYPE, POINT_TYPE};
 #define ERMIT_SPLINE 2
 #define CURVE 3
 
+// number pi
+#define M_PI 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679 
+
 // eps for action
 #define EPS_MOVE_POINT 0.02
 #define EPS_BUILD_SPLINE 0.001
@@ -75,3 +79,14 @@ GLuint typeLines[] = {POLYGON_TYPE, POINT_TYPE};
 //	defaults const line width
 #define DEFAULT_LINE_WIDTH 1.0
 #define BOLD_LINE_WIDTH 2.0
+
+//	define 
+#define GEALAN_S_3000 1
+#define GEALAN_S_8000_IQ 2
+#define WARM_LINE_WL_62 3
+#define WARM_LINE_WL_74 4
+#define AL_COOL 5
+#define AL_HOT 6
+#define GLASS_1 7
+#define GLASS_2 8
+#define GLASS_3 9

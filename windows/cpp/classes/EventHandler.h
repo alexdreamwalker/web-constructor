@@ -8,6 +8,8 @@ class ConstructorInstance;
 
 class EventHandler : public ConstructorInstance
 {
+  private:
+      unsigned char* img;
   public:
 
   	Json::Value root;   			    // will contains the root value after parsing.
@@ -34,6 +36,13 @@ class EventHandler : public ConstructorInstance
     }
 
     //EventHandler() {}
+
+    GLubyte* getImg()
+    {
+      GLubyte* file;
+      glReadPixels(0, 0, viewWidth, viewHeight, GL_RGB, GL_UNSIGNED_BYTE, file);
+      return file;
+    }
 
     void sendMessage(std::string action, Json::Value data)
     {
@@ -81,10 +90,52 @@ class EventHandler : public ConstructorInstance
 	    switch(idAction)
 	    {
 
+        case ACTION_GET_IMG:
+          {
+            //printLog("befor init");
+            Json::Value data;
+            //img = getImg();
+            //GLubyte* tmp = img;
+
+            //int len = strlen(reinterpret_cast<const char*>(img));
+
+            /*for(int i = 0; *(tmp + i) != 0; i++)
+            {
+              data["img"][i] = *(tmp + i);
+            }*/
+
+            //std::string dataImg(reinterpret_cast<char const*>(img));
+            //data[0] = 1;
+           // printLog("after init");
+            glReadBuffer(GL_FRONT);
+            glReadPixels(0, 0, viewWidth, viewHeight, GL_RGB, GL_UNSIGNED_BYTE, img);
+            int n = 0;
+            for (n; img != 0; ++n)
+            {
+               printLog("n = " + converter.numberToString(n));
+            }
+            printLog("n = " + converter.numberToString(n));
+            if(img)
+              printLog("NULL");
+            else
+              printLog("NOT NULL");
+
+            //printLog(converter.numberToString(char(img[0])));
+            //data["0"] = img[0];
+            //sendMessage("img", data);
+            sendMessage(converter.numberToString(ACTION_GET_IMG), data);
+            //printLog("afterSend");
+
+            free(img);
+            break;
+          }
+
 	    	case ACTION_PAINT_GRID:
           {
+                              printLog("gridPaint");
         			    						painter.Clear();
         			    						painter.setGridStep(root["0"].asInt());
+                              //break;
                               painter.initPointGrid();
         			    						painter.paint();
         			    						break;
@@ -128,7 +179,20 @@ class EventHandler : public ConstructorInstance
                                 if(indicesVector.size() == 0)
                                   break;
                                 int indexBuffer = painter.addNewBuffers(GL_LINE_STRIP, POLYGON_TYPE) - 1;
+                                GLuint test = 4;
+
+                                printLog("before tst - " + converter.numberToString(test));
+                                   glGenBuffers(1, &test);
+                                   printLog("after tst - " + converter.numberToString(test));
+
+
                                 painter.buildPolygon(indexBuffer, indicesVector);
+                                for (int i = 0; i < painter.buffers.size(); ++i)
+                                  {
+                                   printLog("before - " + converter.numberToString(painter.buffers.at(i)->indexBuffer));
+                                   glGenBuffers(1, &painter.buffers[i]->indexBuffer);
+                                   printLog("after - " + converter.numberToString(painter.buffers.at(i)->indexBuffer));
+                                  }
                                 painter.paint();
                                 //sendMessage("indexBuffer", converter.numberToString(indexBuffer));
                                 sendMessage("sets", painter.getJsonBuffers());
@@ -244,6 +308,12 @@ class EventHandler : public ConstructorInstance
             int indexObject = root["0"].asInt();
             printLog("start area");
             printLog("Area = " + converter.numberToString(painter.construction.getObject(indexObject).getArea()));
+            break;
+          }
+
+        case ACTION_ERROR_ANALYSIS:   
+          {
+            painter.construction.checkRestrictions();
             break;
           }
 

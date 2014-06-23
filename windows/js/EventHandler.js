@@ -19,9 +19,11 @@ var CREATE_OBJECT = 10;
 var DELETE_OBJECT = 11;
 var HIDE_SETS = 12;
 var AREA_REC = 13;
-var GET_SCALE = 14;
+var ERROR_ANALYSIS = 14;
+var GET_IMG = 15;
 
 //var cppOperator = new CPPOperator(null);
+
 var fsOperator = new FSOperator({fileName : "data.txt"});
 
 function initCallBack()
@@ -31,6 +33,8 @@ function initCallBack()
     cppOperator.postMessage('objects', [], fillListObject);
     cppOperator.postMessage('scale', [], fillFieldScale);
     cppOperator.postMessage("spline", [], null);
+    cppOperator.postMessage('errors', [], fillListErrors);
+    //cppOperator.postMessage('img', [], console.log());
     paintGrid(); 
 }
 
@@ -81,6 +85,13 @@ function getSelectedRadio(name)
             return parseInt(buttonGroup[i].value);
 
     return -1;
+}
+
+function createImg()
+{
+	var canvas = document.getElementById('myCanvas');
+    var context = canvas.getContext('2d');
+    var dataURL = canvas.toDataURL();
 }
 
 function hexToRGB(hex)
@@ -153,6 +164,13 @@ function clickElem(name)
 
         case "btnAreaRec":              cppOperator.postMessage(AREA_REC, [getSelectedIndexes("listObject")[0]], console.log());
                                         break;
+
+        case "btnAnalysisError":        cppOperator.postMessage(ERROR_ANALYSIS, [], console.log());
+                                        break;
+        case "btnGetImg":        		cppOperator.postMessage(GET_IMG, [], function (response) {
+        	console.log(response);
+        });
+                                        break;
     }
 
     nameElem = name;
@@ -204,8 +222,8 @@ function fillListSet(response)
         el.value = arrSet[i]["index"];
         select.appendChild(el);
     }
-    console.log(response);
-    fsOperator.setData(response);
+    //console.log(response);
+    //fsOperator.setData(response);
 }
 
 function fillListObject(response)
@@ -229,6 +247,27 @@ function fillListObject(response)
         select.appendChild(el);
         fillTableInfoObjects(arrSet[i]);
     }
+}
+
+function fillListErrors(response)
+{
+    response = JSON.parse(response);
+    var data = response["data"];
+    var select = document.getElementById('listErrors');
+
+    //console.log(arrSet); return;
+
+    clearListBox(select);
+    for (var i = 0; i < arrSet.length; i++)
+    {
+        var opt = "(" + data[i]["index"] + ")" + data[i]["name"];
+        var el = document.createElement("option");
+        el.textContent = opt;
+        el.value = data[i]["index"];
+        select.appendChild(el);
+    }
+    //console.log(response);
+    //fsOperator.setData(response);
 }
 
 function getSelectedIndexes(name)

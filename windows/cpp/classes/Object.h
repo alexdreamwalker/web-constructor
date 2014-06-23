@@ -1,7 +1,9 @@
-class Painter;
+#ifndef OBJECT
+#define OBJECT
+
 class Object
 {
-private:
+protected:
 	int index;
 	std::vector<int> bufferIndices;
 	int typeObject;
@@ -9,8 +11,6 @@ private:
 	float price;
 	float borderPoints[4];				// topY, rightX, downY, leftX
 	Painter *painter;
-
-	//void fillBuffersObject(std::vector<Buffer> buffers);
 
 public:
 	Object() {};
@@ -31,10 +31,11 @@ public:
 	std::vector<int> getIndicesBuffer();
 	void setColor(Color color);
 
-	virtual int checkRestriction() const = 0;
+	virtual int checkRestriction() = 0;
+	//int checkRestriction();
 };
 
-#include "Construction.h"
+//#include "Construction.h"
 #include "Painter.h"
 
 Object::Object(std::vector<int> bufferIndices, Painter* painter, int index)
@@ -121,7 +122,7 @@ Json::Value Object::getJsonInfo()
 
 	int nBufferIndicies = this->bufferIndices.size();
 
-	res["index"] = index;
+	//res["index"] = index;
 	
 	for(int i = 0; i < nBufferIndicies; i++)
 	{
@@ -183,3 +184,5 @@ void Object::setColor(Color color)
 		painter->getBuffer(index)->colors = std::vector<Color>(painter->getBuffer(index)->vertices.size() * 2, color);
 	}
 }
+
+#endif

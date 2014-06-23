@@ -26,7 +26,7 @@ struct Color
     Color( float rVal, float gVal, float bVal ) : r( rVal ), g( gVal ), b( bVal ) {}
 };
 
-struct Buffer
+/*struct Buffer
 {
 	GLuint vertexBuffer;
 	GLuint indexBuffer;
@@ -40,7 +40,7 @@ struct Buffer
 	float lineWidth;
 	bool flagVisible;
 	int tag; // for spline: 0 - horizontal, 1- vertical
-};
+};*/
 
 /*struct Object
 {

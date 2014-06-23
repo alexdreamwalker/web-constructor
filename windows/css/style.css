@@ -93,6 +93,12 @@ div:fullscreen {
 	width: 					100px;
 }
 
+.listElemError
+{
+	color: 					rgb(0,0,0);
+	width: 					400px;
+}
+
 .btnStyle
 {
 	margin: 				5px, 5px, 5px, 5px;

@@ -1,3 +1,9 @@
+#ifndef CONSTRUCTION
+#define CONSTRUCTION
+
+class Painter;
+class Object;
+
 class Construction
 {
 public:
@@ -21,7 +27,13 @@ public:
 	void setColorObject(std::vector<int> bufferIndices, Color color);
 	Json::Value getJsonObjects();
 
+	std::map<int, std::string> errorList;
+
 };
+
+#include "Object.h"
+#include "Components/Glass.h"
+#include "Components/Profile.h"
 
 float Construction::getPrice()
 {
@@ -30,7 +42,7 @@ float Construction::getPrice()
 
 	for (int i = 0; i < n; ++i)
 	{
-		res += objects[i].getPrice();
+		res += objects[i]->getPrice();
 	}
 
 	return res;
@@ -38,11 +50,11 @@ float Construction::getPrice()
 
 int Construction::checkRestrictions()
 {
-	int n = objects.size();
+	//int n = objects.size();
 
-	for (int i = 0; i < n; ++i)
-		if(objects[i].checkRestriction() != -1)
-			return i;
+	//for (int i = 0; i < n; ++i)
+		//if(objects[i]->checkRestriction() != -1)
+			//return i;
 
 	return -1;
 }
@@ -73,8 +85,27 @@ bool Construction::checkConvexPolygon(std::vector<Point> points)
 
 void Construction::createObject(std::vector<int> bufferIndices, Painter* painter, int type, int price)
 {
-	objects.push_back(Glass(bufferIndices, painter, objects.size()));
-	objects[objects.size() - 1].setPrice(price);
+	Object* obj;
+	switch(type)
+	{
+		case GEALAN_S_3000:
+		case GEALAN_S_8000_IQ:
+		case WARM_LINE_WL_62:
+		case WARM_LINE_WL_74:
+		case AL_COOL:
+		case AL_HOT:
+								obj = new Profile(bufferIndices, painter, objects.size());
+								break;
+
+		case GLASS_1:
+		case GLASS_2:
+		case GLASS_3:
+								obj = new Glass();
+								break;
+	}
+	//objects.push_back(&Object(bufferIndices, painter, objects.size()));
+	objects.push_back(obj);
+	objects[objects.size() - 1]->setPrice(price);
 }
 
 void Construction::deleteObject(int indexObject)
@@ -87,7 +118,7 @@ int Construction::searchBufferInObjects(int indexBuffer)
 	int n = objects.size();
 
 	for (int i = 0; i < n; ++i)
-		if(objects[i].searchBuffer(indexBuffer) != -1)
+		if(objects[i]->searchBuffer(indexBuffer) != -1)
 			return i;
 
 	return -1;
@@ -99,13 +130,13 @@ void Construction::updatePointsInObjects()
 
 	for (int i = 0; i < n; ++i)
 	{
-		objects[i].defineBorderObject();
+		objects[i]->defineBorderObject();
 	}
 }
 
 Object Construction::getObject(int index)
 {
-	return objects[index];
+	return *objects[index];
 }
 
 void Construction::setColorObject(std::vector<int> objectIndices, Color color)
@@ -114,7 +145,7 @@ void Construction::setColorObject(std::vector<int> objectIndices, Color color)
 
 	for (int i = 0; i < n; ++i)
 	{
-		objects[objectIndices[i]].setColor(color);
+		objects[objectIndices[i]]->setColor(color);
 	}
 }
 
@@ -124,7 +155,12 @@ Json::Value Construction::getJsonObjects()
 	int n = objects.size();
 
 	for (int i = 0; i < n; ++i)
-		res[i - 0] = objects[i].getJsonInfo();
+	{
+		res[i] = objects[i]->getJsonInfo();
+		res[i]["index"] = i;
+	}
 
 	return res;
 }
+
+#endif

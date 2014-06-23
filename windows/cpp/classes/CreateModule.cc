@@ -1,10 +1,10 @@
 #ifndef CREATEMODULE
 #define CREATEMODULE
 
-#define GL_GLEXT_PROTOTYPES
+//#define GL_GLEXT_PROTOTYPES
 
-#include <GL/gl.h>
-#define __gl2_h_ //костыль, чтобы Pepper не делал лишних замен
+//#include <GL/gl.h>
+//#define __gl2_h_ //костыль, чтобы Pepper не делал лишних замен
 
 #include "ppapi/cpp/graphics_3d.h"
 #include "ppapi/cpp/rect.h"
@@ -25,9 +25,10 @@
 
 //#include <GL/glext.h>
 //#include <GL/osmesa.h>
-//#include <GLES2/gl2.h>
+#include <GLES2/gl2.h>
 
 #include <stdio.h>
+#include <algorithm>
 #include <stdlib.h>
 #include <string>
 #include <string.h>
@@ -40,23 +41,26 @@
 #include <sstream>
 #include <errno.h>
 #include <typeinfo>
+//#include <vector>
 
 #include "custom_events.h"
 
 #include "Converter.h"
 #include "Constants.h"
+#include "Buffer.h"
 #include "Splines/CubicSpline.h"
 #include "Splines/AkimaSpline.h"
 #include "Splines/Curve.h"
 //#include "Splines/Splines.h"
 #include "ConstructorInstance.h"
-#include "Object.h" // Construction.h & Painter.h
+#include "Construction.h"
+//#include "Object.h" // Construction.h & Painter.h
 //#include "Construction.h"
 //#include "Painter.h"
 #include "EventHandler.h"
 
-#include "Components/Glass.h"
-#include "Components/Profile.h"
+//#include "Components/Glass.h"
+//#include "Components/Profile.h"
 
 
 class ConstructorModule : public pp::Module

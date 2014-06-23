@@ -2,10 +2,8 @@
 <ul class="nav nav-tabs">
 	<li class="active"><a href="#designPanel" data-toggle="tab">Инструменты</a></li>
 	<li><a href="#viewSetting" data-toggle="tab">Настройки отображения</a></li>
-	<li><a href="#windowsProfile" data-toggle="tab">Профиль</a></li>
-	<li><a href="#windowsUnder" data-toggle="tab">Подоконник</a></li>
+	<li><a href="#windowsAnlysis" data-toggle="tab">Анализ конструкции</a></li>
 	<li><a href="#windowsComplect" data-toggle="tab">Комплектация</a></li>
-	<li><a href="#windowsFurniture" data-toggle="tab">Фурнитура</a></li>
 </ul>
 
 <!-- Tab panes -->
@@ -157,6 +155,13 @@
 						Построить полигон
 					</button>
 				</p>
+
+				<p>
+					<button type="button" class="btnStyle" alt="Получить файл" id="btnGetImg" name="btnGetImg" onclick="clickElem(name)">
+						<span class="glyphicon glyphicon-flag"></span>
+						Получить файл
+					</button>
+				</p>
 			</div>
 		</form>
 	</div>
@@ -182,165 +187,27 @@
 		</div>
 	</div>
 
-	<div class="tab-pane" id="windowsProfile">
+	<div class="tab-pane" id="windowsAnlysis">
 		<form class="form-horizontal" role="form" style="width: 500px">
+			<h5>Лист ошибок:</h5>
+			<p class="designElem">
+					<select class="listElemError" multiple id="listErrors" name="listErrors" ondblclick="" onchange="">
+				    </select multiple id="listErrors" name="listErrors">
+			</p>
+
 			<div class="form-group">
-				<label class="col-xs-5 control-label">Профиль:</label>
-				<div class="col-xs-7">
-					<select class="form-control input-sm">
-						<option>Gealan S 3000</option>
-						<option>Gealan S 8000 IQ</option>
-						<option>WARM LINE WL 62</option>
-						<option>WARM LINE WL 74</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-5 control-label">Вариант профиля:</label>
-				<div class="col-xs-7">
-					<select class="form-control input-sm">
-						<option>Белый</option>
-						<option>Ламинация снаружи</option>
-						<option>Ламинация изнутри</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-5 control-label">Стеклопакет:</label>
-				<div class="col-xs-3">
-					<select class="form-control input-sm">
-						<option>1 стекло</option>
-						<option>2 стекла</option>
-						<option>3 стекла</option>
-					</select>
-				</div>
-				<div class="col-xs-4">
-					<select class="form-control input-sm">
-						<option>Прозрачное</option>
-						<option>Конструктор</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-5 control-label">Створка:</label>
-				<div class="col-xs-7">
-					<select class="form-control input-sm">
-						<option>3068</option>
-						<option>3077</option>
-						<option>3091</option>
-					</select>
-				</div>
+				<button type="button" class="btnStyle" alt="Проанализировать" id="btnAnalysisError" name="btnAnalysisError" onclick="clickElem(name)">
+				<i class="glyphicon glyphicon-fire"></i>
+				Проанализировать</button>
+
+				<button type="button" class="btnStyle" alt="Очистить лист ошибок" id="btnClearListError" name="btnClearListError" onclick="clickElem(name)">
+				<i class="glyphicon glyphicon-trash"></i>
+				Очистить лист ошибок</button>
+				
 			</div>
 		</form>
 	</div>
 
-	<div class="tab-pane" id="windowsUnder">
-		<form class="form-horizontal" role="form" style="width: 500px">
-			<legend>Подоконник</legend>
-			<div class="form-group">
-				<div class="col-xs-2">
-					<input class="form-control input-sm" type="number" value="1">
-				</div>
-				<label class="col-xs-5 control-label">Подоконник, ширина:</label>
-				<div class="col-xs-5">
-					<select class="form-control input-sm">
-						<option>100</option>
-						<option>200</option>
-						<option>300</option>
-						<option>400</option>
-						<option>500</option>
-						<option>600</option>
-						<option>700</option>
-						<option>800</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-2 control-label">Длина:</label>
-				<div class="col-xs-3">
-					<input class="form-control input-sm" type="number" value="1600">
-				</div>
-				<label class="col-xs-2 control-label">Цвет:</label>
-				<div class="col-xs-5">
-					<select class="form-control input-sm">
-						<option>Белый</option>
-						<option>Мрамор</option>
-						<option>Золотой дуб</option>
-						<option>Махагон</option>
-						<option>Рустикальный дуб</option>
-						<option>Натуральный дуб</option>
-						<option>VPL Мрамор</option>
-						<option>VPL Махагон</option>
-					</select>
-				</div>
-			</div>
-			<legend>Накладки</legend>
-			<div class="form-group">
-				<div class="col-xs-2">
-					<input class="form-control input-sm" type="number" value="1">
-				</div>
-				<label class="col-xs-5 control-label">Накладки, цвет:</label>
-				<div class="col-xs-5">
-					<select class="form-control input-sm">
-						<option>Коричневый</option>
-						<option>Белый</option>
-					</select>
-				</div>
-			</div>
-			<legend>Профиль</legend>
-			<div class="form-group">
-				<div class="col-xs-2">
-					<input class="form-control input-sm" type="number" value="1">
-				</div>
-				<label class="col-xs-5 control-label">Т-образный профиль</label>
-			</div>
-			<div class="form-group">
-				<label class="col-xs-2 control-label">Длина:</label>
-				<div class="col-xs-3">
-					<input class="form-control input-sm" type="number" value="200">
-				</div>
-				<label class="col-xs-2 control-label">Цвет:</label>
-				<div class="col-xs-5">
-					<select class="form-control input-sm">
-						<option>Белый</option>
-						<option>Мрамор</option>
-						<option>Золотой дуб</option>
-						<option>Махагон</option>
-						<option>Рустикальный дуб</option>
-						<option>Натуральный дуб</option>
-						<option>VPL Мрамор</option>
-						<option>VPL Махагон</option>
-					</select>
-				</div>
-			</div>
-			<legend>Кронштейн</legend>
-			<div class="form-group">
-				<div class="col-xs-2">
-					<input class="form-control input-sm" type="number" value="1">
-				</div>
-				<label class="col-xs-5 control-label">Кронштейн, цвет:</label>
-				<div class="col-xs-5">
-					<select class="form-control input-sm">
-						<option>Коричневый</option>
-						<option>Белый</option>
-					</select>
-				</div>
-			</div>
-			<legend>Канал</legend>
-			<div class="form-group">
-				<div class="col-xs-2">
-					<input class="form-control input-sm" type="number" value="1">
-				</div>
-				<label class="col-xs-5 control-label">Канал, цвет:</label>
-				<div class="col-xs-5">
-					<select class="form-control input-sm">
-						<option>Коричневый</option>
-						<option>Белый</option>
-					</select>
-				</div>
-			</div>
-		</form>
-	</div>
 	<div class="tab-pane" id="windowsComplect">
 		<form class="form-horizontal" role="form" style="width: 500px">
 			<div class="form-group">
@@ -422,37 +289,5 @@
 				<label class="col-xs-10 control-label">Дистанция проветриваемая:</label>
 			</div>
 		</form>
-	</div>
-	<div class="tab-pane" id="windowsFurniture">
-		<div class="radio">
-			<label>
-				<input type="radio" name="furnitureRadio" value="0"> Белая
-			</label>
-		</div>
-		<div class="radio">
-			<label>
-				<input type="radio" name="furnitureRadio" value="1"> Коричневая
-			</label>
-		</div>
-		<div class="radio">
-			<label>
-				<input type="radio" name="furnitureRadio" value="2"> Золотая матовая
-			</label>
-		</div>
-		<div class="radio">
-			<label>
-				<input type="radio" name="furnitureRadio" value="3"> Золотая глянцевая
-			</label>
-		</div>
-		<div class="checkbox">
-			<label>
-				<input type="checkbox" name="furnitureRadio" value="0"> скрытая
-			</label>
-		</div>
-		<div class="checkbox">
-			<label>
-				<input type="checkbox" name="furnitureRadio" value="0"> Противовзломная
-			</label>
-		</div>
 	</div>
 </div>

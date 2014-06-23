@@ -1,7 +1,12 @@
-class Glass : Object
+#ifndef GLASS
+#define GLASS
+
+class Glass : public Object
 {
 public:
-	Glass();
+	Glass(){};
+	Glass(std::vector<int> bufferIndices, Painter* painter, int index)
+		: Object(bufferIndices, painter, index) {};
 	~Glass();
 	
 	//std::vector<Buffer> buffers;
@@ -18,14 +23,15 @@ int Glass::checkRestriction()
 	{
 		int indexPoint = checkConvexPolygon(i);
 		if(indexPoint != -1)
-			painter->drawCircle(painter->getBuffer(i)->vertices[indexPoint]);
+			painter->drawCircle(painter->getBuffer(i)->vertices[indexPoint], 0.2);
 	}
+	return -1;
 }
 
 int Glass::checkConvexPolygon(int indexBuffer)
 {
 	Buffer* buf = painter->getBuffer(indexBuffer);
-	int n = buffers[indexBuffer].vertices.size() - 1;
+	int n = painter->getBuffer(indexBuffer)->vertices.size() - 1;
 
 	if(n < 4)
 		return 1;
@@ -41,7 +47,7 @@ int Glass::checkConvexPolygon(int indexBuffer)
 		int k = (i + 2) % n;
 
 		Point p1(buf->vertices[j].x - buf->vertices[i].x,
-		 buffers[indexBuffer].vertices[j].y - buffers[indexBuffer].vertices[i].y);
+		 painter->getBuffer(indexBuffer)->vertices[j].y - painter->getBuffer(indexBuffer)->vertices[i].y);
 
 		Point p2(buf->vertices[k].x - buf->vertices[j].x,
 		 buf->vertices[k].y - buf->vertices[j].y);
@@ -60,3 +66,5 @@ float Glass::vectorMult(Point p1, Point p2)
 {
 	return p1.x*p2.y - p2.x*p1.y;
 }
+
+#endif

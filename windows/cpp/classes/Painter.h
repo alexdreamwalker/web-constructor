@@ -1,3 +1,6 @@
+#ifndef PAINTER
+#define PAINTER
+
 class Painter
 {
 private:
@@ -10,7 +13,7 @@ private:
 	Splines* sp;
 
 	//std::vector<Color> colors;
-	std::vector<Buffer> buffers;
+	//std::vector<Buffer> buffers;
 	//std::vector< Object > objects;
 
 	int width, height;
@@ -24,11 +27,13 @@ private:
 	void initBuffers(int indexBuffer);
 	void clearBuffer(int indexBuffer);
 
+	void addBuffer(Buffer &buf);
+
 public:
 	Painter() {};
 	Painter(GLuint programValue, GLint atrPosValue, GLint atrColorValue, int width, int height, int gridStepValue);
 	~Painter() {};
-
+	std::vector<Buffer*> buffers;
 	Construction construction;
 
 	//virtual void Paint(){};
@@ -57,7 +62,7 @@ public:
 	void setLineWidthForBuffers(std::vector<int> indicesBuffers);
 	void hideBuffers(std::vector<int> indicesBuffers);
 
-	std::string printBufferInfo(int indexBuffer);
+	//std::string printBufferInfo(int indexBuffer);
 	Json::Value getJsonBuffer(int indexBuffer);
 	Json::Value getJsonBuffers();
 	Buffer* getBuffer(int indexBuffer);
@@ -86,6 +91,8 @@ public:
 	void printText();
 };
 
+#include "Construction.h"
+
 Painter::Painter(GLuint programValue, GLint atrPosValue, GLint atrColorValue, int widthValue, int heightValue, int gridStepValue)
 {
 	flagReBuild = false;
@@ -106,7 +113,8 @@ Painter::Painter(GLuint programValue, GLint atrPosValue, GLint atrColorValue, in
 void Painter::Clear()
 {
 	glClearColor(1.0, 1.0, 1.0, 1);
-	glClearDepth(1.0);
+	//glClearDepthf(1.0f);
+	glClearDepthf(1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 }
@@ -141,83 +149,90 @@ float Painter::getStepGridWidth()
 	return stepGridWidth;
 }
 
+void Painter::addBuffer(Buffer &buf)
+{
+	buffers.push_back(&buf);
+}
+
 int Painter::addNewBuffers(GLenum typeObject, GLuint typeLine)
 {
 	int newIndex = buffers.size() + 1;
-	Buffer buf;
-	buf.vertexBuffer = newIndex;
-	buf.indexBuffer = newIndex;
-	buf.colorBuffer = newIndex;
-	buf.typeObject = typeObject;
-	buf.typeLine = typeLine;
-	buf.lineWidth = DEFAULT_LINE_WIDTH;
-	buf.flagVisible = true;
-	buffers.push_back(buf);
+	//Buffer buf(typeObject, typeLine, newIndex);
+	//buffers.emplace_back(typeObject, typeLine, newIndex);
+	Buffer* buf = new Buffer(typeObject, typeLine, newIndex);
+	//buffers.push_back(buf);
+	addBuffer(*buf);
 
-	//glGenBuffers(1, &buffers[newIndex].vertexBuffer);
-	//glGenBuffers(1, &buffers[newIndex].colorBuffer);
-	//glGenBuffers(1, &buffers[newIndex].indexBuffer);
+	//buffers[newIndex - 1].vertexBuffer = newIndex;
+	//buffers[newIndex - 1].indexBuffer = newIndex;
+	//buffers[newIndex - 1].colorBuffer = newIndex;
+	//buffers[newIndex - 1].typeObject = typeObject;
+	//buffers[newIndex - 1].typeLine = typeLine;
+	//buffers[newIndex - 1].lineWidth = DEFAULT_LINE_WIDTH;
+	//buffers[newIndex - 1].flagVisible = true;
 
-	return newIndex;
+	//buffers[newIndex - 1]->fillBuffer(typeObject, typeLine, newIndex);
+	//buffers[newIndex ].indexBuffer = newIndex;
+	return buffers[buffers.size() - 1]->indexBuffer;
 }
 
 void Painter::initPointGrid()
 {
-	buffers[GRID].vertices.clear();
-	buffers[GRID].indices.clear();
+	buffers[GRID]->vertices.clear();
+	buffers[GRID]->indices.clear();
 	int k = 0;
 	//stepGridHeight = 2.0 / ((float)height / (float)gridStep);
 	stepGridHeight = ((float)gridStep / RATIO_STEP_SIZE) * GL_STEP;
 	for (float i = -1.0; i < 1.0; i+=stepGridHeight)
 	{
 		Point p[2] = { Point( -1.0, i ), Point( 1.0, i ) };
-		buffers[GRID].vertices.push_back(p[0]);
-		buffers[GRID].vertices.push_back(p[1]);
+		buffers[GRID]->vertices.push_back(p[0]);
+		buffers[GRID]->vertices.push_back(p[1]);
 
-		buffers[GRID].indices.push_back(k);
-		buffers[GRID].indices.push_back(k + 1);
+		buffers[GRID]->indices.push_back(k);
+		buffers[GRID]->indices.push_back(k + 1);
 		k+=2;
 	}
 
-	k = buffers[GRID].vertices.size();
+	k = buffers[GRID]->vertices.size();
 	//stepGridWidth = 2.0 / ((float)width / (float)gridStep);
 	stepGridWidth = ((float)gridStep / RATIO_STEP_SIZE) * GL_STEP;
 	for (float i = -1.0; i < 1.0; i+=stepGridWidth)
 	{
 		Point p[2] = { Point( i, -1.0 ), Point( i, 1.0 ) };
-		buffers[GRID].vertices.push_back(p[0]);
-		buffers[GRID].vertices.push_back(p[1]);
+		buffers[GRID]->vertices.push_back(p[0]);
+		buffers[GRID]->vertices.push_back(p[1]);
 
-		buffers[GRID].indices.push_back(k);
-		buffers[GRID].indices.push_back(k + 1);
+		buffers[GRID]->indices.push_back(k);
+		buffers[GRID]->indices.push_back(k + 1);
 		k+=2;
 	}
-	buffers[GRID].colors = std::vector<Color>(k, colors[GRID_COLOR_INDEX]);
+	buffers[GRID]->colors = std::vector<Color>(k, colors[GRID_COLOR_INDEX]);
 }
 
 void Painter::initBuffers(int indexBuffer)
 {
-	glGenBuffers(1, &buffers[indexBuffer].vertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, buffers[indexBuffer].vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, buffers[indexBuffer].vertices.size() * sizeof(Point), &buffers[indexBuffer].vertices[0], GL_STATIC_DRAW);
+	glGenBuffers(1, &buffers[indexBuffer]->vertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[indexBuffer]->vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, buffers[indexBuffer]->vertices.size() * sizeof(Point), &buffers[indexBuffer]->vertices[0], GL_STATIC_DRAW);
 	//glDeleteBuffers(1, &buffers[indexBuffer].vertexBuffer);
 
-	glGenBuffers(1, &buffers[indexBuffer].colorBuffer);
-  	glBindBuffer(GL_ARRAY_BUFFER, buffers[indexBuffer].colorBuffer);
-  	glBufferData(GL_ARRAY_BUFFER, buffers[indexBuffer].colors.size() * sizeof(Color), &buffers[indexBuffer].colors[0], GL_STATIC_DRAW);
+	glGenBuffers(1, &buffers[indexBuffer]->colorBuffer);
+  	glBindBuffer(GL_ARRAY_BUFFER, buffers[indexBuffer]->colorBuffer);
+  	glBufferData(GL_ARRAY_BUFFER, buffers[indexBuffer]->colors.size() * sizeof(Color), &buffers[indexBuffer]->colors[0], GL_STATIC_DRAW);
   	//glDeleteBuffers(1, &buffers[indexBuffer].colorBuffer);
 	
-	glGenBuffers(1, &buffers[indexBuffer].indexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[indexBuffer].indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffers[indexBuffer].indices.size() * sizeof(int), &buffers[indexBuffer].indices[0], GL_STATIC_DRAW);
+	glGenBuffers(1, &buffers[indexBuffer]->indexBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffers[indexBuffer]->indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffers[indexBuffer]->indices.size() * sizeof(int), &buffers[indexBuffer]->indices[0], GL_STATIC_DRAW);
 	//glDeleteBuffers(1, &buffers[indexBuffer].indexBuffer);
 }
 
 void Painter::clearBuffer(int indexBuffer)
 {
-	glDeleteBuffers(1, &buffers[indexBuffer].vertexBuffer);
-	glDeleteBuffers(1, &buffers[indexBuffer].colorBuffer);
-	glDeleteBuffers(1, &buffers[indexBuffer].indexBuffer);
+	glDeleteBuffers(1, &buffers[indexBuffer]->vertexBuffer);
+	glDeleteBuffers(1, &buffers[indexBuffer]->colorBuffer);
+	glDeleteBuffers(1, &buffers[indexBuffer]->indexBuffer);
 }
 
 void Painter::paint()
@@ -226,9 +241,9 @@ void Painter::paint()
 	int n = buffers.size();
 	for (int i = n - 1; i >= 0; i--)
 	{
-		if(!buffers[i].flagVisible) continue;
+		if(!buffers[i]->flagVisible) continue;
 
-		glLineWidth(buffers[i].lineWidth);
+		glLineWidth(buffers[i]->lineWidth);
 
 	  	initBuffers(i);
 
@@ -236,17 +251,17 @@ void Painter::paint()
 
 		glEnableVertexAttribArray(atrColor);
 
-		glBindBuffer(GL_ARRAY_BUFFER, buffers[i].colorBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, buffers[i]->colorBuffer);
 		glVertexAttribPointer(atrColor, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 		glEnableVertexAttribArray(atrPos);
-		glBindBuffer(GL_ARRAY_BUFFER, buffers[i].vertexBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, buffers[i]->vertexBuffer);
 		glVertexAttribPointer(atrPos, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-		if(buffers[i].indices.size() == 0)
-			glDrawArrays( buffers[i].typeObject, 0, buffers[i].vertices.size() );
+		if(buffers[i]->indices.size() == 0)
+			glDrawArrays( buffers[i]->typeObject, 0, buffers[i]->vertices.size() );
 		else
-			glDrawElements(buffers[i].typeObject, buffers[i].indices.size(), GL_UNSIGNED_INT, (void*)0);
+			glDrawElements(buffers[i]->typeObject, buffers[i]->indices.size(), GL_UNSIGNED_INT, (void*)0);
 
 		glDisableVertexAttribArray(atrColor);
 		glDisableVertexAttribArray(atrPos);
@@ -257,8 +272,8 @@ void Painter::paint()
 void Painter::addPoint(int indexBuffer, Point p)
 {
 	Point pScale(p.x / scale, p.y / scale);
-	buffers[indexBuffer].vertices.push_back(p);
-	buffers[indexBuffer].colors.push_back(colors[POINT_COLOR_INDEX]);
+	buffers[indexBuffer]->vertices.push_back(p);
+	buffers[indexBuffer]->colors.push_back(colors[POINT_COLOR_INDEX]);
 }
 
 int Painter::searchPointInBuffers(int indexPoint)
@@ -266,9 +281,8 @@ int Painter::searchPointInBuffers(int indexPoint)
 	int n = buffers.size();
 
 	for (int i = n - 1; i > 1; i--)
-		if(find(buffers[i].baseIndices.begin(), buffers[i].baseIndices.end(), indexPoint)
-			!= buffers[i].baseIndices.end())
-		return i;
+		if(buffers[i]->searchPoint(indexPoint))
+			return i;
 
 	return -1;
 }
@@ -276,7 +290,7 @@ int Painter::searchPointInBuffers(int indexPoint)
 void Painter::deletePoint(int index)
 {
 	if(searchPointInBuffers(index) == -1)
-		buffers[POINTS].vertices.erase(buffers[POINTS].vertices.begin() + index, buffers[POINTS].vertices.begin() + index + 1);
+		buffers[POINTS]->vertices.erase(buffers[POINTS]->vertices.begin() + index, buffers[POINTS]->vertices.begin() + index + 1);
 }
 
 void Painter::deleteSet(int indexBuffer)
@@ -287,7 +301,7 @@ void Painter::deleteSet(int indexBuffer)
 
 void Painter::fillIndicesPolygon(int indexBuffer)
 {
-	int n = buffers[indexBuffer].vertices.size();
+	int n = buffers[indexBuffer]->vertices.size();
 	//buffers[newIndex].indices.push_back(0);
 	
 	for (int i = 0; i < n - 1; ++i)
@@ -295,13 +309,13 @@ void Painter::fillIndicesPolygon(int indexBuffer)
 
 
 	if(!flagReBuild)
-		buffers[indexBuffer].colors = std::vector<Color>(n * 2, colors[POINT_COLOR_INDEX]);
+		buffers[indexBuffer]->colors = std::vector<Color>(n * 2, colors[POINT_COLOR_INDEX]);
 }
 
 void Painter::initBaseIndices(int indexBuffer, std::vector<int> indices)
 {
-	buffers[indexBuffer].baseIndices.clear();
-	buffers[indexBuffer].baseIndices.insert(buffers[indexBuffer].baseIndices.end(), indices.begin(), indices.end());
+	buffers[indexBuffer]->baseIndices.clear();
+	buffers[indexBuffer]->baseIndices.insert(buffers[indexBuffer]->baseIndices.end(), indices.begin(), indices.end());
 }
 
 void Painter::buildPolygon(int indexBuffer, std::vector<int> indices)
@@ -310,7 +324,7 @@ void Painter::buildPolygon(int indexBuffer, std::vector<int> indices)
 	int n = indices.size();
 
 	for (int i = 0; i < n; ++i)
-		buffers[indexBuffer].vertices.push_back(buffers[POINTS].vertices[indices[i]]);
+		buffers[indexBuffer]->vertices.push_back(buffers[POINTS]->vertices[indices[i]]);
 
 	/*for(int i = 0; i <= 360; i++)
     {
@@ -355,7 +369,7 @@ void Painter::buildSpline(int indexBuffer, int spline, std::vector<int> indices,
 	std::vector<Point> points;
 
 	for (int i = 0; i < n; ++i)
-		points.push_back(definePoint(buffers[POINTS].vertices[indices[i]], tag));
+		points.push_back(definePoint(buffers[POINTS]->vertices[indices[i]], tag));
 
 	std::sort(points.begin(), points.begin() + points.size(), compareX());
 
@@ -368,11 +382,11 @@ void Painter::buildSpline(int indexBuffer, int spline, std::vector<int> indices,
 	{
 		//Point p(sp->f(valStep), valStep);
 		Point p(x, sp->f(x));
-		buffers[indexBuffer].vertices.push_back(definePoint(p, tag));
+		buffers[indexBuffer]->vertices.push_back(definePoint(p, tag));
 	}
 
 	fillIndicesPolygon(indexBuffer);
-	buffers[indexBuffer].tag = tag;
+	buffers[indexBuffer]->tag = tag;
 }
 
 Json::Value Painter::getJsonBuffers()
@@ -388,83 +402,40 @@ Json::Value Painter::getJsonBuffers()
 
 Json::Value Painter::getJsonBuffer(int indexBuffer)
 {
-	Json::Value res;
-
-	int nVertices = buffers[indexBuffer].vertices.size();
-	int nIndices = buffers[indexBuffer].indices.size();
-	int nBaseIndices = buffers[indexBuffer].baseIndices.size();
-	int nColors = buffers[indexBuffer].colors.size();
-
+	Json::Value res = buffers[indexBuffer]->getJson();
 	res["index"] = indexBuffer;
-	res["vertexBuffer"] = buffers[indexBuffer].vertexBuffer;
-	res["indexBuffer"] = buffers[indexBuffer].indexBuffer;
-
-	for(int i = 0; i < nVertices; i++)
-	{
-    	res["vertices"][i]["x"] = buffers[indexBuffer].vertices[i].x;
-    	res["vertices"][i]["y"] = buffers[indexBuffer].vertices[i].y;
-	}
-
-	for(int i = 0; i < nIndices; i++)
-	{
-    	res["indices"][i] = buffers[indexBuffer].indices[i];
-	}
-
-	for(int i = 0; i < nBaseIndices; i++)
-	{
-    	res["baseIndices"][i] = buffers[indexBuffer].baseIndices[i];
-	}
-
-	for(int i = 0; i < nColors; i++)
-	{
-    	res["colors"][i]["r"] = buffers[indexBuffer].colors[i].r;
-    	res["colors"][i]["g"] = buffers[indexBuffer].colors[i].g;
-    	res["colors"][i]["b"] = buffers[indexBuffer].colors[i].b;
-	}
-
 	return res;
-}
-
-std::string Painter::printBufferInfo(int indexBuffer)
-{
-	std::string sizeBuffer = converter.numberToString(buffers.size());
-	std::string strVertexBuffer = converter.numberToString(buffers[indexBuffer].vertexBuffer);
-	std::string strIndexBuffer = converter.numberToString(buffers[indexBuffer].indexBuffer);
-	std::string strVertices = converter.vectorToString(buffers[indexBuffer].vertices);
-	std::string strIndices = converter.vectorToString(buffers[indexBuffer].indices);
-	return "size buffer = " + sizeBuffer + "\nvertexBuffer = " + strVertexBuffer + "\nindexBuffer = " + strIndexBuffer
-			+ "\nvertices = " + strVertices + "\nstrIndices = " + strIndices + "\n";
 }
 
 void Painter::addIndex(int indexBuffer, int indexStart, int indexEnd)
 {
-	buffers[indexBuffer].indices.push_back(indexStart);
-	buffers[indexBuffer].indices.push_back(indexEnd);
+	buffers[indexBuffer]->indices.push_back(indexStart);
+	buffers[indexBuffer]->indices.push_back(indexEnd);
 }
 
 void Painter::lightPoints(std::vector<int> indices)
 {
-	int n = buffers[POINTS].vertices.size();
+	int n = buffers[POINTS]->vertices.size();
 
-	buffers[POINTS].colors.clear();
+	buffers[POINTS]->colors.clear();
 
 	for (int i = 0; i < n; ++i)
 	{
 		if(find(indices.begin(), indices.end(), i) != indices.end())
-			buffers[POINTS].colors.push_back(arrColor[POINT_COLOR_LIGHT_INDEX]);
+			buffers[POINTS]->colors.push_back(arrColor[POINT_COLOR_LIGHT_INDEX]);
 		else
-			buffers[POINTS].colors.push_back(arrColor[POINT_COLOR_INDEX]);
+			buffers[POINTS]->colors.push_back(arrColor[POINT_COLOR_INDEX]);
 	}
 }
 
 int Painter::searchPoint(float eps, Point p)
 {
 	//Point target = converter.round(p, eps);
-	int n = buffers[POINTS].vertices.size();
+	int n = buffers[POINTS]->vertices.size();
 	for (int i = 0; i < n; ++i)
 	{
-		if(std::abs(p.x - buffers[POINTS].vertices[i].x) <= EPS_MOVE_POINT &&
-			std::abs(p.y - buffers[POINTS].vertices[i].y) <= EPS_MOVE_POINT)
+		if(std::abs(p.x - buffers[POINTS]->vertices[i].x) <= EPS_MOVE_POINT &&
+			std::abs(p.y - buffers[POINTS]->vertices[i].y) <= EPS_MOVE_POINT)
 			return i;
 		//if(converter.comparePoints(target, converter.round(buffers[POINTS].vertices[i], eps) ) )
 			//return i;
@@ -480,8 +451,8 @@ void Painter::movePoint(int index, Point p)
 		return;
 	else
 	{
-		buffers[POINTS].vertices[index].x = p.x;
-		buffers[POINTS].vertices[index].y = p.y;
+		buffers[POINTS]->vertices[index].x = p.x;
+		buffers[POINTS]->vertices[index].y = p.y;
 	}
 
 	reBuildObjects(index);
@@ -493,26 +464,26 @@ void Painter::reBuildObjects(int indexPoint)
 	int n = buffers.size();
 
 	for (int i = n - 1; i > 1; i--)
-		if(find(buffers[i].baseIndices.begin(), buffers[i].baseIndices.end(), indexPoint)
-			!= buffers[i].baseIndices.end())
+		if(find(buffers[i]->baseIndices.begin(), buffers[i]->baseIndices.end(), indexPoint)
+			!= buffers[i]->baseIndices.end())
 		{
-			buffers[i].vertices.clear();
-			buffers[i].indices.clear();
-			switch(buffers[i].typeLine)
+			buffers[i]->vertices.clear();
+			buffers[i]->indices.clear();
+			switch(buffers[i]->typeLine)
 			{
 				case POINT_TYPE:	
 										break;
 
-				case POLYGON_TYPE:		buildPolygon(i, buffers[i].baseIndices);
+				case POLYGON_TYPE:		buildPolygon(i, buffers[i]->baseIndices);
 										break;
 
-				case CUBIC_SPLINE_TYPE:	buildSpline(i, CUBIC_SPLINE, buffers[i].baseIndices,  buffers[i].tag);
+				case CUBIC_SPLINE_TYPE:	buildSpline(i, CUBIC_SPLINE, buffers[i]->baseIndices,  buffers[i]->tag);
 										break;
 
-				case AKIMA_SPLINE_TYPE:	buildSpline(i, AKIMA_SPLINE, buffers[i].baseIndices, buffers[i].tag);
+				case AKIMA_SPLINE_TYPE:	buildSpline(i, AKIMA_SPLINE, buffers[i]->baseIndices, buffers[i]->tag);
 										break;
 
-				case CURVE_TYPE:		buildSpline(i, CURVE, buffers[i].baseIndices, buffers[i].tag);
+				case CURVE_TYPE:		buildSpline(i, CURVE, buffers[i]->baseIndices, buffers[i]->tag);
 										break;
 
 				case ERMIT_SPLINE_TYPE:
@@ -533,8 +504,8 @@ void Painter::setLineWidthForBuffers(std::vector<int> indicesBuffers)
 	{
 		if(find(indicesBuffers.begin(), indicesBuffers.end(), i)
 			!= indicesBuffers.end())
-			buffers[i].lineWidth = BOLD_LINE_WIDTH;
-		else buffers[i].lineWidth = DEFAULT_LINE_WIDTH;
+			buffers[i]->lineWidth = BOLD_LINE_WIDTH;
+		else buffers[i]->lineWidth = DEFAULT_LINE_WIDTH;
 	}
 }
 
@@ -546,19 +517,19 @@ void Painter::hideBuffers(std::vector<int> indicesBuffers)
 	{
 		if(find(indicesBuffers.begin(), indicesBuffers.end(), i)
 			!= indicesBuffers.end())
-			buffers[i].flagVisible = false;
-		else buffers[i].flagVisible = true;
+			buffers[i]->flagVisible = false;
+		else buffers[i]->flagVisible = true;
 	}
 }
 
 void Painter::scaling(float scale)
 {
-	int n = buffers[POINTS].vertices.size();
+	int n = buffers[POINTS]->vertices.size();
 
 	for (int i = 0; i < n; ++i)
 	{
-		buffers[POINTS].vertices[i].x /= scale;
-		buffers[POINTS].vertices[i].y /= scale;
+		buffers[POINTS]->vertices[i].x /= scale;
+		buffers[POINTS]->vertices[i].y /= scale;
 		reBuildObjects(i);
 	}
 
@@ -615,8 +586,8 @@ void Painter::drawCircle(Point p, float r)
 
 void Painter::printText()
 {
-	glMatrixMode(GL_PROJECTION);
-  	glGenLists(5);
+	//glMatrixMode(GL_PROJECTION);
+  	//glGenLists(5);
 	//glMatrixMode(0x1701);
 	//double *matrix = new double[16];
 	//glGetDoublev(0x0BA7, matrix);
@@ -624,18 +595,21 @@ void Painter::printText()
 
 Buffer* Painter::getBuffer(int indexBuffer)
 {
-	return &buffers[indexBuffer];
+	return buffers[indexBuffer];
 }
 
 bool Painter::checkClosedFigure(std::vector<int> bufferIndices)
 {
+	return true;
 	int n = bufferIndices.size();
 
 	for (int i = 0; i < n - 1; ++i)
 	{
-		if(buffers[bufferIndices[i + 1]].baseIndices[0] != buffers[bufferIndices[i]].baseIndices[buffers[bufferIndices[i]].baseIndices.size() - 1])
+		if(buffers[bufferIndices[i + 1]]->baseIndices[0] != buffers[bufferIndices[i]]->baseIndices[buffers[bufferIndices[i]]->baseIndices.size() - 1])
 			return false;
 	}
 
 	return true;
 }
+
+#endif
