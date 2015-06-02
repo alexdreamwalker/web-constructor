@@ -1,0 +1,1 @@
+Web constructor is a tool that enables calculation and drawing of various things like windows or sunblinds using web interface and NaCl modules
